@@ -16,6 +16,13 @@ import OGS.dbaccess.DBUtil;
  */
 public class StudentManager {
 
+    /**
+     @param takes the ID of the row
+     * This method connects to the database and then it gets the row which ID was referenced to and then 
+     * it parses the information that was returned from the the row.
+     * @returns the Professor object 
+     * @throws SQLException  
+     */
     public static Student getRow(int ID) throws SQLException {
 
         String sql = "SELECT * FROM students WHERE ID = ?";
@@ -50,7 +57,14 @@ public class StudentManager {
         }
 
     }
-
+    /**
+     * 
+     * @param studentBean which will be inserted into the database table
+     * This Method take studentBean and then it parses the information from the 
+     * studentBean and then it inserts the information into the database
+     * @returns true if the information was correctly inserted into the database else it returns false.
+     * @throws SqlException  
+     */
     public static boolean insert(Student studentBean) throws Exception {
 
         String sql = "INSERT into students"
@@ -88,7 +102,12 @@ public class StudentManager {
         }
         return true;
     }
-
+    /**
+     * @param studentBean  will be updated
+     * This method takes a studentBean and updates the information in the database
+     * @return true if the information was updated correctly else it returns false
+     * @throws SqlException 
+     */
     public static boolean update(Student studentBean) throws Exception {
 
         String sql
@@ -125,6 +144,13 @@ public class StudentManager {
      * assinment
      *
      * @returns a grade which is a double
+     */
+    /**
+     * 
+     * @param assignmentID 
+     * @param studentID
+     * This method checks the assignment grade for the student
+     * @return returns the grade that matches the studentID and the assignmentID
      */
     public static Double checkGrade(int assignmentID, int studentID) {
         try {

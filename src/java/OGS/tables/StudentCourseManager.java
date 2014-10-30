@@ -30,7 +30,7 @@ public class StudentCourseManager {
     /**
      * Get Student List Method
      */
-    public void getStudentLis()
+    public void getStudentList()
     {
         
     }

@@ -19,6 +19,13 @@ import OGS.dbaccess.DBUtil;
  * @author Eric
  */
 public class ProfessorManager {
+    /**
+     @param takes the ID of the row
+     * This method connects to the database and then it gets the row which ID was referenced to and then 
+     * it parses the information that was returned from the the row.
+     * @returns the Professor object 
+     * @throws SQLException 
+     */
     public static Professor getRow(int ID) throws SQLException {
 
         String sql = "SELECT * FROM Professor WHERE ID = ?";
@@ -53,7 +60,14 @@ public class ProfessorManager {
         }
 
     }
-
+    /**
+     * 
+     * @param professorBean which will be inserted into the database table
+     * This Method take professorBean and then it parses the information from the 
+     * professorBean and then it inserts the information into the database
+     * @returns true if the information was correctly inserted into the database else it returns false.
+     * @throws SqlException  
+     */
     public static boolean insert(Professor professorBean) throws Exception {
 
         String sql = "INSERT into Professor"
@@ -91,9 +105,16 @@ public class ProfessorManager {
         }
         return true;
     }
-
+    /**
+     * 
+     * @param professorBean  will be updated
+     * This method takes a professorBean and updates the information in the database
+     * @return true if the information was updated correctly else it returns false
+     * @throws SqlException 
+     */
     public static boolean update(Professor professorBean) throws Exception {
 
+        
         String sql
                 = "UPDATE Professor SET " + "name = ?, "
                 + "userName = ?, password = ?, " + "EmailAddress = ?,"

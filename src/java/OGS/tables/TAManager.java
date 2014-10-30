@@ -19,7 +19,13 @@ import OGS.dbaccess.DBUtil;
  * @author Eric, Zain
  */
 public class TAManager {
-    
+    /**
+     @param takes the ID of the row
+     * This method connects to the database and then it gets the row which ID was referenced to and then 
+     * it parses the information that was returned from the the row.
+     * @returns the Professor object 
+     * @throws SQLException  
+     */
     public static TA getRow(int ID) throws SQLException {
 
         String sql = "SELECT * FROM TA WHERE ID = ?";
@@ -54,7 +60,14 @@ public class TAManager {
         }
 
     }
-
+    /**
+     * 
+     * @param TAtBean which will be inserted into the database table
+     * This Method take TABean and then it parses the information from the 
+     * TABean and then it inserts the information into the database
+     * @returns true if the information was correctly inserted into the database else it returns false.
+     * @throws SqlException  
+     */
     public static boolean insert(TA TABean) throws Exception {
 
         String sql = "INSERT into TA"
@@ -92,7 +105,12 @@ public class TAManager {
         }
         return true;
     }
-
+    /**
+     * @param TABean  will be updated
+     * This method takes a TABean and updates the information in the database
+     * @return true if the information was updated correctly else it returns false
+     * @throws SqlException 
+     */
     public static boolean update(TA TABean) throws Exception {
 
         String sql

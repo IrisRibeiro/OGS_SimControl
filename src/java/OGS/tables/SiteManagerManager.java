@@ -20,6 +20,13 @@ import OGS.beans.Manager;
  */
 public class SiteManagerManager {
 
+    /**
+     @param takes the ID of the row
+     * This method connects to the database and then it gets the row which ID was referenced to and then 
+     * it parses the information that was returned from the the row.
+     * @returns the Professor object 
+     * @throws SQLException 
+     */
     public static Manager getRow(int ID) throws SQLException {
 
         String sql = "SELECT * FROM SiteManager WHERE ID = ?";
@@ -54,7 +61,14 @@ public class SiteManagerManager {
         }
 
     }
-
+    /**
+     * 
+     * @param managerBean which will be inserted into the database table
+     * This Method take maagerBean and then it parses the information from the 
+     * managerBean and then it inserts the information into the database
+     * @returns true if the information was correctly inserted into the database else it returns false.
+     * @throws SqlException  
+     */
     public static boolean insert(Manager managerBean) throws Exception {
 
         String sql = "INSERT into SiteManager"
@@ -92,7 +106,13 @@ public class SiteManagerManager {
         }
         return true;
     }
-
+    /**
+     
+     * @param managerBean  will be updated
+     * This method takes a managerBean and updates the information in the database
+     * @return true if the information was updated correctly else it returns false
+     * @throws SqlException 
+     */
     public static boolean update(Manager managerBean) throws Exception {
 
         String sql
