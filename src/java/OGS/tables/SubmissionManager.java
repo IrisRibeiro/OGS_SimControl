@@ -1,13 +1,13 @@
-package simcontrol.ogs.tables;
+package OGS.tables;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import simcontrol.ogs.beans.Submission;
-import simcontrol.ogs.dbaccess.DBType;
-import simcontrol.ogs.dbaccess.DBUtil;
+import OGS.beans.Submission;
+import OGS.dbaccess.DBType;
+import OGS.dbaccess.DBUtil;
 
 /**
  *

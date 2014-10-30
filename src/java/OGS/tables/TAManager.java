@@ -3,16 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package simcontrol.ogs.tables;
+package OGS.tables;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import simcontrol.ogs.beans.TA;
-import simcontrol.ogs.dbaccess.DBType;
-import simcontrol.ogs.dbaccess.DBUtil;
+import OGS.beans.TA;
+import OGS.dbaccess.DBType;
+import OGS.dbaccess.DBUtil;
 
 /**
  *

@@ -1,4 +1,4 @@
-package simcontrol.ogs.dbaccess;
+package OGS.dbaccess;
 
 public enum DBType {
 	MYSQL

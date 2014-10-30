@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package simcontrol.ogs.beans;
+package OGS.beans;
 
 import java.io.Serializable;
 
@@ -13,5 +13,5 @@ import java.io.Serializable;
  * @author eloo
  */
 public class TACourse extends Course implements Serializable{
-    private int taID;
+
 }

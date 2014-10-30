@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package simcontrol.ogs.beans;
+package OGS.beans;
 
 import java.io.Serializable;
 
