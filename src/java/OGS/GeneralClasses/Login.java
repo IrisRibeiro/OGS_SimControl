@@ -16,20 +16,22 @@ import OGS.tables.PersonManager;
 
 public class Login {
     
-    public static Boolean VerifyLogin(String Password, String UserName)throws Exception{
+    public static Person VerifyLogin(String Password, String UserName)throws Exception{
         EncryptDecrypt _encryptdecrypt = new EncryptDecrypt();
         PersonManager _personmanager = new PersonManager();
         Person _person = new Person();
         
         _person =  _personmanager.getRowfromUserName(UserName);
+        if( _person == null){
+            
+            return _person;
+        }
         String newencrypted = _encryptdecrypt.encrypt(Password);
         String DbPassword = _person.getPassword();
         if (newencrypted.equals(DbPassword)){
-        
-        
-        }
-        
-        return false;
+            return _person;
+        }        
+        return _person;
        
     }
     
