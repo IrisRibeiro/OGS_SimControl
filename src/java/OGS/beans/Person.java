@@ -15,6 +15,7 @@ public class Person {
     private String userName;
     private String password;
     private String emailAddress;
+    private String type;
     private int accessLevel;
     private int ID;
 
@@ -118,5 +119,13 @@ public class Person {
      */
     public void setAccessLevel(int accessLevel) {
         this.accessLevel = accessLevel;
+    }
+    
+    public String getType(){
+        return type;
+    }
+    
+    public void setType(String type){
+        this.type = type;
     }
 }

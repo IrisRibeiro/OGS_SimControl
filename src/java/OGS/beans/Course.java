@@ -17,9 +17,9 @@ public class Course implements Serializable {
     private String room;
     private String term;
     private String prerequisites;
-    private int courseID;
-    private int instructorID;
-    private int section;
+    private String section;
+    private int ID;
+    private int instructorID;    
     private int credits;
     private int numberOfAssignments;
 
@@ -164,7 +164,7 @@ public class Course implements Serializable {
      * @return course's ID
      */
     public int getCourseID() {
-        return courseID;
+        return ID;
     }
 
     /**
@@ -173,7 +173,7 @@ public class Course implements Serializable {
      * @param ID
      */
     public void setCourseID(int ID) {
-        this.courseID = ID;
+        this.ID = ID;
     }
 
     /**
@@ -192,7 +192,7 @@ public class Course implements Serializable {
      *
      * @return course's section
      */
-    public int getSection() {
+    public String getSection() {
         return section;
     }
 
@@ -201,7 +201,7 @@ public class Course implements Serializable {
      *
      * @param section
      */
-    public void setSection(int section) {
+    public void setSection(String section) {
         this.section = section;
     }
 
