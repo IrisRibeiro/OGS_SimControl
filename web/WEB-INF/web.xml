@@ -20,5 +20,7 @@
     </session-config>
     <welcome-file-list>
         <welcome-file>faces/Login.jsp</welcome-file>
+        <welcome-file>faces/ProcessLogin.jsp</welcome-file>
+        <welcome-file>faces/Dashboard.jsp</welcome-file>
     </welcome-file-list>
 </web-app>
