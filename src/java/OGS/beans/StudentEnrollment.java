@@ -13,15 +13,15 @@ import java.io.Serializable;
  */
 public class StudentEnrollment implements Serializable {
 
-    private int studentID;
-    private int courseID;
+    private String studentID;
+    private String courseID;
     private String flag;
 
     /**
      *
      * @return student enrollment's student ID
      */
-    public int getStudentID() {
+    public String getStudentID() {
         return studentID;
     }
 
@@ -30,7 +30,7 @@ public class StudentEnrollment implements Serializable {
      *
      * @param studentID
      */
-    public void setStudentID(int studentID) {
+    public void setStudentID(String studentID) {
         this.studentID = studentID;
     }
 
@@ -38,7 +38,7 @@ public class StudentEnrollment implements Serializable {
      *
      * @return student enrollment's course ID
      */
-    public int getCourseID() {
+    public String getCourseID() {
         return courseID;
     }
 
@@ -47,7 +47,7 @@ public class StudentEnrollment implements Serializable {
      *
      * @param courseID
      */
-    public void setCourseID(int courseID) {
+    public void setCourseID(String courseID) {
         this.courseID = courseID;
     }
 
