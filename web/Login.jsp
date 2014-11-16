@@ -66,7 +66,7 @@
                                     </label>
                                 </div>
                                 <!-- Change this to a button or input when using this as a form -->
-                                <input class="btn btn-lg btn-default btn-block" type="submit" value="Login" />
+                                <input class="btn btn-lg btn-default btn-block" type="submit" value="Login"  />
                             </fieldset>
                         </form>
                     </div>
@@ -74,8 +74,17 @@
             </div>
         </div>
     </div>
+<!--
  
+    public void validate(String UserName, String password)throws Exception{
+        if ((UserName == "")&&( password == "")){
+            
+        }else{
+        
+        }
+    }
 
+-->
     <!-- jQuery Version 1.11.0 -->
     <script src="js/jquery-1.11.0.js"></script>
 
