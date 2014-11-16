@@ -67,25 +67,30 @@ public class LoginServlet extends HttpServlet {
         String UserName = request.getParameter("UserName");
         String password = request.getParameter("password");
         
-        Person user = new Person();
-        Login _login = new Login();
-        
-        user.setUserName(UserName);
-        user.setPassword(password);
-        
-        try {
-            user = _login.VerifyLogin(password,UserName);
-        } catch (Exception ex) {
-            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-       
-        if (user != null){
-            HttpSession session = request.getSession(true);	    
-            session.setAttribute("currentSessionUser",user);
-            response.sendRedirect("Dashboard.jsp");
-            
-        }else{
+        if (UserName.equals("")|| password.equals("")){
             response.sendRedirect("ProcessLogin.jsp");
+        }else{
+            Person user = new Person();
+            Login _login = new Login();
+
+            user.setUserName(UserName);
+            user.setPassword(password);
+
+            try {
+                user = _login.VerifyLogin(password,UserName);
+            } catch (Exception ex) {
+                Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            if (user != null){
+                HttpSession session = request.getSession(true);	    
+                session.setAttribute("currentSessionUser",user);
+                response.sendRedirect("Dashboard.jsp");
+
+            }else{
+                response.sendRedirect("ProcessLogin.jsp");
+            }
+        
         }
     }
 
