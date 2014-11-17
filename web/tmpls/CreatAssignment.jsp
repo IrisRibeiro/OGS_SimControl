@@ -1,12 +1,4 @@
-<%-- 
-    Document   : Dashboard
-    Created on : Oct 29, 2014, 4:39:40 PM
-    Author     : Iris
---%>
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
@@ -17,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SimControl - Dashboard</title>
+    <title>SimControl - Create Class</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -25,21 +17,11 @@
     <!-- MetisMenu CSS -->
     <link href="css/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
 
-    <!-- Timeline CSS -->
-    <link href="css/plugins/timeline.css" rel="stylesheet">
-
     <!-- Custom CSS -->
     <link href="css/sb-admin-2.css" rel="stylesheet">
 
-    <!-- Morris Charts CSS -->
-    <link href="css/plugins/morris.css" rel="stylesheet">
-
     <!-- Custom Fonts -->
     <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-	
-	
-    <link rel="stylesheet" href="css/calendar.css">
-
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -54,7 +36,7 @@
 
     <div id="wrapper">
 
-        <!-- Navigation -->
+       <!-- Navigation -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -63,7 +45,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="Dashboard.jsp"> <img src="images/Logo_Small.png" alt="logo_Small" width="60px" height="33px"> SimControl</a>
+                <a class="navbar-brand" href="index.html"> <img src="images/Logo_Small.png" alt="logo_Small" width="60px" height="33px"> SimControl</a>
             </div>
             <!-- /.navbar-header -->
 
@@ -208,7 +190,7 @@
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="login.jsp"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -232,40 +214,34 @@
                             <!-- /input-group -->
                         </li>
                         <li>
-                            <a class="active" href="Dashboard.jsp"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                            <a class="active" href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Manager Panel<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="CreateClass.jsp">Create Class</a>  <!-- /.Modify to link to the page -->
+                                    <a href="CreateClass.html">Create Class</a>  <!-- /.Modify to link to the page -->
                                 </li>
                                 <li>
-                                    <a href="SearchCourses.jsp">Search Class</a> <!-- /.Modify to link to the page -->
-                                </li>
-                                <li>
-                                    <a href="CreatAssignment.jsp">Create Assignment</a>  <!-- /.Modify to link to the page -->
-                                </li>
-                                <li>
-                                    <a href="SearchAssignment.jsp">Search Assignment</a> <!-- /.Modify to link to the page -->
+                                    <a href="serarchCourses.html">Search Class</a> <!-- /.Modify to link to the page -->
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
                         <li>
-			    <a href="courses.jsp"><i class="fa fa-files-o fa-fw"></i> Courses <span class="fa arrow"></span></a>
+							<a href="courses.html"><i class="fa fa-files-o fa-fw"></i> Courses <span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="PreviousClasses.jsp">Previous Classes</a>  <!-- /.Modify to link to the page -->
+                                    <a href="PreviousClasses.html">Previous Classes</a>  <!-- /.Modify to link to the page -->
                                 </li>
                                 <li>
-                                    <a href="RequestedClasses.jsp">Requested Classes</a> <!-- /.Modify to link to the page -->
+                                    <a href="RequestedClasses.html">Requested Classes</a> <!-- /.Modify to link to the page -->
                                 </li>
 								 <li>
-                                    <a href="enrolledClasses.jsp">Enrolled Classes</a> <!-- /.Modify to link to the page -->
+                                    <a href="enrolledClasses.html">Enrolled Classes</a> <!-- /.Modify to link to the page -->
                                 </li>
 								<li>
-                                    <a href="courses.jsp">All Classes</a> <!-- /.Modify to link to the page -->
+                                    <a href="courses.html">All Classes</a> <!-- /.Modify to link to the page -->
                                 </li>
                             </ul>
                         </li>
@@ -275,179 +251,59 @@
             </div>
             <!-- /.navbar-static-side -->
         </nav>
-
+        <!-- Page Content -->
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Dashboard</h1>
+                    <h1 class="page-header">Create Assignment</h1>
                 </div>
                 <!-- /.col-lg-12 -->
-            </div>			
-            <!-- /.row -->
-            <div class="row">
-                <div class="col-lg-8">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <i class="fa fa-bolt fa-fw"></i> Notifications							
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">                            
-							<div class="header">
-								<ul class="chat">
-									<li>
-										<strong class="primary-font">CSE 220 - Systems Level Programming</strong>
-										<p>No classes this Tuesday</p>
-									</li>
-									<li>
-										<strong class="primary-font">CSE 101 - Introduction to Computers</strong>
-										<p>Assignment 1 is now posted</p>
-									</li>
-									<li>
-										<strong class="primary-font">CSE 130 - Introduction to Programming in C</strong>
-										<p>I have a meeting this week and need to be out of town, so I'm cancelling office hours, but the TA will be in class to explain assignment 3</p>
-									</li>
-								</ul>
-                            </div>								
-                        </div>
-                        <!-- /.panel-body -->
-                    </div>
-					<div class="panel panel-default">
-                        <div class="panel-heading">
-							<i class="fa fa-bolt fa-fw"></i> Calendar
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">  
-                            <div class="pull-right form-inline">
-                                    <div class="btn-group">
-                                            <button class="btn btn-primary" data-calendar-nav="prev"><< Prev</button>
-                                            <button class="btn" data-calendar-nav="today">Today</button>
-                                            <button class="btn btn-primary" data-calendar-nav="next">Next >></button>
-                                    </div>
-                                    <div class="btn-group">
-                                            <button class="btn btn-warning" data-calendar-view="year">Year</button>
-                                            <button class="btn btn-warning active" data-calendar-view="month">Month</button>
-                                            <button class="btn btn-warning" data-calendar-view="week">Week</button>
-                                            <button class="btn btn-warning" data-calendar-view="day">Day</button>
-                                    </div>
-                            </div>
-			</div>		
-							
-                        <div class="panel-body">
-                                <div class="span9">
-                                        <div id="calendar"></div>
-                                </div>				
-                        </div>
-                        
-                        <!-- /.panel-body -->
-                    </div>
-                    <!-- /.panel -->
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <i class="fa fa-bolt fa-fw"></i> Usefull Links
-						</div>	
-                            <div class="panel-body">
-                                <div class="list-group">
-                                        <a href="https://www.google.com/" target="_blank" class="list-group-item">Google</a>
-                                        <a href="https://www.youtube.com/" target="_blank" class="list-group-item">Youtube</a>
-                                        <a href="http://www.lynda.com/member.aspx" target="_blank" class="list-group-item">Lynda</a>
-                                        <a href="http://www.stonybrook.edu/" target="_blank" class="list-group-item">Stony Brook</a>
-                                        <a href="http://scholar.google.com/" target="_blank" class="list-group-item">Google Academic</a>
-                                </div>
-                            </div>
-                    </div>    
-                    <!-- /.panel -->                   
-                </div>
-                <!-- /.col-lg-8 -->
-                <div class="col-lg-4">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <i class="fa fa-bolt fa-fw"></i> My Courses
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div class="list-group">
-                                <a href="#" class="list-group-item">
-                                    CSE 220 - Systems Level Programming 
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    CSE 101 - Introduction to Computers
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    CSE 130 - Introduction to Programming in C
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    CSE 214: Computer Science II
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    CSE 230: Intermediate Programming in C and C++
-                                </a>
-                            </div>
-                            <!-- /.list-group -->
-                            
-                        </div>
-                        <!-- /.panel-body -->
-                    </div>
-                    
-                    <!-- /.panel -->
-                    <div class="chat-panel panel panel-default">
-                        <div class="panel-heading">
-                            <i class="fa fa-bolt fa-fw"></i>
-                            Tasks
-                            <div class="btn-group pull-right">
-                            </div>
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <ul class="chat">
-                                <li class="left clearfix">
-                                        <div class="header">
-                                            <strong class="primary-font">Call mom</strong>
-                                        </div>
-                                        <p>
-                                            Call mom to ask where my books are and if she paid the tuition for this semester.
-                                        </p>
-                                </li>
-                                <li class="left clearfix">                                    
-                                    
-                                        <div class="header">                                            
-                                            <strong class="primary-font">Go to walmart</strong>
-                                        </div>
-                                        <p>
-                                           need to buy shampoo, noodles, soda, and cheetos.
-                                        </p>
-                                    
-                                </li>
-                                <li class="left clearfix">                                    
-                                    
-                                        <div class="header">
-                                            <strong class="primary-font">Buy book</strong>                                             
-                                        </div>
-                                        <p>
-                                           Buy book for 220 at amazon.
-                                        </p>
-                                   
-                                </li>
-					<li class="left clearfix">                                    
-                                    
-                                        <div class="header">
-                                            <strong class="primary-font"> for the meeting</strong>                                             
-                                        </div>
-                                        <p>
-                                           don't forget to read book 1 pg 2-12.
-                                        </p>
-                                   
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- /.panel-body -->
-                        
-                        <!-- /.panel-footer -->
-                    </div>
-                    <!-- /.panel .chat-panel -->
-                </div>
-                <!-- /.col-lg-4 -->
             </div>
             <!-- /.row -->
+		<div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Enter Information
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body" >
+							<div class="row">
+							<form role="form" >
+                                <div class="col-lg-6">
+                                    
+										<div class="form-group">
+											<label>Assignment Number</label>
+												<input class="form-control" name="tidentifier">
+										</div>
+										<div class="form-group">
+											<label>Assignment Name</label>
+												<input class="form-control" name="tcredits" type="number">
+										</div>
+										<div class="form-group">
+											<label>Due Date</label>
+												<input class="form-control" name="tbuilding" type="text">
+										</div>
+										<div class="form-group">
+											<label>Official Webpage</label>
+												<input class="form-control" name="twebpage" type="text">
+										</div>
+										
+										<div class="form-group">
+                                            <label>Import Students</label>
+                                            <input type="file">
+                                        </div>
+									
+								</div>
+								
+								<button type="reset" class="btn btn-default" onclick="resetT()" >Reset</button>
+								<button type="button" class="btn btn-default" onclick="msg()">Submit</button>								
+							</form>							
+								</div>
+							</div>								
+						</div>
+					</div>
+				</div>
         </div>
         <!-- /#page-wrapper -->
 
@@ -463,27 +319,31 @@
     <!-- Metis Menu Plugin JavaScript -->
     <script src="js/plugins/metisMenu/metisMenu.min.js"></script>
 
-    <!-- Morris Charts JavaScript -->
-    <script src="js/plugins/morris/raphael.min.js"></script>
-    <script src="js/plugins/morris/morris.min.js"></script>
-    <script src="js/plugins/morris/morris-data.js"></script>
-
     <!-- Custom Theme JavaScript -->
     <script src="js/sb-admin-2.js"></script>
+	
+	<script>
+	function msg(){
+		alert("New class created! You'll be redirect");
+		window.location.href = "index.html"
+	}
+	</script>
+	
+	<script>
+		function resetT(){
+			document.getElementByName('tname').value = '';
+			document.getElementByName('tidentifier').value = '';			
+			document.getElementByName('tcredits').value = '';
+			document.getElementByName('tbuilding').value = '';
+			document.getElementByName('twebpage').value = '';
+			document.getElementByName('tprerequisite ').value = '';
+			document.getElementByName('tdatetime').value = '';
+			document.getElementByName('tinstructorId ').value = '';
+			document.getElementByName('tinstructorname ').value = '';
+			document.getElementByName('tinstructoremial ').value = '';
+		}
+	</script>
 
-    <script type="text/javascript" src="js/calendar.js"></script>
-    <script type="text/javascript" src="js/app.js"></script>
-
-    <!--<script type="text/javascript">
-            var disqus_shortname = 'bootstrapcalendar'; // required: replace example with your forum shortname
-            (function() {
-                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-                    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-            })();
-    </script>
-    -->
-    
 </body>
 
 </html>
