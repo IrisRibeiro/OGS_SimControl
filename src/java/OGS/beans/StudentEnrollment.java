@@ -6,34 +6,66 @@ import java.io.Serializable;
  *
  * @author eloo
  */
-public class StudentEnrollment implements Serializable{
-    private int studentID;
-    private int courseID;
+/**
+ * This is the bean for studentenrollment table
+ *
+ * @author Yi
+ */
+public class StudentEnrollment implements Serializable {
+
+    private String studentID;
+    private String courseID;
     private String flag;
 
-    public int getStudentID() {
+    /**
+     *
+     * @return student enrollment's student ID
+     */
+    public String getStudentID() {
         return studentID;
     }
 
-    public void setStudentID(int studentID) {
+    /**
+     * sets student enrollment's student ID into variable studentID
+     *
+     * @param studentID
+     */
+    public void setStudentID(String studentID) {
         this.studentID = studentID;
     }
 
-    public int getCourseID() {
+    /**
+     *
+     * @return student enrollment's course ID
+     */
+    public String getCourseID() {
         return courseID;
     }
 
-    public void setCourseID(int courseID) {
+    /**
+     * sets student enrollment's course ID into variable courseID
+     *
+     * @param courseID
+     */
+    public void setCourseID(String courseID) {
         this.courseID = courseID;
     }
 
+    /**
+     *
+     * @return student enrollment's flag
+     */
     public String getFlag() {
         return flag;
     }
 
+    /**
+     * sets student enrollment's flag into variable flag
+     *
+     * @param flag
+     */
     public void setFlag(String flag) {
         this.flag = flag;
     }
-    
-    
+
 }

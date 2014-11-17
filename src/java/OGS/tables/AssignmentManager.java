@@ -40,13 +40,13 @@ public class AssignmentManager {
 
             if (rs.next()) {
                 Assignment assignmentBean = new Assignment();
-                assignmentBean.setName(rs.getString("name"));
-                assignmentBean.setSpecification(rs.getString("specification"));
-                assignmentBean.setDueDate(rs.getString("dueDate"));
-                assignmentBean.setInstructions(rs.getString("instructions"));
-                assignmentBean.setPath(rs.getString("path"));
+                assignmentBean.setName(rs.getString("Name"));
+                assignmentBean.setSpecification(rs.getString("Specification"));
+                assignmentBean.setDueDate(rs.getString("DueDate"));
+                assignmentBean.setInstructions(rs.getString("Instructions"));
+                assignmentBean.setPath(rs.getString("Path"));
                 assignmentBean.setCourseID(rs.getInt("courseID"));
-                assignmentBean.setPointsPossible(rs.getInt("pointsPossible"));
+                assignmentBean.setPointsPossible(rs.getInt("PointsPossible"));
                 assignmentBean.setID(ID);
                 return assignmentBean;
             } else {

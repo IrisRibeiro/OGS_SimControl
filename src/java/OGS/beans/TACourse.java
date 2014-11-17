@@ -12,6 +12,26 @@ import java.io.Serializable;
  *
  * @author eloo
  */
-public class TACourse extends Course implements Serializable{
+public class TACourse implements Serializable {
 
+    private int TAID;
+    private int CourseID;
+
+    public int getTAID() {
+        return TAID;
+    }
+
+
+    public void setTAID(int TAID) {
+        this.TAID = TAID;
+    }
+    
+    public int getCourseID(){
+        return CourseID;
+    }
+    
+    public void setCourseID(){
+        this.CourseID = CourseID;
+    }
+    
 }

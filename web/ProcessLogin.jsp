@@ -49,42 +49,14 @@
             <div class="col-md-4 col-md-offset-4">
                 <div class="login-panel panel panel-default">
                     <div class="panel-heading" >
-                        <h3 class="panel-title">Sign In</h3>
-                    </div>
-                    <div class="panel-body">
-                        <form  method="get" action="LoginServlet">
-                            <fieldset>
-                                <div class="form-group">
-                                   <input class="form-control" placeholder="UserName" name="UserName" type="text" autofocus>
-                                </div>
-                                <div class="form-group">
-                                    <input class="form-control" placeholder="Password" name="password" type="password" value="">
-                                </div>
-                                <div class="checkbox">
-                                    <label>
-                                        <input name="remember" type="checkbox" value="Remember Me">Remember Me
-                                    </label>
-                                </div>
-                                <!-- Change this to a button or input when using this as a form -->
-                                <input class="btn btn-lg btn-default btn-block" type="submit" value="Login"  />
-                            </fieldset>
-                        </form>
+                        <h3 class="panel-title">There is something wrong with your login. Please Try Again</h3>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-<!--
  
-    public void validate(String UserName, String password)throws Exception{
-        if ((UserName == "")&&( password == "")){
-            
-        }else{
-        
-        }
-    }
 
--->
     <!-- jQuery Version 1.11.0 -->
     <script src="js/jquery-1.11.0.js"></script>
 
