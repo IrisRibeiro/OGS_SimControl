@@ -1,3 +1,4 @@
+<%@page import="OGS.beans.Assignment"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -274,21 +275,36 @@
                                     
 										<div class="form-group">
 											<label>Assignment Number</label>
-												<input class="form-control" name="tidentifier">
+												<input class="form-control" name="assignNum">
 										</div>
 										<div class="form-group">
 											<label>Assignment Name</label>
-												<input class="form-control" name="tcredits" type="number">
+												<input class="form-control" name="assignName" type="number">
 										</div>
 										<div class="form-group">
 											<label>Due Date</label>
-												<input class="form-control" name="tbuilding" type="text">
+												<input class="form-control" name="dDate" type="text">
 										</div>
 										<div class="form-group">
-											<label>Official Webpage</label>
-												<input class="form-control" name="twebpage" type="text">
+											<label>Specifications</label>
+												<input class="form-control" name="specs" type="text">
 										</div>
-										
+                                                                                <div class="form-group">
+											<label>Instructor</label>
+												<input class="form-control" name="specs" type="text">
+										</div>
+                                                                                 <div class="form-group">
+											<label>Course ID</label>
+												<input class="form-control" name="specs" type="text">
+										</div>
+                                                                                <div class="form-group">
+											<label>Point Possible</label>
+												<input class="form-control" name="specs" type="text">
+										</div>
+										<div class="form-group">
+											<label>ID</label>
+												<input class="form-control" name="specs" type="text">
+										</div>
 										<div class="form-group">
                                             <label>Import Students</label>
                                             <input type="file">
@@ -325,7 +341,7 @@
 	<script>
 	function msg(){
 		alert("New class created! You'll be redirect");
-		window.location.href = "index.html"
+		window.location.href = "Dashboard.jsp"
 	}
 	</script>
 	
@@ -343,6 +359,15 @@
 			document.getElementByName('tinstructoremial ').value = '';
 		}
 	</script>
+        
+ <%
+     
+     Assignment assign = new Assignment();
+    assign.setName(request.getParameter("assigNum"));
+    System.out.println("This is the nuame"+assign.getName());
+     
+    
+%>
 
 </body>
 

@@ -244,7 +244,7 @@
                                     <a href="SearchCourses.jsp">Search Class</a> <!-- /.Modify to link to the page -->
                                 </li>
                                 <li>
-                                    <a href="CreatAssignment.jsp">Create Assignment</a>  <!-- /.Modify to link to the page -->
+                                    <a href="CreateAssignment.jsp">Create Assignment</a>  <!-- /.Modify to link to the page -->
                                 </li>
                                 <li>
                                     <a href="SearchAssignment.jsp">Search Assignment</a> <!-- /.Modify to link to the page -->
