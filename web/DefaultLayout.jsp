@@ -201,7 +201,7 @@
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li><a href="login.jsp"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -231,10 +231,10 @@
                             <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Manager Panel<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="CreateClass.html">Create Class</a>  <!-- /.Modify to link to the page -->
+                                    <a href="CreateClass.jsp">Create Class</a>  <!-- /.Modify to link to the page -->
                                 </li>
                                 <li>
-                                    <a href="serarchCourses.html">Search Class</a> <!-- /.Modify to link to the page -->
+                                    <a href="serarchCourses.jsp">Search Class</a> <!-- /.Modify to link to the page -->
                                 </li>
                                 <li>
                                     <a href="CreateAssignment.jsp">Create Assignment</a>  <!-- /.Modify to link to the page -->
@@ -246,19 +246,19 @@
                             <!-- /.nav-second-level -->
                         </li>
                         <li>
-							<a href="courses.html"><i class="fa fa-files-o fa-fw"></i> Courses <span class="fa arrow"></span></a>
+							<a href="courses.jsp"><i class="fa fa-files-o fa-fw"></i> Courses <span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="PreviousClasses.html">Previous Classes</a>  <!-- /.Modify to link to the page -->
+                                    <a href="PreviousClasses.jsp">Previous Classes</a>  <!-- /.Modify to link to the page -->
                                 </li>
                                 <li>
-                                    <a href="RequestedClasses.html">Requested Classes</a> <!-- /.Modify to link to the page -->
+                                    <a href="RequestedClasses.jsp">Requested Classes</a> <!-- /.Modify to link to the page -->
                                 </li>
 								 <li>
-                                    <a href="enrolledClasses.html">Enrolled Classes</a> <!-- /.Modify to link to the page -->
+                                    <a href="enrolledClasses.jsp">Enrolled Classes</a> <!-- /.Modify to link to the page -->
                                 </li>
 								<li>
-                                    <a href="courses.html">All Classes</a> <!-- /.Modify to link to the page -->
+                                    <a href="courses.jsp">All Classes</a> <!-- /.Modify to link to the page -->
                                 </li>
                             </ul>
                         </li>
@@ -302,7 +302,7 @@
 	<script>
 	function RequestC(){
 		alert("Class Requested. Follow the new at the RequestedClasses page");
-		window.location.href = "RequestedClasses.html"
+		window.location.href = "RequestedClasses.jsp"
 	}
 	</script>
 
