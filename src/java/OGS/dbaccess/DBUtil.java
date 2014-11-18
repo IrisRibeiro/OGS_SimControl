@@ -5,11 +5,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBUtil {
-
-	private static final String USERNAME = "dbuser";
-	private static final String PASSWORD = "dbpassword";
+	private static final String USERNAME = "root";
+	private static final String PASSWORD = "1234";
 	private static final String M_CONN_STRING = 
-			"jdbc:mysql://localhost/simcontrol";
+			"jdbc:mysql://localhost:3306/simcontrol";
         /**
          * 
          * @param dbType the type of database we are using
@@ -17,8 +16,9 @@ public class DBUtil {
          * @return the Connection to the database
          * @throws SQLException 
          */
-	public static Connection getConnection(DBType dbType) throws SQLException {
+	public static Connection getConnection(DBType dbType) throws SQLException, ClassNotFoundException {
 		
+                Class.forName("com.mysql.jdbc.Driver");
 		switch (dbType) {
 		case MYSQL:
 			return DriverManager.getConnection(M_CONN_STRING, USERNAME, PASSWORD);

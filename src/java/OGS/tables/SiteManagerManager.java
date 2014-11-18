@@ -27,7 +27,7 @@ public class SiteManagerManager {
      * @returns the Professor object 
      * @throws SQLException 
      */
-    public static Manager getRow(int ID) throws SQLException {
+    public static Manager getRow(int ID) throws SQLException, ClassNotFoundException {
 
         String sql = "SELECT * FROM SiteManager WHERE ID = ?";
         ResultSet rs = null;

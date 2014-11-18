@@ -26,7 +26,7 @@ public class ProfessorManager {
      * @returns the Professor object 
      * @throws SQLException 
      */
-    public static Professor getRow(int ID) throws SQLException {
+    public static Professor getRow(int ID) throws SQLException, ClassNotFoundException {
 
         String sql = "SELECT * FROM Professor WHERE ID = ?";
         ResultSet rs = null;

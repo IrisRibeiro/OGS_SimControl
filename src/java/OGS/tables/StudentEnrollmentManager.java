@@ -18,7 +18,7 @@ import java.sql.SQLException;
  * @author Eric
  */
 public class StudentEnrollmentManager {
-    public static StudentEnrollment getRowwithID(String ID) throws SQLException {
+    public static StudentEnrollment getRowwithID(String ID) throws SQLException, ClassNotFoundException {
 
         String sql = "SELECT * FROM StudentEnrollment WHERE StudentID = ?";
         ResultSet rs = null;
@@ -50,7 +50,7 @@ public class StudentEnrollmentManager {
 
     }
     
-    public static StudentEnrollment getRowwithCourseID(String ID) throws SQLException {
+    public static StudentEnrollment getRowwithCourseID(String ID) throws SQLException, ClassNotFoundException {
 
         String sql = "SELECT * FROM StudentEnrollment WHERE CourseID = ?";
         ResultSet rs = null;
@@ -83,7 +83,7 @@ public class StudentEnrollmentManager {
     }
     
     
-     public static StudentEnrollment getRowID(String StudentID, String CourseID) throws SQLException {
+     public static StudentEnrollment getRowID(String StudentID, String CourseID) throws SQLException, ClassNotFoundException {
 
         String sql = "SELECT * FROM StudentEnrollment WHERE StudentID = ? AND CourseID= ?";
         ResultSet rs = null;

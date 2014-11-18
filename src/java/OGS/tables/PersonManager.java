@@ -26,7 +26,7 @@ import OGS.beans.TA;
  */
 public class PersonManager {
     
-    public static Person getRowfromID(int ID) throws SQLException {
+    public static Person getRowfromID(int ID) throws SQLException, ClassNotFoundException {
 
         String sql = "SELECT * FROM PERSON WHERE ID = ?";
         ResultSet rs = null;
@@ -63,7 +63,7 @@ public class PersonManager {
 
     }
     
-    public static Person getRowfromUserName(String UserName) throws SQLException {
+    public static Person getRowfromUserName(String UserName) throws SQLException, ClassNotFoundException {
 
         String sql = "SELECT * FROM PERSON WHERE UserName = ?";
         ResultSet rs = null;

@@ -26,7 +26,7 @@ public class TAManager {
      * @returns the Professor object 
      * @throws SQLException  
      */
-    public static TA getRow(int ID) throws SQLException {
+    public static TA getRow(int ID) throws SQLException, ClassNotFoundException {
 
         String sql = "SELECT * FROM TA WHERE ID = ?";
         ResultSet rs = null;

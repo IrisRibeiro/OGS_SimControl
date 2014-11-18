@@ -23,7 +23,7 @@ public class StudentManager {
      * @returns the Professor object 
      * @throws SQLException  
      */
-    public static Student getRow(int ID) throws SQLException {
+    public static Student getRow(int ID) throws SQLException, ClassNotFoundException {
 
         String sql = "SELECT * FROM students WHERE ID = ?";
         ResultSet rs = null;

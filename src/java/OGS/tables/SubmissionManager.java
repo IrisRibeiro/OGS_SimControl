@@ -21,7 +21,7 @@ public class SubmissionManager {
      * @returns the Professor object 
      * @throws SQLException  
      */
-    public static Submission getRow(int studentID, int assignmentID) throws SQLException {
+    public static Submission getRow(int studentID, int assignmentID) throws SQLException, ClassNotFoundException {
 
         String sql = "SELECT * FROM Submissions WHERE studentID = ? AND "
                 + "assignmentID = ?";

@@ -31,7 +31,7 @@ public class CourseManager {
 	/**
 	 * Check Meets Prereqs methods
 	 */
-	public static Course getRow(int ID) throws SQLException {
+	public static Course getRow(int ID) throws SQLException, ClassNotFoundException {
 		String sql = "SELECT * FROM Course WHERE ID = ?";
 		ResultSet rs = null;
 
@@ -145,7 +145,7 @@ public class CourseManager {
 
 	}
 
-	public static List<Course> getCoursesForPerson(Person person) throws SQLException {
+	public static List<Course> getCoursesForPerson(Person person) throws SQLException, ClassNotFoundException {
 		List<Course> courses = new ArrayList<Course>();
 		String sql;
 		switch (person.getAccessLevel()) {

@@ -27,7 +27,7 @@ public class AssignmentManager {
      * @returns the Assignment object 
      * @throws SQLException 
      */
-    public static Assignment getRow(int ID) throws SQLException {
+    public static Assignment getRow(int ID) throws SQLException, ClassNotFoundException {
 
         String sql = "SELECT * FROM Assignment WHERE ID = ?";
         ResultSet rs = null;
@@ -64,7 +64,7 @@ public class AssignmentManager {
 
     }
     
-    public static String getAssignmentNumber() throws SQLException {
+    public static String getAssignmentNumber() throws SQLException, ClassNotFoundException {
 
         String sql = "SELECT MAX(ID) FROM Assignment";
         ResultSet rs = null;
@@ -72,8 +72,10 @@ public class AssignmentManager {
         try (
                 Connection conn = DBUtil.getConnection(DBType.MYSQL);
                 PreparedStatement stmt = conn.prepareStatement(sql);) {
-            rs = stmt.executeQuery();
-
+                rs = stmt.executeQuery();
+                if (rs.next()){
+                    
+                }
             
         
     
@@ -87,7 +89,7 @@ public class AssignmentManager {
             }
         }
 
-    return sql;
+    return "1";
 }
     /**
      * 
