@@ -24,14 +24,14 @@ public class Login {
         _person =  _personmanager.getRowfromUserName(UserName);
         if( _person == null){
             
-            return _person;
+            return null;
         }
         
         String DbPassword = _person.getPassword();
         String newencrypted = _encryptdecrypt.encrypt(Password);
         
         if (newencrypted.equals(DbPassword)){
-            return null;
+            return _person;
         }        
         return null;
        
