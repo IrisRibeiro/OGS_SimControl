@@ -68,7 +68,7 @@ public class SearchAssignmentServelet extends HttpServlet {
         AssignmentManager man= new AssignmentManager();
         try {
             result=man.getRow(Integer.parseInt(request.getParameter("input")));
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(SearchAssignmentServelet.class.getName()).log(Level.SEVERE, null, ex);
         }
          processRequest(request, response);

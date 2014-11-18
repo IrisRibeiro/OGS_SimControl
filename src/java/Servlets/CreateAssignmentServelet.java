@@ -71,7 +71,7 @@ public class CreateAssignmentServelet extends HttpServlet {
         int idValue=0;
         try {
             newId = man.getAssignmentNumber();
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(CreateAssignmentServelet.class.getName()).log(Level.SEVERE, null, ex);
         }
         if(newId!=null)

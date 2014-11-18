@@ -67,7 +67,10 @@ public class LoginServlet extends HttpServlet {
         String UserName = request.getParameter("UserName");
         String password = request.getParameter("password");
         
-        if (UserName.equals("")|| password.equals("")){
+        if (UserName.equals("")|| password.equals("")
+                || UserName.contains("$") || UserName.contains(";")
+                || UserName.contains("(") || UserName.contains(")")
+                || UserName.contains("*") || UserName.contains("=")){
             response.sendRedirect("ProcessLogin.jsp");
         }else{
             Person user = new Person();

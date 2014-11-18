@@ -21,8 +21,8 @@ public class EncryptDecrypt {
      
      public static String encrypt( String Password)throws Exception{
          
-         String plainData = Password,cipherText,decryptedText; 
-         KeyGenerator keyGen = KeyGenerator.getInstance("AES"); 
+         String plainData = Password,cipherText,decryptedText;
+         KeyGenerator keyGen = KeyGenerator.getInstance("AES");
          keyGen.init(128); 
          SecretKey secretKey = keyGen.generateKey();
          

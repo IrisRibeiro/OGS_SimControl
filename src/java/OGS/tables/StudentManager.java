@@ -152,7 +152,7 @@ public class StudentManager {
      * This method checks the assignment grade for the student
      * @return returns the grade that matches the studentID and the assignmentID
      */
-    public static Double checkGrade(int assignmentID, int studentID) {
+    public static Double checkGrade(int assignmentID, int studentID) throws ClassNotFoundException {
         try {
             Submission sbean = SubmissionManager.getRow(studentID, assignmentID);
             return sbean.getGrade();
