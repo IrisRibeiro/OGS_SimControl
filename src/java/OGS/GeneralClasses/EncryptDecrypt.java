@@ -1,10 +1,10 @@
 package OGS.GeneralClasses;
 
 
-import javax.crypto.*;
-import java.security.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.crypto.KeyGenerator; 
+import javax.crypto.SecretKey; 
+import javax.crypto.Cipher; 
+import sun.misc.BASE64Encoder;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -20,39 +20,38 @@ public class EncryptDecrypt {
      private static Cipher cipher = null;
      
      public static String encrypt( String Password)throws Exception{
-        Security.addProvider(new com.sun.crypto.provider.SunJCE());
          
-       KeyGenerator keyGenerator =
-       KeyGenerator.getInstance("DESede");
-       keyGenerator.init(168);
-       SecretKey secretKey = keyGenerator.generateKey();
-       cipher = Cipher.getInstance("DESede");
-       
-       String clearText = Password;
-       byte[] clearTextBytes = clearText.getBytes("UTF8");
-       
-       cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-       byte[] cipherBytes = cipher.doFinal(clearTextBytes);
-       String cipherText = new String(cipherBytes, "UTF8");
+         String plainData = Password,cipherText,decryptedText; 
+         KeyGenerator keyGen = KeyGenerator.getInstance("AES"); 
+         keyGen.init(128); 
+         SecretKey secretKey = keyGen.generateKey();
          
-         return cipherText;
+         
+         Cipher aesCipher = Cipher.getInstance("AES"); 
+         aesCipher.init(Cipher.ENCRYPT_MODE,secretKey); 
+         byte[] byteDataToEncrypt = plainData.getBytes(); 
+         byte[] byteCipherText = aesCipher.doFinal(byteDataToEncrypt); 
+         cipherText = new BASE64Encoder().encode(byteCipherText);
+         String ecryptPassword = cipherText;
+         
+         return ecryptPassword;
+         
      }
      
-      public static String decrypt( byte[] Password)throws Exception{
+      public static String decrypt( String Password)throws Exception{
       
-      Security.addProvider(new com.sun.crypto.provider.SunJCE());
-         
-       KeyGenerator keyGenerator =
-       KeyGenerator.getInstance("DESede");
-       keyGenerator.init(168);
-       SecretKey secretKey = keyGenerator.generateKey();
-       cipher = Cipher.getInstance("DESede");
-       
-       cipher.init(Cipher.DECRYPT_MODE, secretKey);
-       byte[] decryptedBytes = cipher.doFinal(Password);
-       String decryptedText = new String(decryptedBytes, "UTF8");
-       
-       return decryptedText;
+     
+      KeyGenerator keyGen = KeyGenerator.getInstance("AES"); 
+      keyGen.init(128); 
+      SecretKey secretKey = keyGen.generateKey(); 
+      Cipher aesCipher = Cipher.getInstance("AES"); 
+      byte[] byteDataToEncrypt = Password.getBytes(); 
+      byte[] byteCipherText = aesCipher.doFinal(byteDataToEncrypt); 
+      aesCipher.init(Cipher.DECRYPT_MODE,secretKey,aesCipher.getParameters()); 
+      byte[] byteDecryptedText = aesCipher.doFinal(byteCipherText); 
+      String decryptedText = new String(byteDecryptedText);
+
+      return decryptedText;
       }
 
 }
