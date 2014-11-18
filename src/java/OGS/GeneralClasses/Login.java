@@ -10,16 +10,20 @@ package OGS.GeneralClasses;
  * @author Iris
  */
 
-import OGS.GeneralClasses.EncryptDecrypt;
 import OGS.beans.Person;
 import OGS.tables.PersonManager;
+import java.io.File;
 
 public class Login {
     
     public static Person VerifyLogin(String Password, String UserName)throws Exception{
         EncryptDecrypt _encryptdecrypt = new EncryptDecrypt();
         PersonManager _personmanager = new PersonManager();
+        String keyFilePath = "C:\\Users\\Eric\\Dropbox\\SBUClass\\CSE308"
+                + "\\OGS_SimControl.git\\src\\java\\OGS\\GeneralClasses\\keyFile";
         Person _person = new Person();
+        
+        File keyFile = new File(keyFilePath);
         
         _person =  _personmanager.getRowfromUserName(UserName);
         if( _person == null){
@@ -28,8 +32,7 @@ public class Login {
         }
         
         String DbPassword = _person.getPassword();
-        String newencrypted = _encryptdecrypt.encrypt(Password);
-        
+        String newencrypted = _encryptdecrypt.encrypt(Password, keyFile);
         if (newencrypted.equals(DbPassword)){
             return _person;
         }        

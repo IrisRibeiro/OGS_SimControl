@@ -1,57 +1,103 @@
 package OGS.GeneralClasses;
 
-
-import javax.crypto.KeyGenerator; 
-import javax.crypto.SecretKey; 
-import javax.crypto.Cipher; 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.util.Base64;
+import java.util.Scanner;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 import sun.misc.BASE64Encoder;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 /**
- * This method wasn't all created by me here is the link to the webpage where I found it:
- * http://cs.saddleback.edu/rwatkins/CS4B/Crypto/EncryptDecrypt.html
+ * This method wasn't all created by me here is the link to the webpage where I
+ * found it: http://cs.saddleback.edu/rwatkins/CS4B/Crypto/EncryptDecrypt.html
+ * http://www.rgagnon.com/javadetails/java-0400.html
+ *
  * @author Iris
  */
 public class EncryptDecrypt {
-     private static SecretKey key = null;
-     private static Cipher cipher = null;
-     
-     public static String encrypt( String Password)throws Exception{
-         
-         String plainData = Password,cipherText,decryptedText;
-         KeyGenerator keyGen = KeyGenerator.getInstance("AES");
-         keyGen.init(128); 
-         SecretKey secretKey = keyGen.generateKey();
-         
-         
-         Cipher aesCipher = Cipher.getInstance("AES"); 
-         aesCipher.init(Cipher.ENCRYPT_MODE,secretKey); 
-         byte[] byteDataToEncrypt = plainData.getBytes(); 
-         byte[] byteCipherText = aesCipher.doFinal(byteDataToEncrypt); 
-         cipherText = new BASE64Encoder().encode(byteCipherText);
-         String ecryptPassword = cipherText;
-         
-         return ecryptPassword;
-         
-     }
-     
-      public static String decrypt( String Password)throws Exception{
-      
-     
-      KeyGenerator keyGen = KeyGenerator.getInstance("AES"); 
-      keyGen.init(128); 
-      SecretKey secretKey = keyGen.generateKey(); 
-      Cipher aesCipher = Cipher.getInstance("AES"); 
-      byte[] byteDataToEncrypt = Password.getBytes(); 
-      byte[] byteCipherText = aesCipher.doFinal(byteDataToEncrypt); 
-      aesCipher.init(Cipher.DECRYPT_MODE,secretKey,aesCipher.getParameters()); 
-      byte[] byteDecryptedText = aesCipher.doFinal(byteCipherText); 
-      String decryptedText = new String(byteDecryptedText);
 
-      return decryptedText;
-      }
+    private static SecretKey key = null;
+    private static Cipher cipher = null;
 
+    public static String encrypt(String Password, File keyFile)
+            throws Exception {
+
+        String plainData = Password, cipherText, decryptedText;
+
+        if (!keyFile.exists()) {
+            KeyGenerator keyGen = KeyGenerator.getInstance("AES");
+            keyGen.init(128);
+            SecretKey secretKey = keyGen.generateKey();
+            try (FileWriter fw = new FileWriter(keyFile)) {
+                fw.write(byteArrayToHexString(secretKey.getEncoded()));
+                fw.flush();
+            }
+        }
+        SecretKeySpec secret = new SecretKeySpec(readKeyFile(keyFile), "AES");
+        Cipher aesCipher = Cipher.getInstance("AES");
+        aesCipher.init(Cipher.ENCRYPT_MODE, secret, aesCipher.getParameters());
+        byte[] byteDataToEncrypt = plainData.getBytes();
+        byte[] byteCipherText = aesCipher.doFinal(byteDataToEncrypt);
+        cipherText = new BASE64Encoder().encode(byteCipherText);
+        //byte[] testByte = Base64.getEncoder().encode(byteCipherText);
+        //String test = javax.xml.bind.DatatypeConverter.printBase64Binary(testByte);
+        String encryptPassword = cipherText;
+
+        return encryptPassword;
+
+    }
+
+    public static String decrypt(String Password, File keyFile)
+            throws Exception {
+
+        SecretKeySpec secret = new SecretKeySpec(readKeyFile(keyFile), "AES");
+        Cipher aesCipher = Cipher.getInstance("AES");
+        aesCipher.init(Cipher.DECRYPT_MODE, secret, aesCipher.getParameters());
+        byte[] byteDataToDecrypt = Password.getBytes();
+        byte[] decodedText = Base64.getDecoder().decode(byteDataToDecrypt);
+        byte[] byteDecryptedText = aesCipher.doFinal(decodedText);
+        String decryptedText = new String(byteDecryptedText);
+
+        return decryptedText;
+    }
+
+    private static String byteArrayToHexString(byte[] b) {
+        StringBuffer sb = new StringBuffer(b.length * 2);
+        for (int i = 0; i < b.length; i++) {
+            int v = b[i] & 0xff;
+            if (v < 16) {
+                sb.append('0');
+            }
+            sb.append(Integer.toHexString(v));
+        }
+        return sb.toString().toUpperCase();
+    }
+
+    private static byte[] readKeyFile(File keyFile)
+            throws FileNotFoundException {
+        String keyValue;
+        try (Scanner scanner = new Scanner(keyFile).useDelimiter("\\Z")) {
+            keyValue = scanner.next();
+        }
+        return hexStringToByteArray(keyValue);
+    }
+
+    private static byte[] hexStringToByteArray(String s) {
+        byte[] b = new byte[s.length() / 2];
+        for (int i = 0; i < b.length; i++) {
+            int index = i * 2;
+            int v = Integer.parseInt(s.substring(index, index + 2), 16);
+            b[i] = (byte) v;
+        }
+        return b;
+    }
 }
