@@ -1,5 +1,5 @@
 <%-- 
-    Document   : SearchCourses
+    Document   : Search Courses
     Created on : Oct 29, 2014, 5:18:29 PM
     Author     : Iris
 --%>
@@ -31,7 +31,7 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="panel panel-default">
-					<div class="panel-heading">Search For Classes</div>
+					<div class="panel-heading">Search For Courses</div>
 					<!-- /.panel-heading -->
 					<div class="panel-body">
 						<div class="table-responsive">

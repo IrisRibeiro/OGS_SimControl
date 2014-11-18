@@ -234,7 +234,7 @@
                             <a href="courses.jsp"><i class="fa fa-files-o fa-fw"></i> Courses <span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="PreviousClasses.jsp">Previous Classes</a>  <!-- /.Modify to link to the page -->
+                                    <a href="PreviousClasses.jsp">Previous Courses</a>  <!-- /.Modify to link to the page -->
                                 </li>
                                 <li>
                                     <a href="RequestedClasses.jsp">Requested Classes</a> <!-- /.Modify to link to the page -->
@@ -243,7 +243,7 @@
                                     <a href="enrolledClasses.jsp">Enrolled Classes</a> <!-- /.Modify to link to the page -->
                                 </li>
                                 <li>
-                                    <a href="courses.jsp">All Classes</a> <!-- /.Modify to link to the page -->
+                                    <a href="courses.jsp">All Courses</a> <!-- /.Modify to link to the page -->
                                 </li>
                             </ul>
                         </li>
@@ -266,7 +266,7 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Search For Classes
+                            Search For Courses
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
