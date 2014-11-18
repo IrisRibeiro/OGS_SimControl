@@ -345,7 +345,7 @@
                                 </table>
                             </div>
                             <p>
-                                <a href="viewClass.jsp"><button type="button" class="btn btn-outline btn-default" >View Class</button></a>
+                                <a href="ViewClass.jsp"><button type="button" class="btn btn-outline btn-default" >View Class</button></a>
                                 <button type="button" class="btn btn-outline btn-default">Edit</button>
                                 <button type="button" class="btn btn-outline btn-default">Grade Center</button>
                                 <button type="button" class="btn btn-outline btn-default" onclick="checktest()">Delete</button>
