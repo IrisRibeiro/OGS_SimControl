@@ -105,7 +105,7 @@ public class CreateAssignmentServelet extends HttpServlet {
                 response.sendRedirect("Dashboard.jsp");
 
             }else{
-                response.sendRedirect("ProcessLogin.jsp");
+                response.sendRedirect("ErrorPage.jsp");
             }
        
         
