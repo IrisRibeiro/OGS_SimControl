@@ -21,6 +21,7 @@ public class Assignment implements Serializable {
     private int courseID;
     private int pointsPossible;
     private int ID;
+    
 
     /**
      *
@@ -157,5 +158,7 @@ public class Assignment implements Serializable {
     public void setID(int ID) {
         this.ID = ID;
     }
+
+   
 
 }

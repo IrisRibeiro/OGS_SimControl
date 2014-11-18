@@ -236,6 +236,12 @@
                                 <li>
                                     <a href="serarchCourses.html">Search Class</a> <!-- /.Modify to link to the page -->
                                 </li>
+                                <li>
+                                    <a href="CreateAssignment.jsp">Create Assignment</a>  <!-- /.Modify to link to the page -->
+                                </li>
+                                <li>
+                                    <a href="SearchAssignment.jsp">Search Assignment</a> <!-- /.Modify to link to the page -->
+                                </li>
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>

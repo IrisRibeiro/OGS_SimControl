@@ -268,9 +268,9 @@
                             Enter Information
                         </div>
                         <!-- /.panel-heading -->
-                        <div class="panel-body" >
+                        <div class="panel-body" > 
 							<div class="row">
-							<form role="form" >
+							<form method="get" action ="CreateAssignmentServelet" >
                                 <div class="col-lg-6">
                                     
 										<div class="form-group">
@@ -279,7 +279,7 @@
 										</div>
 										<div class="form-group">
 											<label>Assignment Name</label>
-												<input class="form-control" name="assignName" type="number">
+												<input class="form-control" name="assignName" type="text">
 										</div>
 										<div class="form-group">
 											<label>Due Date</label>
@@ -290,21 +290,15 @@
 												<input class="form-control" name="specs" type="text">
 										</div>
                                                                                 <div class="form-group">
-											<label>Instructor</label>
-												<input class="form-control" name="specs" type="text">
+											<label>Instructions</label>
+												<input class="form-control" name="instrucstions" type="text">
 										</div>
-                                                                                 <div class="form-group">
-											<label>Course ID</label>
-												<input class="form-control" name="specs" type="text">
-										</div>
+                                                                                 
                                                                                 <div class="form-group">
 											<label>Point Possible</label>
-												<input class="form-control" name="specs" type="text">
+												<input class="form-control" name="points" type="text">
 										</div>
-										<div class="form-group">
-											<label>ID</label>
-												<input class="form-control" name="specs" type="text">
-										</div>
+										
 										<div class="form-group">
                                             <label>Import Students</label>
                                             <input type="file">
@@ -313,7 +307,7 @@
 								</div>
 								
 								<button type="reset" class="btn btn-default" onclick="resetT()" >Reset</button>
-								<button type="button" class="btn btn-default" onclick="msg()">Submit</button>								
+								<input class="btn btn-default" type="submit" value="Submit"/>								
 							</form>							
 								</div>
 							</div>								
@@ -360,14 +354,14 @@
 		}
 	</script>
         
- <%
+ <!--<%
      
      Assignment assign = new Assignment();
     assign.setName(request.getParameter("assigNum"));
     System.out.println("This is the nuame"+assign.getName());
      
     
-%>
+%>-->
 
 </body>
 

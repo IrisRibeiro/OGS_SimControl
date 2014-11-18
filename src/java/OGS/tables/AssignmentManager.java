@@ -63,6 +63,32 @@ public class AssignmentManager {
         }
 
     }
+    
+    public static String getAssignmentNumber() throws SQLException {
+
+        String sql = "SELECT MAX(ID) FROM Assignment";
+        ResultSet rs = null;
+
+        try (
+                Connection conn = DBUtil.getConnection(DBType.MYSQL);
+                PreparedStatement stmt = conn.prepareStatement(sql);) {
+            rs = stmt.executeQuery();
+
+            
+        
+    
+
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+        }
+
+    return sql;
+}
     /**
      * 
      * @param assignmentBean which will be inserted into the database table
@@ -73,7 +99,7 @@ public class AssignmentManager {
      */
     public static boolean insert(Assignment assignmentBean) throws Exception {
 
-        String sql = "INSERT into Assignment"
+        String sql = "INSERT into assignment"
                 + " (name, specification, dueDate, instructions, path, "
                 + "courseID, pointsPossible, ID) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -86,8 +112,8 @@ public class AssignmentManager {
             stmt.setString(2, assignmentBean.getSpecification());
             stmt.setString(3, assignmentBean.getDueDate());
             stmt.setString(4, assignmentBean.getInstructions());
-            stmt.setString(5, assignmentBean.getPath());
-            stmt.setInt(6, assignmentBean.getCourseID());
+            stmt.setString(5, "TempPath");//assignmentBean.getPath());
+            stmt.setInt(6, 1);//assignmentBean.getCourseID());
             stmt.setInt(7, assignmentBean.getPointsPossible());
             stmt.setInt(8, assignmentBean.getID());
             int affected = stmt.executeUpdate();
