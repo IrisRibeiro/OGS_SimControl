@@ -149,19 +149,19 @@ public class CourseManager {
 		List<Course> courses = new ArrayList<Course>();
 		String sql;
 		switch (person.getAccessLevel()) {
-		case 1:
-			sql = "select Courses.* from Courses, StudentEnrollment "
+		case 4:
+			sql = "select Course.* from Course, StudentEnrollment "
 					+ "where Course.ID = StudentEnrollment.CourseID and StudentEnrollment.StudentID = ?";
 			break;
-		case 2:
-			sql = "select Course.* from Couses, TACourse "
+		case 3:
+			sql = "select Course.* from Couse, TACourse "
 					+ "where Course.ID = TACourse.CourseID and TACourse.TAID = ?";
 			break;
-		case 3:
+		case 2:
 			sql = "select * from course, person " + "where Course.instructorID = ?";
 			break;
-		case 4:
-			sql = "select Courses.* from Courses " + "where 1 = 1 or (0 = ?)";
+		case 1:
+			sql = "select Course.* from Course " + "where 1 = 1 or (0 = ?)";
 			break;
 		default:
 			return courses;
