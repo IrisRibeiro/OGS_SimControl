@@ -56,7 +56,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html"> <img src="images/Logo_Small.png" alt="logo_Small" width="60px" height="33px"> SimControl</a>
+                <a class="navbar-brand" href="Dashboard.jsp"> <img src="images/Logo_Small.png" alt="logo_Small" width="60px" height="33px"> SimControl</a>
             </div>
             <!-- /.navbar-header -->
 
@@ -225,7 +225,7 @@
                             <!-- /input-group -->
                         </li>
                         <li>
-                            <a class="active" href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                            <a class="active" href="Dashboard.jsp"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Manager Panel<span class="fa arrow"></span></a>
@@ -234,7 +234,7 @@
                                     <a href="CreateClass.jsp">Create Class</a>  <!-- /.Modify to link to the page -->
                                 </li>
                                 <li>
-                                    <a href="serarchCourses.jsp">Search Class</a> <!-- /.Modify to link to the page -->
+                                    <a href="SearchCourses.jsp">Search Class</a> <!-- /.Modify to link to the page -->
                                 </li>
                                 <li>
                                     <a href="CreateAssignment.jsp">Create Assignment</a>  <!-- /.Modify to link to the page -->
