@@ -26,12 +26,14 @@ public class Login {
             
             return _person;
         }
-        String newencrypted = _encryptdecrypt.encrypt(Password);
+        
         String DbPassword = _person.getPassword();
+        String newencrypted = _encryptdecrypt.encrypt(Password);
+        
         if (newencrypted.equals(DbPassword)){
-            return _person;
+            return null;
         }        
-        return _person;
+        return null;
        
     }
     
