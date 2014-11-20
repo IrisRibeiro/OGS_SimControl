@@ -209,7 +209,11 @@
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
+<<<<<<< Updated upstream
                         <li><a href="Logout.jsp"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+=======
+                        <li><a href="Login.jsp"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+>>>>>>> Stashed changes
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
