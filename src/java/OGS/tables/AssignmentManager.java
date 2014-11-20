@@ -17,30 +17,30 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 /**
  *
  * @author Eric
  */
 public class AssignmentManager {
-     private static final Logger LOGGER = Logger.getLogger(AssignmentManager.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(AssignmentManager.class.getName());
 
     /**
-     * 
-     * @param takes the ID of the row
-     * This method connects to the database and then it gets the row which ID was referenced to and then 
-     * it parses the information that was returned from the the row.
-     * @returns the Assignment object 
-     * @throws SQLException 
+     *
+     * @param takes the ID of the row This method connects to the database and
+     * then it gets the row which ID was referenced to and then it parses the
+     * information that was returned from the the row.
+     * @returns the Assignment object
+     * @throws SQLException
      */
     public static Assignment getRow(int ID) throws SQLException, ClassNotFoundException {
-        LOGGER.info("Logger Name: "+LOGGER.getName());
+        LOGGER.info("Logger Name: " + LOGGER.getName());
         LOGGER.info("Method getRow()");
 
         String sql = "SELECT * FROM Assignment WHERE ID = ?";
         ResultSet rs = null;
         LOGGER.warning("Creating the connection to the database");
-        try (   Connection conn = DBUtil.getConnection(DBType.MYSQL);
+        try (Connection conn = DBUtil.getConnection(DBType.MYSQL);
                 PreparedStatement stmt = conn.prepareStatement(sql);) {
             stmt.setInt(1, ID);
             rs = stmt.executeQuery();
@@ -55,13 +55,12 @@ public class AssignmentManager {
                 assignmentBean.setCourseID(rs.getInt("courseID"));
                 assignmentBean.setPointsPossible(rs.getInt("PointsPossible"));
                 assignmentBean.setID(ID);
-                LOGGER.config("Object AssignmentBeans is :"+assignmentBean);
+                LOGGER.config("Object AssignmentBeans is :" + assignmentBean);
                 return assignmentBean;
-                
+
             } else {
                 return null;
             }
-            
 
         } catch (SQLException e) {
             System.err.println(e);
@@ -74,9 +73,9 @@ public class AssignmentManager {
         }
 
     }
-    
+
     public static String getAssignmentNumber() throws SQLException, ClassNotFoundException {
-         LOGGER.info("Logger Name: "+LOGGER.getName());
+        LOGGER.info("Logger Name: " + LOGGER.getName());
         LOGGER.info("Method getAssignmentNumber()");
         String sql = "SELECT MAX(ID) FROM Assignment";
         ResultSet rs = null;
@@ -84,11 +83,11 @@ public class AssignmentManager {
         try (
                 Connection conn = DBUtil.getConnection(DBType.MYSQL);
                 PreparedStatement stmt = conn.prepareStatement(sql);) {
-                rs = stmt.executeQuery();
-                if (rs.next()){
-                    
-                }
-                LOGGER.config("Object rs is :"+rs);
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+
+            }
+            LOGGER.config("Object rs is :" + rs);
 
         } catch (SQLException e) {
             System.err.println(e);
@@ -99,18 +98,20 @@ public class AssignmentManager {
             }
         }
 
-    return "1";
-}
+        return "1";
+    }
+
     /**
-     * 
-     * @param assignmentBean which will be inserted into the database table
-     * This Method take assignmentbean and then it parses the information from the 
+     *
+     * @param assignmentBean which will be inserted into the database table This
+     * Method take assignmentbean and then it parses the information from the
      * assignmentbean and then it inserts the information into the database
-     * @returns true if the information was correctly inserted into the database else it returns false.
-     * @throws SqlException 
+     * @returns true if the information was correctly inserted into the database
+     * else it returns false.
+     * @throws SqlException
      */
     public static boolean insert(Assignment assignmentBean) throws Exception {
-        LOGGER.info("Logger Name: "+LOGGER.getName());
+        LOGGER.info("Logger Name: " + LOGGER.getName());
         LOGGER.info("Method insert()");
         String sql = "INSERT into assignment"
                 + " (name, specification, dueDate, instructions, path, "
@@ -155,15 +156,17 @@ public class AssignmentManager {
         }
         return true;
     }
+
     /**
-     * 
-     * @param assignmentBean assignmentBean will be updated
-     * This method takes a assignmentBean and updates the information in the database
-     * @return true if the information was updated correctly else it returns false
-     * @throws SqlException 
+     *
+     * @param assignmentBean assignmentBean will be updated This method takes a
+     * assignmentBean and updates the information in the database
+     * @return true if the information was updated correctly else it returns
+     * false
+     * @throws SqlException
      */
     public static boolean update(Assignment assignmentBean) throws Exception {
-        LOGGER.info("Logger Name: "+LOGGER.getName());
+        LOGGER.info("Logger Name: " + LOGGER.getName());
         LOGGER.info("Method update()");
         String sql
                 = "UPDATE Assignment SET " + "name = ?, specification = ?, "
@@ -182,7 +185,7 @@ public class AssignmentManager {
             stmt.setInt(6, assignmentBean.getCourseID());
             stmt.setInt(7, assignmentBean.getPointsPossible());
             stmt.setInt(8, assignmentBean.getID());
-            LOGGER.config("Object AssignmentBeans is :"+assignmentBean);
+            LOGGER.config("Object AssignmentBeans is :" + assignmentBean);
             int affected = stmt.executeUpdate();
             if (affected == 1) {
                 return true;
@@ -197,53 +200,47 @@ public class AssignmentManager {
         }
 
     }
+
     /**
      * Sent Mail Method
      */
-    public void sentMail()
-    {
-        
+    public void sentMail() {
+
     }
-    
+
     /**
      * Mark Assignment method
      */
-    public void markAssignment()
-    {
-        
+    public void markAssignment() {
+
     }
-    
+
     /**
      * Grade Assignment method
      */
-    public void gradeAssignment()
-    {
-        
+    public void gradeAssignment() {
+
     }
-    
+
     /**
      * Create Assignment method
      */
-    public void createAssignment()
-    {
-        
+    public void createAssignment() {
+
     }
-    
+
     //From Course Assignments
-    
     /**
      * Get Points Possible Method
      */
-    public void getPointsPossible()
-    {
-        
+    public void getPointsPossible() {
+
     }
-    
+
     /**
      * Get Points Grades method
      */
-    public void getPointsGrades()
-    {
-        
+    public void getPointsGrades() {
+
     }
 }

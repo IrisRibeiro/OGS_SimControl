@@ -11,7 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse; 
+import javax.servlet.http.HttpServletResponse;
 import OGS.beans.Assignment;
 import OGS.tables.AssignmentManager;
 import java.sql.SQLException;
@@ -25,7 +25,6 @@ import javax.servlet.http.HttpSession;
  *
  * @author zainul101
  */
-
 @WebServlet(name = "CreateAssignmentServelet", urlPatterns = {"/CreateAssignmentServelet"})
 public class CreateAssignmentServelet extends HttpServlet {
 
@@ -46,7 +45,7 @@ public class CreateAssignmentServelet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CreatAssignmentServelet</title>");            
+            out.println("<title>Servlet CreatAssignmentServelet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet CreatAssignmentServelet at " + request.getContextPath() + "</h1>");
@@ -66,63 +65,56 @@ public class CreateAssignmentServelet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException 
-    {
-        Assignment assign= new Assignment();
-        AssignmentManager man= new AssignmentManager();
-        String newId="";
-        int idValue=0;
+            throws ServletException, IOException {
+        Assignment assign = new Assignment();
+        AssignmentManager man = new AssignmentManager();
+        String newId = "";
+        int idValue = 0;
         try {
             newId = man.getAssignmentNumber();
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(CreateAssignmentServelet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if(newId!=null)
-        {
-       idValue =Integer.parseInt(newId);
+        if (newId != null) {
+            idValue = Integer.parseInt(newId);
+        } else {
+            idValue = 1;
         }
-        else
-        {
-            idValue=1;
-        }
-       
-       
-       assign.setID(idValue);
-       String name=request.getParameter("assignName");
-       assign.setName(name);
-       String dueDate=request.getParameter("dDate");
-       
-       DateFormat formatter = new SimpleDateFormat("dd-MM");
-       java.util.Date date = null;
+
+        assign.setID(idValue);
+        String name = request.getParameter("assignName");
+        assign.setName(name);
+        String dueDate = request.getParameter("dDate");
+
+        DateFormat formatter = new SimpleDateFormat("dd-MM");
+        java.util.Date date = null;
         try {
             date = formatter.parse(dueDate);
         } catch (ParseException ex) {
             Logger.getLogger(CreateAssignmentServelet.class.getName()).log(Level.SEVERE, null, ex);
         }
-       
-       java.util.Date utilDate = new java.util.Date();//date;
-       java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-       assign.setDueDate(sqlDate);
-       String specs=request.getParameter("specs");
-       assign.setSpecification(specs);
-       String instructions=request.getParameter("instrucstions");
-       assign.setInstructions(instructions);
-       int points=Integer.parseInt(request.getParameter("points"));
-       assign.setPointsPossible(points);
-        boolean check=false;
+        java.util.Date utilDate = new java.util.Date();//date;
+        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+        assign.setDueDate(sqlDate);
+        String specs = request.getParameter("specs");
+        assign.setSpecification(specs);
+        String instructions = request.getParameter("instrucstions");
+        assign.setInstructions(instructions);
+        int points = Integer.parseInt(request.getParameter("points"));
+        assign.setPointsPossible(points);
+        boolean check = false;
         try {
-            check= man.insert(assign);
+            check = man.insert(assign);
         } catch (Exception ex) {
             Logger.getLogger(CreateAssignmentServelet.class.getName()).log(Level.SEVERE, null, ex);
         }
-       if (check == true){  
-                response.sendRedirect("Dashboard.jsp");
+        if (check == true) {
+            response.sendRedirect("Dashboard.jsp");
 
-            }else{
-                response.sendRedirect("ErrorPage.jsp");
-            }
-       
-        
+        } else {
+            response.sendRedirect("ErrorPage.jsp");
+        }
+
     }
 
     /**
@@ -135,8 +127,7 @@ public class CreateAssignmentServelet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
