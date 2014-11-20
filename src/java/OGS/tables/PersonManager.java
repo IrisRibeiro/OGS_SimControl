@@ -19,24 +19,31 @@ import OGS.beans.Manager;
 import OGS.beans.TA;
 
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+
 
 /** 
  *
  * @author Iris
  */
 public class PersonManager {
+    private static final Logger LOGGER = Logger.getLogger(PersonManager.class.getName());
     
     public static Person getRowfromID(int ID) throws SQLException, ClassNotFoundException {
-
+        LOGGER.info("Logger Name: "+LOGGER.getName());
+        LOGGER.info("Method getRowfromID()" + ID);
         String sql = "SELECT * FROM PERSON WHERE ID = ?";
         ResultSet rs = null;
-
+        LOGGER.warning("Creating the connection to the database");
         try (
                 Connection conn = DBUtil.getConnection(DBType.MYSQL);
                 PreparedStatement stmt = conn.prepareStatement(sql);) {
             stmt.setInt(1, ID);
             rs = stmt.executeQuery();
-
+            LOGGER.warning("Finish executing query");
             if (rs.next()) {
                 Person PersonBean = new Person();
                 PersonBean.setName(rs.getString("Name"));
@@ -46,13 +53,14 @@ public class PersonManager {
                 PersonBean.setEmailAddress(rs.getString("EmailAddress"));
                 PersonBean.setAccessLevel(rs.getInt("AcessLevel"));
                 PersonBean.setType(rs.getString("Type"));
-               
+                LOGGER.config("Object PersonBean is equal to :"+PersonBean);
                 return PersonBean;
             } else {
                 return null;
             }
 
         } catch (SQLException e) {
+             LOGGER.log(Level.SEVERE, "Exception occur", e);
             System.err.println(e);
             return null;
         } finally {
@@ -64,16 +72,17 @@ public class PersonManager {
     }
     
     public static Person getRowfromUserName(String UserName) throws SQLException, ClassNotFoundException {
-
+        LOGGER.info("Logger Name: "+LOGGER.getName());
+        LOGGER.info("Method getRowfromUserName()" + UserName);
         String sql = "SELECT * FROM PERSON WHERE UserName = ?";
         ResultSet rs = null;
-
+        LOGGER.warning("Creating the connection to the database");
         try (
                 Connection conn = DBUtil.getConnection(DBType.MYSQL);
                 PreparedStatement stmt = conn.prepareStatement(sql);) {
             stmt.setString(1, UserName);
             rs = stmt.executeQuery();
-
+            LOGGER.warning("Finish executing query");
             if (rs.next()) {
                 Person PersonBean = new Person();
                 PersonBean.setName(rs.getString("Name"));
@@ -83,13 +92,14 @@ public class PersonManager {
                 PersonBean.setEmailAddress(rs.getString("EmailAddress"));
                 PersonBean.setAccessLevel(rs.getInt("AcessLevel"));
                 PersonBean.setType(rs.getString("Type"));
-               
+               LOGGER.config("Object PersonBean is equal to :"+PersonBean);
                 return PersonBean;
             } else {
                 return null;
             }
 
         } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Exception occur", e);
             System.err.println(e);
             return null;
         } finally {

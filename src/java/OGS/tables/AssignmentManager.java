@@ -13,12 +13,18 @@ import java.sql.Statement;
 import OGS.beans.Assignment;
 import OGS.dbaccess.DBType;
 import OGS.dbaccess.DBUtil;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 /**
  *
  * @author Eric
  */
 public class AssignmentManager {
+     private static final Logger LOGGER = Logger.getLogger(AssignmentManager.class.getName());
+
     /**
      * 
      * @param takes the ID of the row
@@ -28,16 +34,17 @@ public class AssignmentManager {
      * @throws SQLException 
      */
     public static Assignment getRow(int ID) throws SQLException, ClassNotFoundException {
+        LOGGER.info("Logger Name: "+LOGGER.getName());
+        LOGGER.info("Method getRow()");
 
         String sql = "SELECT * FROM Assignment WHERE ID = ?";
         ResultSet rs = null;
-
-        try (
-                Connection conn = DBUtil.getConnection(DBType.MYSQL);
+        LOGGER.warning("Creating the connection to the database");
+        try (   Connection conn = DBUtil.getConnection(DBType.MYSQL);
                 PreparedStatement stmt = conn.prepareStatement(sql);) {
             stmt.setInt(1, ID);
             rs = stmt.executeQuery();
-
+            LOGGER.warning("Finish executing query");
             if (rs.next()) {
                 Assignment assignmentBean = new Assignment();
                 assignmentBean.setName(rs.getString("Name"));
@@ -48,13 +55,17 @@ public class AssignmentManager {
                 assignmentBean.setCourseID(rs.getInt("courseID"));
                 assignmentBean.setPointsPossible(rs.getInt("PointsPossible"));
                 assignmentBean.setID(ID);
+                LOGGER.config("Object AssignmentBeans is :"+assignmentBean);
                 return assignmentBean;
+                
             } else {
                 return null;
             }
+            
 
         } catch (SQLException e) {
             System.err.println(e);
+            LOGGER.log(Level.SEVERE, "Exception occur", e);
             return null;
         } finally {
             if (rs != null) {
@@ -65,10 +76,11 @@ public class AssignmentManager {
     }
     
     public static String getAssignmentNumber() throws SQLException, ClassNotFoundException {
-
+         LOGGER.info("Logger Name: "+LOGGER.getName());
+        LOGGER.info("Method getAssignmentNumber()");
         String sql = "SELECT MAX(ID) FROM Assignment";
         ResultSet rs = null;
-
+        LOGGER.warning("Creating the connection to the database");
         try (
                 Connection conn = DBUtil.getConnection(DBType.MYSQL);
                 PreparedStatement stmt = conn.prepareStatement(sql);) {
@@ -76,9 +88,7 @@ public class AssignmentManager {
                 if (rs.next()){
                     
                 }
-            
-        
-    
+                LOGGER.config("Object rs is :"+rs);
 
         } catch (SQLException e) {
             System.err.println(e);
@@ -100,12 +110,14 @@ public class AssignmentManager {
      * @throws SqlException 
      */
     public static boolean insert(Assignment assignmentBean) throws Exception {
-
+        LOGGER.info("Logger Name: "+LOGGER.getName());
+        LOGGER.info("Method insert()");
         String sql = "INSERT into assignment"
                 + " (name, specification, dueDate, instructions, path, "
                 + "courseID, pointsPossible, ID) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         ResultSet keys = null;
+        LOGGER.warning("Creating the connection to the database");
         try (
                 Connection conn = DBUtil.getConnection(DBType.MYSQL);
                 PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
@@ -119,7 +131,7 @@ public class AssignmentManager {
             stmt.setInt(7, assignmentBean.getPointsPossible());
             stmt.setInt(8, assignmentBean.getID());
             int affected = stmt.executeUpdate();
-
+            LOGGER.warning("Finish executing query");
             if (affected == 1) {
                 keys = stmt.getGeneratedKeys();
                 keys.next();
@@ -132,6 +144,7 @@ public class AssignmentManager {
 
         } catch (SQLException e) {
             System.err.println(e);
+            LOGGER.log(Level.SEVERE, "Exception occur", e);
             return false;
         } finally {
             if (keys != null) {
@@ -148,11 +161,13 @@ public class AssignmentManager {
      * @throws SqlException 
      */
     public static boolean update(Assignment assignmentBean) throws Exception {
-
+        LOGGER.info("Logger Name: "+LOGGER.getName());
+        LOGGER.info("Method update()");
         String sql
                 = "UPDATE Assignment SET " + "name = ?, specification = ?, "
                 + "dueDate = ?, instructions = ?, " + "path = ?, "
                 + "courseID = ?, pointsPossible = ? WHERE ID = ?";
+        LOGGER.warning("Creating the connection to the database");
         try (
                 Connection conn = DBUtil.getConnection(DBType.MYSQL);
                 PreparedStatement stmt = conn.prepareStatement(sql);) {
@@ -165,7 +180,7 @@ public class AssignmentManager {
             stmt.setInt(6, assignmentBean.getCourseID());
             stmt.setInt(7, assignmentBean.getPointsPossible());
             stmt.setInt(8, assignmentBean.getID());
-
+            LOGGER.config("Object AssignmentBeans is :"+assignmentBean);
             int affected = stmt.executeUpdate();
             if (affected == 1) {
                 return true;
@@ -174,6 +189,7 @@ public class AssignmentManager {
             }
 
         } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Exception occur", e);
             System.err.println(e);
             return false;
         }

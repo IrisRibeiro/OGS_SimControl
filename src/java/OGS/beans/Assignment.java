@@ -1,7 +1,6 @@
 package OGS.beans;
 
 import java.io.Serializable;
-
 /**
  *
  * @author eloo
@@ -12,7 +11,7 @@ import java.io.Serializable;
  * @author Yi
  */
 public class Assignment implements Serializable {
-
+    
     private String name;
     private String specification;
     private String dueDate;

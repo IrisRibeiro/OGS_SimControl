@@ -18,6 +18,10 @@ import OGS.beans.Person;
 import OGS.dbaccess.DBType;
 import OGS.dbaccess.DBUtil;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Eric, Zain
@@ -27,19 +31,22 @@ import OGS.dbaccess.DBUtil;
  * @author Yi
  */
 public class CourseManager {
-
+    private static final Logger LOGGER = Logger.getLogger(CourseManager.class.getName());
 	/**
 	 * Check Meets Prereqs methods
 	 */
 	public static Course getRow(int ID) throws SQLException, ClassNotFoundException {
+            LOGGER.info("Logger Name: "+LOGGER.getName());
+            LOGGER.info("Method getRow()");
+
 		String sql = "SELECT * FROM Course WHERE ID = ?";
 		ResultSet rs = null;
-
+                LOGGER.warning("Creating the connection to the database");
 		try (Connection conn = DBUtil.getConnection(DBType.MYSQL); 
                         PreparedStatement stmt = conn.prepareStatement(sql);) {
 			stmt.setInt(1, ID);
 			rs = stmt.executeQuery();
-
+                        LOGGER.warning("Finish executing query");
 			if (rs.next()) {
 				Course CourseBean = new Course();
 				CourseBean.setIdentifier(rs.getString("Identifier"));
@@ -54,6 +61,7 @@ public class CourseManager {
 				CourseBean.setNumberOfAssignments(rs.getInt("NumberOfAssignments"));
 				CourseBean.setPrerequisites(rs.getString("Prerequisite"));
 				CourseBean.setInstructorID(rs.getInt("InstructorID"));
+                                LOGGER.config("Object CourseBean is equal to :"+CourseBean);
 				return CourseBean;
 			} else {
 				return null;
@@ -61,6 +69,7 @@ public class CourseManager {
 
 		} catch (SQLException e) {
 			System.err.println(e);
+                         LOGGER.log(Level.SEVERE, "Exception occur", e);
 			return null;
 		} finally {
 			if (rs != null) {
@@ -70,11 +79,14 @@ public class CourseManager {
 	}
 
 	public static boolean insert(Course CourseBean) throws Exception {
+            LOGGER.info("Logger Name: "+LOGGER.getName());
+            LOGGER.info("Method insert()");
 
 		String sql = "INSERT into Course" + " (Identifier, Name, ID, Section, Days, "
 				+ "OfficeHours, Building, Room,Credits," + "NumberOfAssignments, Prerequisite, InstructorID) "
 				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?)";
 		ResultSet keys = null;
+                LOGGER.warning("Creating the connection to the database");
 		try (Connection conn = DBUtil.getConnection(DBType.MYSQL);
 				PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
 
@@ -90,7 +102,7 @@ public class CourseManager {
 			stmt.setInt(10, CourseBean.getNumberOfAssignments());
 			stmt.setString(11, CourseBean.getPrerequisites());
 			stmt.setInt(12, CourseBean.getInstructorID());
-
+                         LOGGER.config("Object CourseBean is equal to :"+CourseBean);
 			int affected = stmt.executeUpdate();
 
 			if (affected == 1) {
@@ -99,11 +111,13 @@ public class CourseManager {
 				int newKey = keys.getInt(1);
 				CourseBean.setCourseID(newKey);
 			} else {
+                                LOGGER.log(Level.SEVERE, "Exception occur", stmt.getGeneratedKeys() );
 				System.err.println("No rows affected");
 				return false;
 			}
 
 		} catch (SQLException e) {
+                        LOGGER.log(Level.SEVERE, "Exception occur", e );
 			System.err.println(e);
 			return false;
 		} finally {
@@ -147,6 +161,8 @@ public class CourseManager {
 	}
 
 	public static List<Course> getCoursesForPerson(Person person) throws SQLException, ClassNotFoundException {
+                LOGGER.info("Logger Name: "+LOGGER.getName());
+                LOGGER.info("Method getCoursesForPerson()");
 		List<Course> courses = new ArrayList<Course>();
 		String sql;
 		switch (person.getAccessLevel()) {
@@ -168,9 +184,9 @@ public class CourseManager {
 			return courses;
 		}
 		ResultSet rs = null;
-
-		try (Connection conn = DBUtil.getConnection(DBType.MYSQL);) {
-			try (PreparedStatement stmt = conn.prepareStatement(sql);) {
+                LOGGER.warning("Creating the connection to the database");
+		try (Connection conn = DBUtil.getConnection(DBType.MYSQL);
+			PreparedStatement stmt = conn.prepareStatement(sql);) {
 				stmt.setInt(1, person.getID()); // set Person ID
 				rs = stmt.executeQuery();
 				while (rs.next()) {
@@ -188,14 +204,22 @@ public class CourseManager {
 					courseBean.setPrerequisites(rs.getString("Prerequisite"));
 					courseBean.setInstructorID(rs.getInt("InstructorID"));
 					courses.add(courseBean);
+                                        LOGGER.config("List of courses is euqal to :"+courses);
 				}
-			}
+			}catch(SQLException e) {
+                        LOGGER.log(Level.SEVERE, "Exception occur", e );
+			System.err.println(e);
+			
 		}
-		return courses;
-	}
+                return courses;
+		}
+		
+	
 
 	public static Course getCoursesByIDForPerson(int classID, Person person) throws SQLException, ClassNotFoundException {
-		String sql;
+            LOGGER.info("Logger Name: "+LOGGER.getName());
+            LOGGER.info("Method getCoursesByIDForPerson()"+classID+ " " + person);
+                String sql;
 		switch (person.getAccessLevel()) {
 		case 1:
 			sql = "select Course.* from Course, StudentEnrollment "
@@ -217,8 +241,9 @@ public class CourseManager {
 		ResultSet rs = null;
 
 		Course courseBean = null;
-		try (Connection conn = DBUtil.getConnection(DBType.MYSQL);) {
-			try (PreparedStatement stmt = conn.prepareStatement(sql);) {
+                LOGGER.warning("Creating the connection to the database");
+		try (Connection conn = DBUtil.getConnection(DBType.MYSQL);
+			PreparedStatement stmt = conn.prepareStatement(sql);) {
 				stmt.setInt(1, classID); // set ClassID
 				stmt.setInt(2, person.getID()); // set Person ID
 				rs = stmt.executeQuery();
@@ -236,9 +261,14 @@ public class CourseManager {
 					courseBean.setNumberOfAssignments(rs.getInt("NumberOfAssignments"));
 					courseBean.setPrerequisites(rs.getString("Prerequisite"));
 					courseBean.setInstructorID(rs.getInt("InstructorID"));
+                                        LOGGER.config("Object CourseBean is equal to :"+courseBean);
 				}
-			}
+			}catch(SQLException e) {
+                        LOGGER.log(Level.SEVERE, "Exception occur", e );
+			System.err.println(e);
+			
 		}
+		
 		return courseBean;
 	}
 }
