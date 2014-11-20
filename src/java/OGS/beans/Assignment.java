@@ -1,6 +1,7 @@
 package OGS.beans;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 /**
  *
@@ -15,7 +16,7 @@ public class Assignment implements Serializable {
 
     private String name;
     private String specification;
-    private String dueDate;
+    private Date dueDate;
     private String instructions;
     private String path;
     private int courseID;
@@ -57,23 +58,14 @@ public class Assignment implements Serializable {
         this.specification = specification;
     }
 
-    /**
-     *
-     * @return assignment's due date
-     */
-    public String getDueDate() {
+    public Date getDueDate() {
         return dueDate;
     }
 
-    /**
-     * sets assignment's due date into variable dueDate
-     *
-     * @param dueDate
-     */
-    public void setDueDate(String dueDate) {
+    public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
     }
-
+    
     /**
      *
      * @return assignment's instructions
