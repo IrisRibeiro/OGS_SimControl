@@ -13,11 +13,13 @@ package OGS.GeneralClasses;
 import OGS.beans.Person;
 import OGS.tables.PersonManager;
 import java.io.File;
+import java.net.URL;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 public class Login {
     
@@ -25,6 +27,17 @@ public class Login {
     
     
     public static Person VerifyLogin(String Password, String UserName)throws Exception{
+        File f = new File("c:/SimControl/Logging/");
+        if(!f.exists()){
+            f.mkdirs();
+            
+        }
+        FileHandler fh;
+        fh = new FileHandler(f.getPath() + "\\Login_Log.log");
+        LOGGER.addHandler(fh);
+        SimpleFormatter formatter = new SimpleFormatter();  
+        fh.setFormatter(formatter);
+        
         LOGGER.info("Logger Name: " + LOGGER.getName());
         EncryptDecrypt _encryptdecrypt = new EncryptDecrypt();
         PersonManager _personmanager = new PersonManager();
@@ -45,6 +58,7 @@ public class Login {
         
         String DbPassword = _person.getPassword();
         String newencrypted = _encryptdecrypt.encrypt(Password, keyFile);
+        
         if (newencrypted.equals(DbPassword)){
             return _person;
         }        

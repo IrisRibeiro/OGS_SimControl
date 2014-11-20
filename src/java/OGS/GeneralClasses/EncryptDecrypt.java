@@ -5,11 +5,14 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.util.Base64;
 import java.util.Scanner;
+import java.util.logging.FileHandler;
+import java.util.logging.SimpleFormatter;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import sun.misc.BASE64Encoder;
+import java.util.logging.Logger;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -26,15 +29,28 @@ import sun.misc.BASE64Encoder;
  */
 public class EncryptDecrypt {
 
+    private static final Logger LOGGER = Logger.getLogger(Login.class.getName());
     private static SecretKey key = null;
     private static Cipher cipher = null;
 
     public static String encrypt(String Password, File keyFile)
             throws Exception {
-
+        File f = new File("c:/SimControl/Logging/");
+        if(!f.exists()){
+            f.mkdirs();
+            
+        }
+        FileHandler fh;
+        fh = new FileHandler(f.getPath() + "\\Encrypt_Log.log");
+        LOGGER.addHandler(fh);
+        SimpleFormatter formatter = new SimpleFormatter();  
+        fh.setFormatter(formatter);
+        
+        LOGGER.info("Logger Name: " + LOGGER.getName());
         String plainData = Password, cipherText, decryptedText;
-
+        LOGGER.info("Encrypt Password");
         if (!keyFile.exists()) {
+            LOGGER.warning("Create File, does not exist");
             KeyGenerator keyGen = KeyGenerator.getInstance("AES");
             keyGen.init(128);
             SecretKey secretKey = keyGen.generateKey();

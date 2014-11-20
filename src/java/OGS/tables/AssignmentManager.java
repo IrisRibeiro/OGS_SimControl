@@ -13,9 +13,12 @@ import java.sql.Statement;
 import OGS.beans.Assignment;
 import OGS.dbaccess.DBType;
 import OGS.dbaccess.DBUtil;
+import java.io.File;
 import java.io.IOException;
+import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 /**
  *
@@ -33,7 +36,18 @@ public class AssignmentManager {
      * @returns the Assignment object
      * @throws SQLException
      */
-    public static Assignment getRow(int ID) throws SQLException, ClassNotFoundException {
+    public static Assignment getRow(int ID) throws SQLException, ClassNotFoundException, IOException {
+        File f = new File("c:/SimControl/Logging/");
+        if(!f.exists()){
+            f.mkdirs();
+            
+        }
+        FileHandler fh;
+        fh = new FileHandler(f.getPath() + "\\Assignment_Log.log");
+        LOGGER.addHandler(fh);
+        SimpleFormatter formatter = new SimpleFormatter();  
+        fh.setFormatter(formatter);
+        
         LOGGER.info("Logger Name: " + LOGGER.getName());
         LOGGER.info("Method getRow()");
 
@@ -74,7 +88,18 @@ public class AssignmentManager {
 
     }
 
-    public static String getAssignmentNumber() throws SQLException, ClassNotFoundException {
+    public static String getAssignmentNumber() throws SQLException, ClassNotFoundException, IOException {
+        File f = new File("c:/SimControl/Logging/");
+        if(!f.exists()){
+            f.mkdirs();
+            
+        }
+        FileHandler fh;
+        fh = new FileHandler(f.getPath() + "\\Assignment_Log.log");
+        LOGGER.addHandler(fh);
+        SimpleFormatter formatter = new SimpleFormatter();  
+        fh.setFormatter(formatter);
+        
         LOGGER.info("Logger Name: " + LOGGER.getName());
         LOGGER.info("Method getAssignmentNumber()");
         String sql = "SELECT MAX(ID) FROM Assignment";
@@ -111,6 +136,17 @@ public class AssignmentManager {
      * @throws SqlException
      */
     public static boolean insert(Assignment assignmentBean) throws Exception {
+        File f = new File("c:/SimControl/Logging/");
+        if(!f.exists()){
+            f.mkdirs();
+            
+        }
+        FileHandler fh;
+        fh = new FileHandler(f.getPath() + "\\Assignment_Log.log");
+        LOGGER.addHandler(fh);
+        SimpleFormatter formatter = new SimpleFormatter();  
+        fh.setFormatter(formatter);
+        
         LOGGER.info("Logger Name: " + LOGGER.getName());
         LOGGER.info("Method insert()");
         String sql = "INSERT into assignment"
@@ -166,6 +202,17 @@ public class AssignmentManager {
      * @throws SqlException
      */
     public static boolean update(Assignment assignmentBean) throws Exception {
+        File f = new File("c:/SimControl/Logging/");
+        if(!f.exists()){
+            f.mkdirs();
+            
+        }
+        FileHandler fh;
+        fh = new FileHandler(f.getPath() + "\\Assignment_Log.log");
+        LOGGER.addHandler(fh);
+        SimpleFormatter formatter = new SimpleFormatter();  
+        fh.setFormatter(formatter);
+        
         LOGGER.info("Logger Name: " + LOGGER.getName());
         LOGGER.info("Method update()");
         String sql
