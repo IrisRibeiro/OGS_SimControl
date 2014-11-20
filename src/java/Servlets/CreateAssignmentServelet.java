@@ -15,6 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import OGS.beans.Assignment;
 import OGS.tables.AssignmentManager;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
@@ -88,11 +91,22 @@ public class CreateAssignmentServelet extends HttpServlet {
        String name=request.getParameter("assignName");
        assign.setName(name);
        String dueDate=request.getParameter("dDate");
-       assign.setDueDate(dueDate);
+       
+       DateFormat formatter = new SimpleDateFormat("dd-MM");
+       java.util.Date date = null;
+        try {
+            date = formatter.parse(dueDate);
+        } catch (ParseException ex) {
+            Logger.getLogger(CreateAssignmentServelet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
+       java.util.Date utilDate = new java.util.Date();//date;
+       java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+       assign.setDueDate(sqlDate);
        String specs=request.getParameter("specs");
        assign.setSpecification(specs);
        String instructions=request.getParameter("instrucstions");
-       assign.setSpecification(instructions);
+       assign.setInstructions(instructions);
        int points=Integer.parseInt(request.getParameter("points"));
        assign.setPointsPossible(points);
         boolean check=false;

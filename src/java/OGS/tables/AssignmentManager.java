@@ -49,7 +49,7 @@ public class AssignmentManager {
                 Assignment assignmentBean = new Assignment();
                 assignmentBean.setName(rs.getString("Name"));
                 assignmentBean.setSpecification(rs.getString("Specification"));
-                assignmentBean.setDueDate(rs.getString("DueDate"));
+                assignmentBean.setDueDate(rs.getDate("DueDate"));
                 assignmentBean.setInstructions(rs.getString("Instructions"));
                 assignmentBean.setPath(rs.getString("Path"));
                 assignmentBean.setCourseID(rs.getInt("courseID"));
@@ -124,10 +124,12 @@ public class AssignmentManager {
 
             stmt.setString(1, assignmentBean.getName());
             stmt.setString(2, assignmentBean.getSpecification());
-            stmt.setString(3, assignmentBean.getDueDate());
+            stmt.setDate(3, assignmentBean.getDueDate());
             stmt.setString(4, assignmentBean.getInstructions());
-            stmt.setString(5, "TempPath");//assignmentBean.getPath());
-            stmt.setInt(6, 1);//assignmentBean.getCourseID());
+            assignmentBean.setPath("Path");
+            stmt.setString(5, assignmentBean.getPath());
+            assignmentBean.setCourseID(12);
+            stmt.setInt(6, assignmentBean.getCourseID());
             stmt.setInt(7, assignmentBean.getPointsPossible());
             stmt.setInt(8, assignmentBean.getID());
             int affected = stmt.executeUpdate();
@@ -174,7 +176,7 @@ public class AssignmentManager {
 
             stmt.setString(1, assignmentBean.getName());
             stmt.setString(2, assignmentBean.getSpecification());
-            stmt.setString(3, assignmentBean.getDueDate());
+            stmt.setDate(3, assignmentBean.getDueDate());
             stmt.setString(4, assignmentBean.getInstructions());
             stmt.setString(5, assignmentBean.getPath());
             stmt.setInt(6, assignmentBean.getCourseID());
