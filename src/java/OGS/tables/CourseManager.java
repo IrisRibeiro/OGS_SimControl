@@ -35,7 +35,8 @@ public class CourseManager {
 		String sql = "SELECT * FROM Course WHERE ID = ?";
 		ResultSet rs = null;
 
-		try (Connection conn = DBUtil.getConnection(DBType.MYSQL); PreparedStatement stmt = conn.prepareStatement(sql);) {
+		try (Connection conn = DBUtil.getConnection(DBType.MYSQL); 
+                        PreparedStatement stmt = conn.prepareStatement(sql);) {
 			stmt.setInt(1, ID);
 			rs = stmt.executeQuery();
 
@@ -149,18 +150,18 @@ public class CourseManager {
 		List<Course> courses = new ArrayList<Course>();
 		String sql;
 		switch (person.getAccessLevel()) {
-		case 4:
+		case 1:
 			sql = "select Course.* from Course, StudentEnrollment "
 					+ "where Course.ID = StudentEnrollment.CourseID and StudentEnrollment.StudentID = ?";
 			break;
-		case 3:
-			sql = "select Course.* from Couse, TACourse "
+		case 2:
+			sql = "select Course.* from Course, TACourse "
 					+ "where Course.ID = TACourse.CourseID and TACourse.TAID = ?";
 			break;
-		case 2:
-			sql = "select * from course, person " + "where Course.instructorID = ?";
+		case 3:
+			sql = "select * from Course, person " + "where Course.instructorID = ?";
 			break;
-		case 1:
+		case 4:
 			sql = "select Course.* from Course " + "where 1 = 1 or (0 = ?)";
 			break;
 		default:
@@ -191,5 +192,53 @@ public class CourseManager {
 			}
 		}
 		return courses;
+	}
+
+	public static Course getCoursesByIDForPerson(int classID, Person person) throws SQLException, ClassNotFoundException {
+		String sql;
+		switch (person.getAccessLevel()) {
+		case 1:
+			sql = "select Course.* from Course, StudentEnrollment "
+					+ "where Course.ID = StudentEnrollment.CourseID and Course.ID=? and StudentEnrollment.StudentID = ?";
+			break;
+		case 2:
+			sql = "select Course.* from Course, TACourse "
+					+ "where Course.ID = TACourse.CourseID and Course.ID=? and TACourse.TAID = ?";
+			break;
+		case 3:
+			sql = "select * from Course, person " + "where Course.ID=? and Course.instructorID = ?";
+			break;
+		case 4:
+			sql = "select Course.* from Course " + "where Course.ID=? and (1 = 1 or (0 = ?))";
+			break;
+		default:
+			return null;
+		}
+		ResultSet rs = null;
+
+		Course courseBean = null;
+		try (Connection conn = DBUtil.getConnection(DBType.MYSQL);) {
+			try (PreparedStatement stmt = conn.prepareStatement(sql);) {
+				stmt.setInt(1, classID); // set ClassID
+				stmt.setInt(2, person.getID()); // set Person ID
+				rs = stmt.executeQuery();
+				if (rs.next()) {
+					courseBean = new Course();
+					courseBean.setIdentifier(rs.getString("Identifier"));
+					courseBean.setName(rs.getString("Name"));
+					courseBean.setCourseID(rs.getInt("ID"));
+					courseBean.setSection(rs.getString("Section"));
+					courseBean.setDays(rs.getString("Days"));
+					courseBean.setOfficeHours(rs.getString("OfficeHours"));
+					courseBean.setBuilding(rs.getString("Building"));
+					courseBean.setRoom(rs.getString("Room"));
+					courseBean.setCredits(rs.getInt("Credits"));
+					courseBean.setNumberOfAssignments(rs.getInt("NumberOfAssignments"));
+					courseBean.setPrerequisites(rs.getString("Prerequisite"));
+					courseBean.setInstructorID(rs.getInt("InstructorID"));
+				}
+			}
+		}
+		return courseBean;
 	}
 }
