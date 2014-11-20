@@ -5,7 +5,15 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+<%@page import=" OGS.beans.Person, java.util.*"%>
+<%--<%
+	Person person = (Person) session.getAttribute("currentSessionUser");
+	if (person == null) {
+		response.sendRedirect("Login.jsp");
+		return;
+        }
+%>
+--%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,7 +25,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SimControl - Courses </title>
+    <title>SimControl - OGS </title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -201,7 +209,7 @@
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="login.jsp"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li><a href="Logout.jsp"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -227,40 +235,95 @@
                         <li>
                             <a class="active" href="Dashboard.jsp"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
-                        <li>
-                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Manager Panel<span class="fa arrow"></span></a>
+                        <li>                            
                             <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="CreateClass.jsp">Create Class</a>  <!-- /.Modify to link to the page -->
-                                </li>
-                                <li>
-                                    <a href="SearchCourses.jsp">Search Class</a> <!-- /.Modify to link to the page -->
-                                </li>
-                                <li>
-                                    <a href="CreateAssignment.jsp">Create Assignment</a>  <!-- /.Modify to link to the page -->
-                                </li>
-                                <li>
-                                    <a href="SearchAssignment.jsp">Search Assignment</a> <!-- /.Modify to link to the page -->
-                                </li>
+                                <% 
+                                    int acesslevel = 3;//person.getAccessLevel();
+                                    
+                                    if (acesslevel == 1){ // student
+                                %>  
+                                    <li>
+                                        <a href="SearchCourses.jsp">Search Class</a> <!-- /.Modify to link to the page -->
+                                    </li>
+                                    <li>
+                                        <a href="PreviousClasses.jsp">Previous Courses</a>  <!-- /.Modify to link to the page -->
+                                    </li>
+                                    <li>
+                                        <a href="RequestedClasses.jsp">Requested Classes</a> <!-- /.Modify to link to the page -->
+                                    </li>
+                                    <li>
+                                        <a href="enrolledClasses.jsp">Enrolled Classes</a> <!-- /.Modify to link to the page -->
+                                    </li>
+                                    <li>
+                                        <a href="courses.jsp">All Courses</a> <!-- /.Modify to link to the page -->
+                                    </li>
+                                    <li>
+                                        <a href="gradesystem.jsp">Grade system</a> <!-- /.Modify to link to the page -->
+                                    </li>
+                                    
+                                <%    }else if (acesslevel == 2) { // TA %> 
+                                    <li>
+                                        <a href="SearchCourses.jsp">Classes I'm TA</a> <!-- /.Modify to link to the page -->
+                                    </li>
+                                    <li>
+                                        <a href="CreateAssignment.jsp">Create Assignment</a>  <!-- /.Modify to link to the page -->
+                                    </li>
+                                    <li>
+                                        <a href="SearchAssignment.jsp">Search Assignment</a> <!-- /.Modify to link to the page -->
+                                    </li>
+                                    <li>
+                                        <a href="courses.jsp">All Courses</a> <!-- /.Modify to link to the page -->
+                                    </li>
+                                    <li>
+                                        <a href="gradesystem.jsp">Grade system</a> <!-- /.Modify to link to the page -->
+                                    </li>
+                                
+                                <% }else if(acesslevel == 3) {// Professor %>
+                                     <li>
+                                        <a href="SearchCourses.jsp">Classes I'm Teaching</a> <!-- /.Modify to link to the page -->
+                                    </li>
+                                    <li>
+                                        <a href="CreateAssignment.jsp">Create Assignment</a>  <!-- /.Modify to link to the page -->
+                                    </li>
+                                    <li>
+                                        <a href="SearchAssignment.jsp">Search Assignment</a> <!-- /.Modify to link to the page -->
+                                    </li>
+                                    <li>
+                                        <a href="courses.jsp">All Courses</a> <!-- /.Modify to link to the page -->
+                                    </li>
+                                    
+                                
+                                <% }else if(acesslevel == 4) { // Manager %> <!-- / -->
+                                    <li>
+                                        <a href="CreateClass.jsp">Create Course</a>  <!-- /.Modify to link to the page -->
+                                    </li>
+                                    <li>
+                                        <a href="SearchCourses.jsp">Search Class</a> <!-- /.Modify to link to the page -->
+                                    </li>
+                                    <li>
+                                        <a href="CreateAssignment.jsp">Create Assignment</a>  <!-- /.Modify to link to the page -->
+                                    </li>
+                                    <li>
+                                        <a href="SearchAssignment.jsp">Search Assignment</a> <!-- /.Modify to link to the page -->
+                                    </li>
+                                    <li>
+                                        <a href="PreviousClasses.jsp">Previous Courses</a>  <!-- /.Modify to link to the page -->
+                                    </li>
+                                    <li>
+                                        <a href="RequestedClasses.jsp">Requested Classes</a> <!-- /.Modify to link to the page -->
+                                    </li>
+                                    <li>
+                                        <a href="enrolledClasses.jsp">Enrolled Classes</a> <!-- /.Modify to link to the page -->
+                                    </li>
+                                    <li>
+                                        <a href="courses.jsp">All Courses</a> <!-- /.Modify to link to the page -->
+                                    </li>
+                                    <li>
+                                        <a href="gradesystem.jsp">Grade system</a> <!-- /.Modify to link to the page -->
+                                    </li>
+                                <% } %>                                
                             </ul>
                             <!-- /.nav-second-level -->
-                        </li>
-                        <li>
-							<a href="courses.jsp"><i class="fa fa-files-o fa-fw"></i> Courses <span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="PreviousClasses.jsp">Previous Courses</a>  <!-- /.Modify to link to the page -->
-                                </li>
-                                <li>
-                                    <a href="RequestedClasses.jsp">Requested Classes</a> <!-- /.Modify to link to the page -->
-                                </li>
-								 <li>
-                                    <a href="enrolledClasses.jsp">Enrolled Classes</a> <!-- /.Modify to link to the page -->
-                                </li>
-								<li>
-                                    <a href="courses.jsp">All Courses</a> <!-- /.Modify to link to the page -->
-                                </li>
-                            </ul>
                         </li>
                     </ul>
                 </div>
@@ -281,14 +344,7 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
-
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="js/plugins/metisMenu/metisMenu.min.js"></script>
-
-    <!-- DataTables JavaScript -->
-    <script src="js/plugins/dataTables/jquery.dataTables.js"></script>
-    <script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
-
+    
     <!-- Custom Theme JavaScript -->
     <script src="js/sb-admin-2.js"></script>
 

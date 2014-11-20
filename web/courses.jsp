@@ -5,6 +5,14 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import=" OGS.beans.Person, java.util.*"%>
+<%
+	Person person = (Person) session.getAttribute("currentSessionUser");
+	if (person == null) {
+		response.sendRedirect("Login.jsp");
+		return;
+        }
+%>
 <!DOCTYPE html>
 <html lang="en">
 <jsp:include page="DefaultLayout.jsp" flush="true"/>

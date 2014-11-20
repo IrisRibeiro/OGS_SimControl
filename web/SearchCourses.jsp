@@ -1,5 +1,5 @@
 <%-- 
-    Document   : Search Courses
+    Document   : SearchCourses
     Created on : Oct 29, 2014, 5:18:29 PM
     Author     : Iris
 --%>
@@ -7,17 +7,23 @@
 <%@page language="java" contentType="text/html;charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="OGS.tables.*,OGS.beans.*, java.util.*"%>
-<%
-	Person person = (Person) session.getAttribute("currentSessionUser");
-	if (person == null) {
-		response.sendRedirect("Login.jsp");
-		return;
-	}
-	List<Course> courses = CourseManager.getCoursesForPerson(person);
-%>
 <!DOCTYPE html>
 <html lang="en">
 <jsp:include page="DefaultLayout.jsp" flush="true" />
+<%
+	Person person = (Person) session.getAttribute("currentSessionUser");
+	if (person == null) {
+%>
+<script type="text/javascript">
+	alert("Please Login first...");
+	location.href = "Login.jsp";
+</script>
+<%
+		return;
+	}
+	List<Course> courses = CourseManager.getCoursesForPerson(person);
+	//List<Course> courses = new ArrayList<>();
+%>
 <body>
 
 	<div id="page-wrapper">
@@ -31,12 +37,12 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="panel panel-default">
-					<div class="panel-heading">Search For Courses</div>
+					<div class="panel-heading">Search For Classes</div>
 					<!-- /.panel-heading -->
 					<div class="panel-body">
 						<div class="table-responsive">
 							<table class="table table-striped table-bordered table-hover"
-								id="dataTables-example">
+								id="dataTables-classes">
 								<thead>
 									<tr>
 										<th>Select</th>
@@ -53,6 +59,7 @@
 									<tr class="gradeA">
 										<td>
 											<div class="checkbox">
+												<input type="hidden" value="<%=course.getCourseID()%>"></input>
 												<label> <input type="checkbox" value=""></label>
 											</div>
 										</td>
@@ -68,8 +75,8 @@
 							</table>
 						</div>
 						<p>
-							<a href="ViewClass.jsp"><button type="button"
-									class="btn btn-outline btn-default">View Class</button></a>
+							<button type="button" id="viewClassButton"
+								class="btn btn-outline btn-default">View Class</button>
 							<button type="button" class="btn btn-outline btn-default">Edit</button>
 							<button type="button" class="btn btn-outline btn-default">Grade
 								Center</button>
@@ -90,10 +97,27 @@
 	<!-- /.row -->
 	<!-- 	</div>
 	/#page-wrapper
-
 	</div>
 	/#wrapper -->
+	<script type="text/javascript">
+		$(function() {
+			$("#viewClassButton")
+					.click(
+                        function() {
+                                var checked = $("#dataTables-classes").find(
+                                                "div.checkbox").find(":checked");
+                                if (checked.size() != 1) {
+                                        alert("One and ONLY one course should be checked...");
+                                } else {
+                                        var classID = checked.parents(
+                                                        "div.checkbox").find(
+                                                        "input[type='hidden']").val();
+                                        location.href = "ViewClass.jsp?classID="
+                                                        + classID;
+                                }
+                        });
+		});
+	</script>
 </body>
-
 </html>
 
