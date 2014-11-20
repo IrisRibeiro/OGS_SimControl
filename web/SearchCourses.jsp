@@ -3,13 +3,14 @@
     Created on : Oct 29, 2014, 5:18:29 PM
     Author     : Iris
 --%>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <jsp:include page="DefaultLayout.jsp" flush="true"/>
+    
 <%@page language="java" contentType="text/html;charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="OGS.tables.*,OGS.beans.*, java.util.*"%>
-<!DOCTYPE html>
-<html lang="en">
-<jsp:include page="DefaultLayout.jsp" flush="true" />
 <%
 	Person person = (Person) session.getAttribute("currentSessionUser");
 	if (person == null) {
