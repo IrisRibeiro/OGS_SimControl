@@ -14,6 +14,10 @@ import javax.crypto.spec.SecretKeySpec;
 import sun.misc.BASE64Encoder;
 import java.util.logging.Logger;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.FileHandler;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -32,28 +36,27 @@ public class EncryptDecrypt {
     private static final Logger LOGGER = Logger.getLogger(Login.class.getName());
     private static SecretKey key = null;
     private static Cipher cipher = null;
+    
+    private static final Logger LOGGER = Logger.getLogger(EncryptDecrypt.class.getName());
+    
+    
+    
 
     public static String encrypt(String Password, File keyFile)
             throws Exception {
-        File f = new File("c:/SimControl/Logging/");
-        if(!f.exists()){
-            f.mkdirs();
-            
-        }
-        FileHandler fh;
-        fh = new FileHandler(f.getPath() + "\\Encrypt_Log.log");
-        LOGGER.addHandler(fh);
-        SimpleFormatter formatter = new SimpleFormatter();  
-        fh.setFormatter(formatter);
+        FileHandler fh ;
+        fh = new FileHandler("C:/temp/test/MyLogFile.log");
         
         LOGGER.info("Logger Name: " + LOGGER.getName());
+        LOGGER.info("Method encrypt()" + Password + " "+ keyFile);
         String plainData = Password, cipherText, decryptedText;
-        LOGGER.info("Encrypt Password");
+
         if (!keyFile.exists()) {
             LOGGER.warning("Create File, does not exist");
             KeyGenerator keyGen = KeyGenerator.getInstance("AES");
             keyGen.init(128);
             SecretKey secretKey = keyGen.generateKey();
+            LOGGER.warning("SecreteKey generated");
             try (FileWriter fw = new FileWriter(keyFile)) {
                 fw.write(byteArrayToHexString(secretKey.getEncoded()));
                 fw.flush();

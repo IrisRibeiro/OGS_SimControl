@@ -14,11 +14,16 @@ import OGS.beans.Professor;
 import OGS.dbaccess.DBType;
 import OGS.dbaccess.DBUtil;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Eric
  */
 public class ProfessorManager {
+    private static final Logger LOGGER = Logger.getLogger(ProfessorManager.class.getName());
     /**
      @param takes the ID of the row
      * This method connects to the database and then it gets the row which ID was referenced to and then 
@@ -27,16 +32,18 @@ public class ProfessorManager {
      * @throws SQLException 
      */
     public static Professor getRow(int ID) throws SQLException, ClassNotFoundException {
+         LOGGER.info("Logger Name: "+LOGGER.getName());
+        LOGGER.info("Method getRow()" + ID);
 
         String sql = "SELECT * FROM Professor WHERE ID = ?";
         ResultSet rs = null;
-
+         LOGGER.warning("Creating the connection to the database");
         try (
                 Connection conn = DBUtil.getConnection(DBType.MYSQL);
                 PreparedStatement stmt = conn.prepareStatement(sql);) {
             stmt.setInt(1, ID);
             rs = stmt.executeQuery();
-
+            LOGGER.warning("Finish executing query");
             if (rs.next()) {
                 Professor professorBean = new Professor();
                 professorBean.setName(rs.getString("name"));
@@ -45,12 +52,14 @@ public class ProfessorManager {
                 professorBean.setPassword(rs.getString("password"));
                 professorBean.setEmailAddress(rs.getString("EmailAddress"));
                 professorBean.setAccessLevel(rs.getInt("AccessLevel"));
+                LOGGER.config("Object Professor bean is equal to :"+professorBean);
                 return professorBean;
             } else {
                 return null;
             }
 
         } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Exception occur", e);
             System.err.println(e);
             return null;
         } finally {
@@ -69,20 +78,23 @@ public class ProfessorManager {
      * @throws SqlException  
      */
     public static boolean insert(Professor professorBean) throws Exception {
-
+        LOGGER.info("Logger Name: "+LOGGER.getName());
+        LOGGER.info("Method insert()" + professorBean);
         String sql = "INSERT into Professor"
                 + " (name, userName, password, EmailAddress, AccessLevel) "
                 + "VALUES (?, ?, ?, ?, ?)";
         ResultSet keys = null;
+        LOGGER.warning("Creating the connection to the database");
         try (
                 Connection conn = DBUtil.getConnection(DBType.MYSQL);
                 PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
-
+             LOGGER.warning("Finish executing query");
             stmt.setString(1, professorBean.getName());
             stmt.setString(2, professorBean.getUserName());
             stmt.setString(3, professorBean.getPassword());
             stmt.setString(4, professorBean.getEmailAddress());
             stmt.setInt(5, professorBean.getAccessLevel());
+            LOGGER.config("Object Professor bean is equal to :"+ stmt);
             int affected = stmt.executeUpdate();
 
             if (affected == 1) {
@@ -96,6 +108,7 @@ public class ProfessorManager {
             }
 
         } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Exception occur", e);
             System.err.println(e);
             return false;
         } finally {
@@ -113,23 +126,25 @@ public class ProfessorManager {
      * @throws SqlException 
      */
     public static boolean update(Professor professorBean) throws Exception {
-
+        LOGGER.info("Logger Name: "+LOGGER.getName());
+        LOGGER.info("Method update()" + professorBean);
         
         String sql
                 = "UPDATE Professor SET " + "name = ?, "
                 + "userName = ?, password = ?, " + "EmailAddress = ?,"
                 + "accessLevel = ? WHERE ID = ?";
+        LOGGER.warning("Creating the connection to the database");
         try (
                 Connection conn = DBUtil.getConnection(DBType.MYSQL);
                 PreparedStatement stmt = conn.prepareStatement(sql);) {
-
+            LOGGER.warning("Finish executing query");
             stmt.setString(1, professorBean.getName());
             stmt.setString(2, professorBean.getUserName());
             stmt.setString(3, professorBean.getPassword());
             stmt.setString(4, professorBean.getEmailAddress());
             stmt.setInt(5, professorBean.getAccessLevel());
             stmt.setInt(6, professorBean.getID());
-
+            LOGGER.config("Object Professor bean is equal to :"+ stmt);
             int affected = stmt.executeUpdate();
             if (affected == 1) {
                 return true;
@@ -138,6 +153,7 @@ public class ProfessorManager {
             }
 
         } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Exception occur", e);
             System.err.println(e);
             return false;
         }
