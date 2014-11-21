@@ -40,7 +40,7 @@ public class CourseManager {
     /**
      * Check Meets Prereqs methods
      */
-    public static Course getRow(int ID) throws SQLException, ClassNotFoundException, IOException {
+    public static Course getRow(String ID) throws SQLException, ClassNotFoundException, IOException {
         File f = new File("c:/SimControl/Logging/");
         if(!f.exists()){
             f.mkdirs();
@@ -60,7 +60,7 @@ public class CourseManager {
         LOGGER.warning("Creating the connection to the database");
         try (Connection conn = DBUtil.getConnection(DBType.MYSQL);
                 PreparedStatement stmt = conn.prepareStatement(sql);) {
-            stmt.setInt(1, ID);
+            stmt.setString(1, ID);
             rs = stmt.executeQuery();
             LOGGER.warning("Finish executing query");
             if (rs.next()) {
@@ -119,7 +119,7 @@ public class CourseManager {
 
             stmt.setString(1, CourseBean.getIdentifier());
             stmt.setString(2, CourseBean.getName());
-            stmt.setInt(3, CourseBean.getCourseID());
+            stmt.setString(3, CourseBean.getCourseID());
             stmt.setString(4, CourseBean.getSection());
             stmt.setString(5, CourseBean.getDays());
             stmt.setString(6, CourseBean.getOfficeHours());
@@ -135,7 +135,7 @@ public class CourseManager {
             if (affected == 1) {
                 keys = stmt.getGeneratedKeys();
                 keys.next();
-                int newKey = keys.getInt(1);
+                String newKey = keys.getString(1);
                 CourseBean.setCourseID(newKey);
             } else {
                 LOGGER.log(Level.SEVERE, "Exception occur", stmt.getGeneratedKeys());
@@ -231,7 +231,7 @@ public class CourseManager {
                 Course courseBean = new Course();
                 courseBean.setIdentifier(rs.getString("Identifier"));
                 courseBean.setName(rs.getString("Name"));
-                courseBean.setCourseID(rs.getInt("ID"));
+                courseBean.setCourseID(rs.getString("ID"));
                 courseBean.setSection(rs.getString("Section"));
                 courseBean.setDays(rs.getString("Days"));
                 courseBean.setOfficeHours(rs.getString("OfficeHours"));
@@ -298,7 +298,7 @@ public class CourseManager {
                 courseBean = new Course();
                 courseBean.setIdentifier(rs.getString("Identifier"));
                 courseBean.setName(rs.getString("Name"));
-                courseBean.setCourseID(rs.getInt("ID"));
+                courseBean.setCourseID(rs.getString("ID"));
                 courseBean.setSection(rs.getString("Section"));
                 courseBean.setDays(rs.getString("Days"));
                 courseBean.setOfficeHours(rs.getString("OfficeHours"));

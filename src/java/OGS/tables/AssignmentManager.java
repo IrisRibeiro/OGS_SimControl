@@ -66,7 +66,7 @@ public class AssignmentManager {
                 assignmentBean.setDueDate(rs.getDate("DueDate"));
                 assignmentBean.setInstructions(rs.getString("Instructions"));
                 assignmentBean.setPath(rs.getString("Path"));
-                assignmentBean.setCourseID(rs.getInt("courseID"));
+                assignmentBean.setCourseID(rs.getString("courseID"));
                 assignmentBean.setPointsPossible(rs.getInt("PointsPossible"));
                 assignmentBean.setID(ID);
                 LOGGER.config("Object AssignmentBeans is :" + assignmentBean);
@@ -104,13 +104,14 @@ public class AssignmentManager {
         LOGGER.info("Method getAssignmentNumber()");
         String sql = "SELECT MAX(ID) FROM Assignment";
         ResultSet rs = null;
+        String returnId = "";
         LOGGER.warning("Creating the connection to the database");
         try (
                 Connection conn = DBUtil.getConnection(DBType.MYSQL);
                 PreparedStatement stmt = conn.prepareStatement(sql);) {
-            rs = stmt.executeQuery();
+                rs = stmt.executeQuery();
             if (rs.next()) {
-
+                returnId = rs.getString("ID");   
             }
             LOGGER.config("Object rs is :" + rs);
 
@@ -123,7 +124,7 @@ public class AssignmentManager {
             }
         }
 
-        return "1";
+        return returnId ;
     }
 
     /**
@@ -151,8 +152,8 @@ public class AssignmentManager {
         LOGGER.info("Method insert()");
         String sql = "INSERT into assignment"
                 + " (name, specification, dueDate, instructions, path, "
-                + "courseID, pointsPossible, ID) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                + "courseID, pointsPossible, ID, number) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         ResultSet keys = null;
         LOGGER.warning("Creating the connection to the database");
         try (
@@ -162,14 +163,15 @@ public class AssignmentManager {
             stmt.setString(1, assignmentBean.getName());
             stmt.setString(2, assignmentBean.getSpecification());
             stmt.setDate(3, assignmentBean.getDueDate());
-            stmt.setString(4, assignmentBean.getInstructions());
-            assignmentBean.setPath("Path");
-            stmt.setString(5, assignmentBean.getPath());
-            assignmentBean.setCourseID(12);
-            stmt.setInt(6, assignmentBean.getCourseID());
+            stmt.setString(4, assignmentBean.getInstructions());         
+            stmt.setString(5, assignmentBean.getPath());           
+            stmt.setString(6, assignmentBean.getCourseID());
             stmt.setInt(7, assignmentBean.getPointsPossible());
             stmt.setInt(8, assignmentBean.getID());
+            stmt.setInt(9,assignmentBean.getNumber());            
             int affected = stmt.executeUpdate();
+            conn.commit();
+            
             LOGGER.warning("Finish executing query");
             if (affected == 1) {
                 keys = stmt.getGeneratedKeys();
@@ -229,7 +231,7 @@ public class AssignmentManager {
             stmt.setDate(3, assignmentBean.getDueDate());
             stmt.setString(4, assignmentBean.getInstructions());
             stmt.setString(5, assignmentBean.getPath());
-            stmt.setInt(6, assignmentBean.getCourseID());
+            stmt.setString(6, assignmentBean.getCourseID());
             stmt.setInt(7, assignmentBean.getPointsPossible());
             stmt.setInt(8, assignmentBean.getID());
             LOGGER.config("Object AssignmentBeans is :" + assignmentBean);

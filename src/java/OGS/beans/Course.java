@@ -18,7 +18,7 @@ public class Course implements Serializable {
     private String term;
     private String prerequisites;
     private String section;
-    private int ID;
+    private String ID;
     private int instructorID;    
     private int credits;
     private int numberOfAssignments;
@@ -163,7 +163,7 @@ public class Course implements Serializable {
      *
      * @return course's ID
      */
-    public int getCourseID() {
+    public String getCourseID() {
         return ID;
     }
 
@@ -172,7 +172,7 @@ public class Course implements Serializable {
      *
      * @param ID
      */
-    public void setCourseID(int ID) {
+    public void setCourseID(String ID) {
         this.ID = ID;
     }
 

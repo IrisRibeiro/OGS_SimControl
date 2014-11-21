@@ -18,9 +18,10 @@ public class Assignment implements Serializable {
     private Date dueDate;
     private String instructions;
     private String path;
-    private int courseID;
+    private String courseID;
     private int pointsPossible;
     private int ID;
+    private int number;
     
 
     /**
@@ -30,12 +31,23 @@ public class Assignment implements Serializable {
     public String getName() {
         return name;
     }
+    
+    public int getNumber(){
+        return number;
+    }
+    
+    
 
     /**
      * sets assignment's name into variable name
      *
      * @param name
      */
+    
+    public void setNumber(int number){
+        this.number = number;
+    }
+    
     public void setName(String name) {
         this.name = name;
     }
@@ -112,7 +124,7 @@ public class Assignment implements Serializable {
      *
      * @return assignment's course ID
      */
-    public int getCourseID() {
+    public String getCourseID() {
         return courseID;
     }
 
@@ -121,7 +133,7 @@ public class Assignment implements Serializable {
      *
      * @param courseID
      */
-    public void setCourseID(int courseID) {
+    public void setCourseID(String courseID) {
         this.courseID = courseID;
     }
 

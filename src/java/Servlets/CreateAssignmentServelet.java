@@ -18,6 +18,8 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
@@ -77,31 +79,40 @@ public class CreateAssignmentServelet extends HttpServlet {
         }
         if (newId != null) {
             idValue = Integer.parseInt(newId);
-        } else {
-            idValue = 1;
         }
 
-        assign.setID(idValue);
-        String name = request.getParameter("assignName");
-        assign.setName(name);
+        
+        String name = request.getParameter("assignName");       
         String dueDate = request.getParameter("dDate");
-
         DateFormat formatter = new SimpleDateFormat("dd-MM");
         java.util.Date date = null;
+        
         try {
             date = formatter.parse(dueDate);
         } catch (ParseException ex) {
             Logger.getLogger(CreateAssignmentServelet.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
         java.util.Date utilDate = new java.util.Date();//date;
-        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-        assign.setDueDate(sqlDate);
-        String specs = request.getParameter("specs");
-        assign.setSpecification(specs);
-        String instructions = request.getParameter("instrucstions");
-        assign.setInstructions(instructions);
+        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());        
+        String specs = request.getParameter("specs");        
+        String instructions = request.getParameter("instrucstions"); 
+        String courseID = request.getParameter("courseID");
+        int assignmentnum = Integer.parseInt(request.getParameter("assignNum"));
         int points = Integer.parseInt(request.getParameter("points"));
+       
+        
+        assign.setID(idValue);
+        assign.setName(name);
+        assign.setDueDate(sqlDate);
+        assign.setSpecification(specs);
+        assign.setInstructions(instructions);
         assign.setPointsPossible(points);
+        assign.setCourseID(courseID);
+        assign.setNumber(assignmentnum);
+        assign.setPath("default");
+        
+        
         boolean check = false;
         try {
             check = man.insert(assign);
