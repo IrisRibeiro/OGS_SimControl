@@ -1,11 +1,14 @@
 <%@page import="OGS.beans.Assignment"%>
-<%@page import=" OGS.beans.Person, java.util.*"%>
+<%@page import=" OGS.beans.Person, OGS.beans.Course, java.util.*"%>
 <%
 	Person person = (Person) session.getAttribute("currentSessionUser");
 	if (person == null) {
 		response.sendRedirect("Login.jsp");
 		return;
         }
+        
+        Course currentcourse = (Course) session.getAttribute("currentSessionCourse");        
+        String courseID = currentcourse.getCourseID();
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -58,6 +61,8 @@
 											<label>Point Possible</label>
 												<input class="form-control" name="points" type="text">
 										</div>
+                                    
+                                                                                 <input type="hidden" name="courseID" value="<%=courseID%>"/>
 										
 										<div class="form-group">
                                             <label>Import Students</label>
@@ -83,30 +88,15 @@
 		window.location.href = "Dashboard.jsp"
 	}
 	</script>
-	
-	<script>
-		function resetT(){
-			document.getElementByName('tname').value = '';
-			document.getElementByName('tidentifier').value = '';			
-			document.getElementByName('tcredits').value = '';
-			document.getElementByName('tbuilding').value = '';
-			document.getElementByName('twebpage').value = '';
-			document.getElementByName('tprerequisite ').value = '';
-			document.getElementByName('tdatetime').value = '';
-			document.getElementByName('tinstructorId ').value = '';
-			document.getElementByName('tinstructorname ').value = '';
-			document.getElementByName('tinstructoremial ').value = '';
-		}
-	</script>
         
- <!--<%
+<%
      
      Assignment assign = new Assignment();
     assign.setName(request.getParameter("assigNum"));
     System.out.println("This is the nuame"+assign.getName());
      
     
-%>-->
+%>
 
 </body>
 
