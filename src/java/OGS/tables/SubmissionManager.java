@@ -21,7 +21,7 @@ public class SubmissionManager {
      * @returns the Professor object 
      * @throws SQLException  
      */
-    public static Submission getRow(int studentID, int assignmentID) throws SQLException, ClassNotFoundException {
+    public static Submission getRow(String studentID, String assignmentID) throws SQLException, ClassNotFoundException {
 
         String sql = "SELECT * FROM Submissions WHERE studentID = ? AND "
                 + "assignmentID = ?";
@@ -31,16 +31,16 @@ public class SubmissionManager {
                 Connection conn = DBUtil.getConnection(DBType.MYSQL);
                 PreparedStatement stmt = conn.prepareStatement(sql);) {
             
-            stmt.setInt(1, studentID);
-            stmt.setInt(2, assignmentID);
+            stmt.setString(1, studentID);
+            stmt.setString(2, assignmentID);
             rs = stmt.executeQuery();
 
             if (rs.next()) {
                 Submission submissionBean = new Submission();
                 submissionBean.setStudentID(studentID);
                 submissionBean.setAssignmentID(assignmentID);
-                submissionBean.setGraderID(rs.getInt("graderID"));
-                submissionBean.setSubmissionID(rs.getInt("submissionID"));
+                submissionBean.setGraderID(rs.getString("graderID"));
+                submissionBean.setSubmissionID(rs.getString("submissionID"));
                 submissionBean.setGrade(rs.getDouble("grade"));
                 submissionBean.setComments(rs.getString("comments"));
                 submissionBean.setPath(rs.getString("path"));
@@ -80,9 +80,9 @@ public class SubmissionManager {
                 Connection conn = DBUtil.getConnection(DBType.MYSQL);
                 PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
 
-            stmt.setInt(1, submissionBean.getStudentID());
-            stmt.setInt(2, submissionBean.getAssignmentID());
-            stmt.setInt(3, submissionBean.getGraderID());
+            stmt.setString(1, submissionBean.getStudentID());
+            stmt.setString(2, submissionBean.getAssignmentID());
+            stmt.setString(3, submissionBean.getGraderID());
             stmt.setDouble(4, submissionBean.getGrade());
             stmt.setString(5, submissionBean.getComments());
             stmt.setString(6, submissionBean.getPath());
@@ -93,7 +93,7 @@ public class SubmissionManager {
             if (affected == 1) {
                 keys = stmt.getGeneratedKeys();
                 keys.next();
-                int newKey = keys.getInt(1);
+                String newKey = keys.getString(1);
                 submissionBean.setSubmissionID(newKey);
             } else {
                 System.err.println("No rows affected");
@@ -127,10 +127,10 @@ public class SubmissionManager {
                 Connection conn = DBUtil.getConnection(DBType.MYSQL);
                 PreparedStatement stmt = conn.prepareStatement(sql);) {
 
-            stmt.setInt(8, submissionBean.getStudentID());
-            stmt.setInt(9, submissionBean.getAssignmentID());
-            stmt.setInt(1, submissionBean.getGraderID());
-            stmt.setInt(2, submissionBean.getSubmissionID());
+            stmt.setString(8, submissionBean.getStudentID());
+            stmt.setString(9, submissionBean.getAssignmentID());
+            stmt.setString(1, submissionBean.getGraderID());
+            stmt.setString(2, submissionBean.getSubmissionID());
             stmt.setDouble(3, submissionBean.getGrade());
             stmt.setString(4, submissionBean.getComments());
             stmt.setString(5, submissionBean.getPath());

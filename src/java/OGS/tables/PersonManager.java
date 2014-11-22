@@ -5,7 +5,6 @@
  */
 package OGS.tables;
 
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,6 +18,8 @@ import OGS.beans.Manager;
 import OGS.beans.TA;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,7 +34,7 @@ import java.util.logging.SimpleFormatter;
 public class PersonManager {
     private static final Logger LOGGER = Logger.getLogger(PersonManager.class.getName());
     
-    public static Person getRowfromID(int ID) throws SQLException, ClassNotFoundException, IOException {
+    public static Person getRowfromID(String ID) throws SQLException, ClassNotFoundException, IOException {
         File f = new File("c:/SimControl/Logging/");
         if(!f.exists()){
             f.mkdirs();
@@ -53,7 +54,7 @@ public class PersonManager {
         try (
                 Connection conn = DBUtil.getConnection(DBType.MYSQL);
                 PreparedStatement stmt = conn.prepareStatement(sql);) {
-            stmt.setInt(1, ID);
+            stmt.setString(1, ID);
             rs = stmt.executeQuery();
             LOGGER.warning("Finish executing query");
             if (rs.next()) {
@@ -109,7 +110,7 @@ public class PersonManager {
             if (rs.next()) {
                 Person PersonBean = new Person();
                 PersonBean.setName(rs.getString("Name"));
-                PersonBean.setID(rs.getInt("ID"));
+                PersonBean.setID(rs.getString("ID"));
                 PersonBean.setUserName(UserName);
                 PersonBean.setPassword(rs.getString("Password"));
                 PersonBean.setEmailAddress(rs.getString("EmailAddress"));
@@ -125,12 +126,62 @@ public class PersonManager {
             LOGGER.log(Level.SEVERE, "Exception occur", e);
             System.err.println(e);
             return null;
+        }/* finally {
+            if (rs != null) {
+                rs.close();
+            }
+        }*/
+
+    }
+    
+    public static List<Person> getAllProfessor() throws SQLException, ClassNotFoundException, IOException {
+        File f = new File("c:/SimControl/Logging/");
+        if(!f.exists()){
+            f.mkdirs();
+            
+        }
+        FileHandler fh;
+        fh = new FileHandler(f.getPath() + "\\Course_Log.log");
+        LOGGER.addHandler(fh);
+        SimpleFormatter formatter = new SimpleFormatter();  
+        fh.setFormatter(formatter);
+        
+        LOGGER.info("Logger Name: " + LOGGER.getName());
+        LOGGER.info("Method getRow()");
+        
+        List<Person> Professor = new ArrayList<Person>();
+        String sql = "SELECT * FROM Person where AcessLevel = 3";
+        ResultSet rs = null;
+        LOGGER.warning("Creating the connection to the database");
+        try (Connection conn = DBUtil.getConnection(DBType.MYSQL);
+                PreparedStatement stmt = conn.prepareStatement(sql);) {
+           
+            rs = stmt.executeQuery();
+            LOGGER.warning("Finish executing query");
+            while (rs.next()) {
+                Person PersonBean = new Person();                
+                PersonBean.setName(rs.getString("Name"));
+                PersonBean.setID(rs.getString("ID"));
+                PersonBean.setUserName(rs.getString("UserName"));
+                PersonBean.setPassword(rs.getString("Password"));
+                PersonBean.setEmailAddress(rs.getString("EmailAddress"));
+                PersonBean.setAccessLevel(rs.getInt("AcessLevel"));
+                PersonBean.setType(rs.getString("Type"));
+                Professor.add(PersonBean);
+                LOGGER.config("Object CourseBean is equal to :" + Professor);
+               
+            } 
+
+        } catch (SQLException e) {
+            System.err.println(e);
+            LOGGER.log(Level.SEVERE, "Exception occur", e);
+            return null;
         } finally {
             if (rs != null) {
                 rs.close();
             }
         }
-
+        return Professor;
     }
   
 }

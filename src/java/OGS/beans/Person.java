@@ -17,13 +17,13 @@ public class Person {
     private String emailAddress;
     private String type;
     private int accessLevel;
-    private int ID;
+    private String ID;
 
     /**
      *
      * @return person's ID
      */
-    public int getID() {
+    public String getID() {
         return ID;
     }
 
@@ -32,7 +32,7 @@ public class Person {
      *
      * @param ID
      */
-    public void setID(int ID) {
+    public void setID(String ID) {
         this.ID = ID;
     }
 

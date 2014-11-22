@@ -23,7 +23,7 @@ public class StudentManager {
      * @returns the Professor object 
      * @throws SQLException  
      */
-    public static Student getRow(int ID) throws SQLException, ClassNotFoundException {
+    public static Student getRow(String ID) throws SQLException, ClassNotFoundException {
 
         String sql = "SELECT * FROM students WHERE ID = ?";
         ResultSet rs = null;
@@ -31,7 +31,7 @@ public class StudentManager {
         try (
                 Connection conn = DBUtil.getConnection(DBType.MYSQL);
                 PreparedStatement stmt = conn.prepareStatement(sql);) {
-            stmt.setInt(1, ID);
+            stmt.setString(1, ID);
             rs = stmt.executeQuery();
 
             if (rs.next()) {
@@ -85,7 +85,7 @@ public class StudentManager {
             if (affected == 1) {
                 keys = stmt.getGeneratedKeys();
                 keys.next();
-                int newKey = keys.getInt(1);
+                String newKey = keys.getString(1);
                 studentBean.setID(newKey);
             } else {
                 System.err.println("No rows affected");
@@ -123,7 +123,7 @@ public class StudentManager {
             stmt.setString(3, studentBean.getPassword());
             stmt.setString(4, studentBean.getEmailAddress());
             stmt.setInt(5, studentBean.getAccessLevel());
-            stmt.setInt(6, studentBean.getID());
+            stmt.setString(6, studentBean.getID());
 
             int affected = stmt.executeUpdate();
             if (affected == 1) {
@@ -152,7 +152,7 @@ public class StudentManager {
      * This method checks the assignment grade for the student
      * @return returns the grade that matches the studentID and the assignmentID
      */
-    public static Double checkGrade(int assignmentID, int studentID) throws ClassNotFoundException {
+    public static Double checkGrade(String assignmentID, String studentID) throws ClassNotFoundException {
         try {
             Submission sbean = SubmissionManager.getRow(studentID, assignmentID);
             return sbean.getGrade();

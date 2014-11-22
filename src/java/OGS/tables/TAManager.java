@@ -26,7 +26,7 @@ public class TAManager {
      * @returns the Professor object 
      * @throws SQLException  
      */
-    public static TA getRow(int ID) throws SQLException, ClassNotFoundException {
+    public static TA getRow(String ID) throws SQLException, ClassNotFoundException {
 
         String sql = "SELECT * FROM TA WHERE ID = ?";
         ResultSet rs = null;
@@ -34,7 +34,7 @@ public class TAManager {
         try (
                 Connection conn = DBUtil.getConnection(DBType.MYSQL);
                 PreparedStatement stmt = conn.prepareStatement(sql);) {
-            stmt.setInt(1, ID);
+            stmt.setString(1, ID);
             rs = stmt.executeQuery();
 
             if (rs.next()) {
@@ -68,43 +68,7 @@ public class TAManager {
      * @returns true if the information was correctly inserted into the database else it returns false.
      * @throws SqlException  
      */
-    public static boolean insert(TA TABean) throws Exception {
-
-        String sql = "INSERT into TA"
-                + " (name, userName, password, EmailAddress, AccessLevel) "
-                + "VALUES (?, ?, ?, ?, ?)";
-        ResultSet keys = null;
-        try (
-                Connection conn = DBUtil.getConnection(DBType.MYSQL);
-                PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
-
-            stmt.setString(1, TABean.getName());
-            stmt.setString(2, TABean.getUserName());
-            stmt.setString(3, TABean.getPassword());
-            stmt.setString(4, TABean.getEmailAddress());
-            stmt.setInt(5, TABean.getAccessLevel());
-            int affected = stmt.executeUpdate();
-
-            if (affected == 1) {
-                keys = stmt.getGeneratedKeys();
-                keys.next();
-                int newKey = keys.getInt(1);
-                TABean.setID(newKey);
-            } else {
-                System.err.println("No rows affected");
-                return false;
-            }
-
-        } catch (SQLException e) {
-            System.err.println(e);
-            return false;
-        } finally {
-            if (keys != null) {
-                keys.close();
-            }
-        }
-        return true;
-    }
+    
     /**
      * @param TABean  will be updated
      * This method takes a TABean and updates the information in the database
@@ -126,7 +90,7 @@ public class TAManager {
             stmt.setString(3, TABean.getPassword());
             stmt.setString(4, TABean.getEmailAddress());
             stmt.setInt(5, TABean.getAccessLevel());
-            stmt.setInt(6, TABean.getID());
+            stmt.setString(6, TABean.getID());
 
             int affected = stmt.executeUpdate();
             if (affected == 1) {

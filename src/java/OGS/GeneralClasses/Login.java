@@ -41,13 +41,14 @@ public class Login {
         LOGGER.info("Logger Name: " + LOGGER.getName());
         EncryptDecrypt _encryptdecrypt = new EncryptDecrypt();
         PersonManager _personmanager = new PersonManager();
-        String keyFilePath = "C:\\Users\\Eric\\Dropbox\\SBUClass\\CSE308"
-                + "\\OGS_SimControl.git\\src\\java\\OGS\\GeneralClasses\\keyFile";
+        
+        String keyFilePath = "C:\\Users\\Iris\\Documents\\CSE 308 - Software Engineering\\OGS_SimControl\\src\\java\\OGS\\GeneralClasses\\keyFile.File";
         Person _person = new Person();
         LOGGER.info("Create encrypt and person class");
         File keyFile = new File(keyFilePath);
         
         LOGGER.warning("is going to class personmanager to access the database");
+        String newencrypted = _encryptdecrypt.encrypt(Password, keyFile);
         _person =  _personmanager.getRowfromUserName(UserName);
         
         LOGGER.config("object person is equal to "+_person);
@@ -57,7 +58,7 @@ public class Login {
         }
         
         String DbPassword = _person.getPassword();
-        String newencrypted = _encryptdecrypt.encrypt(Password, keyFile);
+        //String newencrypted = _encryptdecrypt.encrypt(Password, keyFile);
         
         if (newencrypted.equals(DbPassword)){
             return _person;

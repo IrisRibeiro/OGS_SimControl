@@ -3,7 +3,7 @@ package OGS.GeneralClasses;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
-import java.util.Base64;
+
 import java.util.Scanner;
 import java.util.logging.FileHandler;
 import java.util.logging.SimpleFormatter;
@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.FileHandler;
+import sun.misc.BASE64Decoder;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -37,15 +38,18 @@ public class EncryptDecrypt {
     private static SecretKey key = null;
     private static Cipher cipher = null;
     
-    private static final Logger LOGGER = Logger.getLogger(EncryptDecrypt.class.getName());
-    
-    
-    
-
     public static String encrypt(String Password, File keyFile)
             throws Exception {
-        FileHandler fh ;
-        fh = new FileHandler("C:/temp/test/MyLogFile.log");
+         File f = new File("c:/SimControl/Logging/");
+        if(!f.exists()){
+            f.mkdirs();
+            
+        }
+        FileHandler fh;
+        fh = new FileHandler(f.getPath() + "\\Login_Log.log");
+        LOGGER.addHandler(fh);
+        SimpleFormatter formatter = new SimpleFormatter();  
+        fh.setFormatter(formatter);       
         
         LOGGER.info("Logger Name: " + LOGGER.getName());
         LOGGER.info("Method encrypt()" + Password + " "+ keyFile);
@@ -68,27 +72,26 @@ public class EncryptDecrypt {
         byte[] byteDataToEncrypt = plainData.getBytes();
         byte[] byteCipherText = aesCipher.doFinal(byteDataToEncrypt);
         cipherText = new BASE64Encoder().encode(byteCipherText);
-        //byte[] testByte = Base64.getEncoder().encode(byteCipherText);
-        //String test = javax.xml.bind.DatatypeConverter.printBase64Binary(testByte);
         String encryptPassword = cipherText;
 
         return encryptPassword;
 
     }
 
-    public static String decrypt(String Password, File keyFile)
+   /* public static String decrypt(String Password, File keyFile)
             throws Exception {
 
         SecretKeySpec secret = new SecretKeySpec(readKeyFile(keyFile), "AES");
         Cipher aesCipher = Cipher.getInstance("AES");
         aesCipher.init(Cipher.DECRYPT_MODE, secret, aesCipher.getParameters());
         byte[] byteDataToDecrypt = Password.getBytes();
-        byte[] decodedText = Base64.getDecoder().decode(byteDataToDecrypt);
+        byte[] decodedText;
+        decodedText = new BASE64Decoder().                
         byte[] byteDecryptedText = aesCipher.doFinal(decodedText);
         String decryptedText = new String(byteDecryptedText);
 
         return decryptedText;
-    }
+    }*/
 
     private static String byteArrayToHexString(byte[] b) {
         StringBuffer sb = new StringBuffer(b.length * 2);

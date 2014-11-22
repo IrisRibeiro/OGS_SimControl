@@ -12,18 +12,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import OGS.GeneralClasses.Login;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import OGS.beans.Person;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Iris
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
-public class LoginServlet extends HttpServlet {
+@WebServlet(name = "CreateClassServlet", urlPatterns = {"/CreateClassServlet"})
+public class CreateClassServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,10 +37,10 @@ public class LoginServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoginServlet</title>");            
+            out.println("<title>Servlet CreateClassServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet CreateClassServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -63,36 +58,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        String UserName = request.getParameter("UserName");
-        String password = request.getParameter("password");
-        
-        if (UserName.equals("")|| password.equals("")
-                || UserName.contains("$") || UserName.contains(";")
-                || UserName.contains("(") || UserName.contains(")")
-                || UserName.contains("*") || UserName.contains("=")){
-            response.sendRedirect("ProcessLogin.jsp");
-        }else{
-            Person user = new Person();
-            Login _login = new Login();
-
-      
-            try {
-                user = _login.VerifyLogin(password,UserName);
-            } catch (Exception ex) {
-                Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            if (user != null){
-                HttpSession session = request.getSession(true);	    
-                session.setAttribute("currentSessionUser",user);
-                response.sendRedirect("Dashboard.jsp");
-
-            }else{
-                response.sendRedirect("ProcessLogin.jsp");
-            }
-        
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -106,12 +72,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try{
-        
-        }catch(Throwable theException){
-        
-            System.out.println(theException); 
-        }
+        processRequest(request, response);
     }
 
     /**

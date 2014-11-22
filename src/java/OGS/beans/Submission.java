@@ -18,10 +18,10 @@ import java.io.Serializable;
  */
 public class Submission implements Serializable {
 
-    private int studentID;
-    private int assignmentID;
-    private int graderID;
-    private int submissionID;
+    private String studentID;
+    private String assignmentID;
+    private String graderID;
+    private String submissionID;
     private double grade;
     private String comments;
     private String path;
@@ -32,7 +32,7 @@ public class Submission implements Serializable {
      *
      * @return submission's student ID
      */
-    public int getStudentID() {
+    public String getStudentID() {
         return studentID;
     }
 
@@ -41,7 +41,7 @@ public class Submission implements Serializable {
      *
      * @param studentID
      */
-    public void setStudentID(int studentID) {
+    public void setStudentID(String studentID) {
         this.studentID = studentID;
     }
 
@@ -49,7 +49,7 @@ public class Submission implements Serializable {
      *
      * @return submission's assignment ID
      */
-    public int getAssignmentID() {
+    public String getAssignmentID() {
         return assignmentID;
     }
 
@@ -58,7 +58,7 @@ public class Submission implements Serializable {
      *
      * @param assignmentID
      */
-    public void setAssignmentID(int assignmentID) {
+    public void setAssignmentID(String assignmentID) {
         this.assignmentID = assignmentID;
     }
 
@@ -66,7 +66,7 @@ public class Submission implements Serializable {
      *
      * @return submission's grader ID
      */
-    public int getGraderID() {
+    public String getGraderID() {
         return graderID;
     }
 
@@ -75,7 +75,7 @@ public class Submission implements Serializable {
      *
      * @param graderID
      */
-    public void setGraderID(int graderID) {
+    public void setGraderID(String graderID) {
         this.graderID = graderID;
     }
 
@@ -83,7 +83,7 @@ public class Submission implements Serializable {
      *
      * @return submission's submission ID
      */
-    public int getSubmissionID() {
+    public String getSubmissionID() {
         return submissionID;
     }
 
@@ -92,7 +92,7 @@ public class Submission implements Serializable {
      *
      * @param submissionID
      */
-    public void setSubmissionID(int submissionID) {
+    public void setSubmissionID(String submissionID) {
         this.submissionID = submissionID;
     }
 
