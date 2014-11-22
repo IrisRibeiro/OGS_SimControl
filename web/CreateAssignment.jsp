@@ -1,24 +1,15 @@
 <%@page import="OGS.beans.Assignment"%>
-<%@page import=" OGS.beans.Person, OGS.beans.Course, java.util.*"%>
+<%@page import=" OGS.beans.Person, OGS.beans.Course, OGS.tables.CourseManager, java.util.*"%>
 <%
     Person person = (Person) session.getAttribute("currentSessionUser");
     if (person == null) {
-        response.sendRedirect("Login.jsp");
-        return;
+        response.sendRedirect("faces/Login.jsp");
+        
     }
-
-    Course currentcourse = (Course) session.getAttribute("currentSessionCourse");
-    if (currentcourse == null) {
-%>
-<script type="text/javascript">
-    alert("Please Select a class first to create the assignment for first!");
-    location.href = "Dashboard.jsp";
-</script>
-<%
-        return;
-    }
-    String courseID = currentcourse.getCourseID();
-%>
+    CourseManager CManager = new CourseManager();
+   List <Course> _courses = CManager.getCourseByProfessor(person.getID());
+    
+ %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -44,41 +35,53 @@
                             <div class="row">
                                 <form method="get" action ="CreateAssignmentServelet" >
                                     <div class="col-lg-6">
-
                                         <div class="form-group">
                                             <label>Assignment Number</label>
                                             <input class="form-control" name="assignNum">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Assignment Name</label>
-                                            <input class="form-control" name="assignName" type="text">
-                                        </div>
+                                        </div>                                        
                                         <div class="form-group">
                                             <label>Due Date</label>
-                                            <input class="form-control" name="dDate" type="text">
+                                            <input class="form-control" name="dDate" type="datetime">
                                         </div>
                                         <div class="form-group">
                                             <label>Specifications</label>
-                                            <input class="form-control" name="specs" type="text">
+                                             <select name="Classes" class="form-control">
+                                                 <%
+                                                        for (Course course : _courses) {
+                                                            String Name = course.getCourseID()+ "-" + course.getIdentifier()+":"+ course.getName();
+                                                %>
+                                                    <option name="NClasses"><%=Name%></option>   
+                                                <%                                                 
+                                                    }
+                                                %>
+                                            </select>                                            
                                         </div>
-                                        <div class="form-group">
-                                            <label>Instructions</label>
-                                            <input class="form-control" name="instrucstions" type="text">
-                                        </div>
-
                                         <div class="form-group">
                                             <label>Point Possible</label>
                                             <input class="form-control" name="points" type="text">
-                                        </div>
-
-                                        <input type="hidden" name="courseID" value="<%=courseID%>"/>
+                                        </div>                                      
 
                                         <div class="form-group">
-                                            <label>Import Students</label>
+                                            <label>Upload File:</label>
                                             <input type="file">
                                         </div>
 
                                     </div>
+                                     <div class="col-lg-6">
+                                         <div class="form-group">
+                                            <label>Assignment Name</label>
+                                            <input class="form-control" name="assignName" type="text">
+                                        </div>
+                                         <div class="form-group">
+                                            <label >Specifications</label>
+                                            <textarea class="form-control" rows="5" name="specs" id="specs"></textarea>
+                                        </div>
+                                         <div class="form-group">
+                                            <label>Instructions</label>
+                                             <textarea class="form-control" rows="5" name="instrucstions" id="instrucstions"></textarea>                                            
+                                        </div>
+                                         
+                                     </div>
 
                                     <button type="reset" class="btn btn-default" onclick="resetT()" >Reset</button>
                                     <input class="btn btn-default" type="submit" value="Submit"/>								
@@ -94,18 +97,9 @@
         <script>
             function msg() {
                 alert("New class created! You'll be redirect");
-                window.location.href = "Dashboard.jsp"
+                window.location.href = "faces/Dashboard.jsp"
             }
         </script>
-
-        <%
-
-            Assignment assign = new Assignment();
-            assign.setName(request.getParameter("assigNum"));
-            System.out.println("This is the nuame" + assign.getName());
-
-
-        %>
 
     </body>
 

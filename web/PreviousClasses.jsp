@@ -9,7 +9,7 @@
 <%
 	Person person = (Person) session.getAttribute("currentSessionUser");
 	if (person == null) {
-		response.sendRedirect("Login.jsp");
+		response.sendRedirect("faces/Login.jsp");
 		return;
         }
 %>
