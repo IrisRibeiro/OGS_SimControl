@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import OGS.beans.Assignment;
 import OGS.tables.AssignmentManager;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -72,37 +73,55 @@ public class CreateAssignmentServelet extends HttpServlet {
         AssignmentManager man = new AssignmentManager();
         String newId = "";
         int idValue = 0;
+        String time = ""; 
         try {
             newId = man.getAssignmentNumber();
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(CreateAssignmentServelet.class.getName()).log(Level.SEVERE, null, ex);
         }
         if (newId != null) {
-            idValue = Integer.parseInt(newId);
+            idValue = Integer.parseInt(newId)+1;
+            
+        }else{
+            idValue = 1;
+        }
+        time = request.getParameter("ttime");    
+       
+    
+            SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+            java.util.Date d1 = null;
+           
+        try {
+            d1 = (java.util.Date)format.parse(time);
+            
+        } catch (ParseException ex) {
+            Logger.getLogger(CreateClassServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        java.sql.Time ppstime = new java.sql.Time(d1.getTime());
         
-        String name = request.getParameter("assignName");       
+        newId = Integer.toString(idValue);
+        String name = request.getParameter("assignName");        
         String dueDate = request.getParameter("dDate");
-        DateFormat formatter = new SimpleDateFormat("dd-MM");
+        SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy");
         java.util.Date date = null;
-        
         try {
-            date = formatter.parse(dueDate);
+            date = sdf.parse(dueDate);
         } catch (ParseException ex) {
             Logger.getLogger(CreateAssignmentServelet.class.getName()).log(Level.SEVERE, null, ex);
         }
+        java.sql.Date sqlDate = new Date(date.getTime());
         
-        java.util.Date utilDate = new java.util.Date();//date;
-        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());        
         String specs = request.getParameter("specs");        
         String instructions = request.getParameter("instrucstions"); 
-        String courseID = request.getParameter("Classes");
+        String courseID = request.getParameter("Classes");        
+        String[] Course = courseID.split("-");
+        courseID = Course[0].trim();
         int assignmentnum = Integer.parseInt(request.getParameter("assignNum"));
         int points = Integer.parseInt(request.getParameter("points"));
        
         
-        assign.setID(idValue);
+        assign.setID(newId);
         assign.setName(name);
         assign.setDueDate(sqlDate);
         assign.setSpecification(specs);
@@ -110,6 +129,7 @@ public class CreateAssignmentServelet extends HttpServlet {
         assign.setPointsPossible(points);
         assign.setCourseID(courseID);
         assign.setNumber(assignmentnum);
+        assign.setTimeDue(ppstime);
         assign.setPath("default");
         
         

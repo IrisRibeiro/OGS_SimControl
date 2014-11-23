@@ -36,7 +36,7 @@ public class AssignmentManager {
      * @returns the Assignment object
      * @throws SQLException
      */
-    public static Assignment getRow(int ID) throws SQLException, ClassNotFoundException, IOException {
+    public static Assignment getRow(String ID) throws SQLException, ClassNotFoundException, IOException {
         File f = new File("c:/SimControl/Logging/");
         if(!f.exists()){
             f.mkdirs();
@@ -56,7 +56,7 @@ public class AssignmentManager {
         LOGGER.warning("Creating the connection to the database");
         try (Connection conn = DBUtil.getConnection(DBType.MYSQL);
                 PreparedStatement stmt = conn.prepareStatement(sql);) {
-            stmt.setInt(1, ID);
+            stmt.setString(1, ID);
             rs = stmt.executeQuery();
             LOGGER.warning("Finish executing query");
             if (rs.next()) {
@@ -152,8 +152,8 @@ public class AssignmentManager {
         LOGGER.info("Method insert()");
         String sql = "INSERT into assignment"
                 + " (name, specification, dueDate, instructions, path, "
-                + "courseID, pointsPossible, ID, number) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "courseID, pointsPossible, ID, number, TimeDue) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
         ResultSet keys = null;
         LOGGER.warning("Creating the connection to the database");
         try (
@@ -167,8 +167,9 @@ public class AssignmentManager {
             stmt.setString(5, assignmentBean.getPath());           
             stmt.setString(6, assignmentBean.getCourseID());
             stmt.setInt(7, assignmentBean.getPointsPossible());
-            stmt.setInt(8, assignmentBean.getID());
-            stmt.setInt(9,assignmentBean.getNumber());            
+            stmt.setString(8, assignmentBean.getID());
+            stmt.setInt(9,assignmentBean.getNumber());
+            stmt.setTime(10, assignmentBean.getTimeDue());
             int affected = stmt.executeUpdate();
             conn.commit();
             
@@ -176,7 +177,7 @@ public class AssignmentManager {
             if (affected == 1) {
                 keys = stmt.getGeneratedKeys();
                 keys.next();
-                int newKey = keys.getInt(1);
+                String newKey = keys.getString(1);
                 assignmentBean.setID(newKey);
             } else {
                 System.err.println("No rows affected");
@@ -233,7 +234,7 @@ public class AssignmentManager {
             stmt.setString(5, assignmentBean.getPath());
             stmt.setString(6, assignmentBean.getCourseID());
             stmt.setInt(7, assignmentBean.getPointsPossible());
-            stmt.setInt(8, assignmentBean.getID());
+            stmt.setString(8, assignmentBean.getID());
             LOGGER.config("Object AssignmentBeans is :" + assignmentBean);
             int affected = stmt.executeUpdate();
             if (affected == 1) {

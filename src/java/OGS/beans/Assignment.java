@@ -20,10 +20,22 @@ public class Assignment implements Serializable {
     private String path;
     private String courseID;
     private int pointsPossible;
-    private int ID;
+    private String ID;
     private int number;
+    private java.sql.Time timeDue;
     
+    public java.sql.Time getTimeDue() {
+         return timeDue;
+     }
 
+    /**
+     * sets assignment's due date into variable dueDate
+     *
+     * @param dueDate
+     */
+    public void setTimeDue(java.sql.Time timeDue) {
+         this.timeDue = timeDue;
+     }
     /**
      *
      * @return assignment's name
@@ -158,7 +170,7 @@ public class Assignment implements Serializable {
      *
      * @return assignment's ID
      */
-    public int getID() {
+    public String getID() {
         return ID;
     }
 
@@ -167,7 +179,7 @@ public class Assignment implements Serializable {
      *
      * @param ID
      */
-    public void setID(int ID) {
+    public void setID(String ID) {
         this.ID = ID;
     }
 
