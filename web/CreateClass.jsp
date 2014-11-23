@@ -101,7 +101,7 @@
                                                     <input class="form-control" name="tRoom" type="text">
                                             </div>
                                             <div class="form-group">
-                                                <label>Specifications</label>
+                                                <label>Instructor</label>
                                                  <select name="Instructor" class="form-control">
                                                     <%
                                                             for (Person Professor : _Professors) {
@@ -114,7 +114,7 @@
                                                 </select>                                            
                                             </div>                                        
                                         <input type="reset" class="btn btn-default" value="Reset" >
-                                        <input class="btn btn-default" type="submit" value="Submit" onclick="validate()">	
+                                        <input class="btn btn-default" type="submit" value="Submit">	
                                         </div>							
                                 </form>
                                 </div>								
@@ -124,17 +124,5 @@
 		</div>
 		</div>
 </body>
-<script>
-  function validate(){
-    var Days = document.forms[0].days;
-    var txt = "";
-    var i;
-    for (i = 0; i < Days.lenght; i++) {
-        if (Days[i].checked) {
-            txt = txt + Days[i].value + "-";
-        }
-    }
-    document.getElementById("day").value = txt;
-  }  
-</script>
+
 </html>

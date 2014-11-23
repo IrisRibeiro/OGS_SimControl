@@ -201,13 +201,9 @@
                 <!-- /.dropdown -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-user fa-fw"></i> UserName <i class="fa fa-caret-down"></i>
+                        <i class="fa fa-user fa-fw"></i> <%= person.getUserName()%> <i class="fa fa-caret-down"></i>
                     </a>
-                    <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
-                        </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-                        </li>
+                    <ul class="dropdown-menu dropdown-user">                       
                         <li class="divider"></li>
                         <li><a href="Logout.jsp"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
@@ -233,7 +229,7 @@
                             <!-- /input-group -->
                         </li>
                         <li>
-                            <a class="active" href="Dashboard.jsp"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                            <a class="active" href="faces/Dashboard.jsp"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
                         <li>                            
                             <ul class="nav nav-second-level">

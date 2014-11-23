@@ -1,3 +1,4 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="OGS.beans.Assignment"%>
 <%@page import=" OGS.beans.Person, OGS.beans.Course, OGS.tables.CourseManager, java.util.*"%>
 <%
@@ -6,15 +7,14 @@
         response.sendRedirect("faces/Login.jsp");
         
     }
+   
     CourseManager CManager = new CourseManager();
    List <Course> _courses = CManager.getCourseByProfessor(person.getID());
     
  %>
 <!DOCTYPE html>
 <html lang="en">
-
-    <head>
-        <jsp:include page="DefaultLayout.jsp" flush="true"/>
+    <jsp:include page="DefaultLayout.jsp" flush="true"/>
     <body>
         <div id="page-wrapper">
             <div class="row">
@@ -33,24 +33,29 @@
                         <!-- /.panel-heading -->
                         <div class="panel-body" > 
                             <div class="row">
-                                <form method="get" action ="CreateAssignmentServelet" >
+                                <form role="form" method="get" action ="CreateAssignmentServelet" >
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label>Assignment Number</label>
-                                            <input class="form-control" name="assignNum">
-                                        </div>                                        
-                                        <div class="form-group">
-                                            <label>Due Date</label>
-                                            <input class="form-control" name="dDate" type="datetime">
+                                                <input class="form-control" name="assignNum" type="number"/>
                                         </div>
+                                        
                                         <div class="form-group">
-                                            <label>Specifications</label>
+                                             <label>Due Date</label>
+                                                <input class="form-control" name="dDate" type="datetime"/>  
+                                        </div>   
+                                        <div class="form-group">
+                                            <label>Time</label>
+                                                    <input class="form-control" name="ttime" type="time">
+                                            </div>
+                                        <div class="form-group">
+                                            <label>Course</label>
                                              <select name="Classes" class="form-control">
                                                  <%
                                                         for (Course course : _courses) {
-                                                            String Name = course.getCourseID()+ "-" + course.getIdentifier()+":"+ course.getName();
+                                                            String Name = course.getCourseID()+ " - " + course.getIdentifier()+" : "+ course.getName();
                                                 %>
-                                                    <option name="NClasses"><%=Name%></option>   
+                                                    <option><%=Name%></option>   
                                                 <%                                                 
                                                     }
                                                 %>
@@ -58,14 +63,14 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Point Possible</label>
-                                            <input class="form-control" name="points" type="text">
+                                            <input class="form-control" name="points" type="number">
                                         </div>                                      
 
                                         <div class="form-group">
                                             <label>Upload File:</label>
                                             <input type="file">
-                                        </div>
-
+                                        </div>                                         
+                                          <input class="btn btn-default" type="submit" value="Submit"/>
                                     </div>
                                      <div class="col-lg-6">
                                          <div class="form-group">
@@ -74,33 +79,20 @@
                                         </div>
                                          <div class="form-group">
                                             <label >Specifications</label>
-                                            <textarea class="form-control" rows="5" name="specs" id="specs"></textarea>
+                                            <textarea class="form-control" rows="5" name="specs" id="specs" type="text"></textarea>
                                         </div>
                                          <div class="form-group">
                                             <label>Instructions</label>
-                                             <textarea class="form-control" rows="5" name="instrucstions" id="instrucstions"></textarea>                                            
+                                             <textarea class="form-control" rows="5" name="instrucstions" id="instrucstions" type="text"></textarea>                                            
                                         </div>
                                          
-                                     </div>
-
-                                    <button type="reset" class="btn btn-default" onclick="resetT()" >Reset</button>
-                                    <input class="btn btn-default" type="submit" value="Submit"/>								
+                                     </div>                                    								
                                 </form>							
                             </div>
                         </div>								
                     </div>
                 </div>
-            </div>
-        </div>
-        <!-- /#page-wrapper -->
-
-        <script>
-            function msg() {
-                alert("New class created! You'll be redirect");
-                window.location.href = "faces/Dashboard.jsp"
-            }
-        </script>
-
+            </div>       
     </body>
 
 </html>
