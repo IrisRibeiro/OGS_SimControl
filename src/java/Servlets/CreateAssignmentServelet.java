@@ -97,7 +97,7 @@ public class CreateAssignmentServelet extends HttpServlet {
         java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());        
         String specs = request.getParameter("specs");        
         String instructions = request.getParameter("instrucstions"); 
-        String courseID = request.getParameter("courseID");
+        String courseID = request.getParameter("Classes");
         int assignmentnum = Integer.parseInt(request.getParameter("assignNum"));
         int points = Integer.parseInt(request.getParameter("points"));
        

@@ -5,8 +5,17 @@
  */
 package Servlets;
 
+import OGS.tables.CourseManager;
+import OGS.beans.Course;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -58,7 +67,67 @@ public class CreateClassServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        Course _course = new Course();
+        CourseManager CManager = new CourseManager();
+        String newID = "";
+        String LastID = "";
+        int tempID = 0;        
+        String time = "";        
+        String ProfessorID = request.getParameter("Instructor");
+        String[] Professor = ProfessorID.split("-");
+        ProfessorID = Professor[0];
+        String[] Days = request.getParameterValues("days");
+        String finaldays = "";
+        int i = 0;
+        for (i = 0; i< Days.length;i++){
+            finaldays = Days[i]+"/"+finaldays;
+        }
+        try {
+            LastID = CManager.getLastCourseID();
+        } catch (SQLException ex) {
+            Logger.getLogger(CreateClassServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CreateClassServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if (LastID == null){
+            LastID = "0";
+        }
+        tempID = Integer.parseInt(LastID) + 1;
+        newID = Integer.toString(tempID);
+        
+        _course.setIdentifier(request.getParameter("tidentifier")); 
+        _course.setCredits(Integer.parseInt(request.getParameter("tcredits")));
+        _course.setRoom(request.getParameter("tRoom"));
+        _course.setBuilding(request.getParameter("tbuilding"));
+        _course.setWebsite(request.getParameter("twebpage"));        
+        _course.setSection(request.getParameter("tSection"));
+        _course.setName(request.getParameter("tname"));
+        _course.setPrerequisites(request.getParameter("tprerequisite"));
+        _course.setDays(finaldays);
+        _course.setInstructorID(ProfessorID);
+        _course.setCourseID(newID);
+        time = request.getParameter("ttime");    
+       
+    
+            SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+            java.util.Date d1 = null;
+           
+        try {
+            d1 = (java.util.Date)format.parse(time);
+            
+        } catch (ParseException ex) {
+            Logger.getLogger(CreateClassServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+            java.sql.Time ppstime = new java.sql.Time(d1.getTime());
+            _course.setTime(ppstime);
+            
+        try {
+            boolean insert = CManager.insert(_course);
+        } catch (Exception ex) {
+            Logger.getLogger(CreateClassServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

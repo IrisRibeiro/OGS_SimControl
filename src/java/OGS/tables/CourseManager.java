@@ -70,7 +70,7 @@ public class CourseManager {
                 CourseBean.setCourseID(ID);
                 CourseBean.setSection(rs.getString("Section"));
                 CourseBean.setDays(rs.getString("Days"));
-                CourseBean.setOfficeHours(rs.getString("OfficeHours"));
+                
                 CourseBean.setBuilding(rs.getString("Building"));
                 CourseBean.setRoom(rs.getString("Room"));
                 CourseBean.setCredits(rs.getInt("Credits"));
@@ -110,8 +110,9 @@ public class CourseManager {
         LOGGER.info("Method insert()");
 
         String sql = "INSERT into Course" + " (Identifier, Name, ID, Section, Days, "
-                + "OfficeHours, Building, Room,Credits," + "NumberOfAssignments, Prerequisite, InstructorID) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?)";
+                + "Building, Room,Credits," + "NumberOfAssignments, Prerequisite, InstructorID,"
+                + "webpage, time) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?, ?)";
         ResultSet keys = null;
         LOGGER.warning("Creating the connection to the database");
         try (Connection conn = DBUtil.getConnection(DBType.MYSQL);
@@ -122,16 +123,18 @@ public class CourseManager {
             stmt.setString(3, CourseBean.getCourseID());
             stmt.setString(4, CourseBean.getSection());
             stmt.setString(5, CourseBean.getDays());
-            stmt.setString(6, CourseBean.getOfficeHours());
-            stmt.setString(7, CourseBean.getBuilding());
-            stmt.setString(8, CourseBean.getRoom());
-            stmt.setInt(9, CourseBean.getCredits());
-            stmt.setInt(10, CourseBean.getNumberOfAssignments());
-            stmt.setString(11, CourseBean.getPrerequisites());
-            stmt.setString(12, CourseBean.getInstructorID());
+           
+            stmt.setString(6, CourseBean.getBuilding());
+            stmt.setString(7, CourseBean.getRoom());
+            stmt.setInt(8, CourseBean.getCredits());
+            stmt.setInt(9, CourseBean.getNumberOfAssignments());
+            stmt.setString(10, CourseBean.getPrerequisites());
+            stmt.setString(11, CourseBean.getInstructorID());
+            stmt.setString(12, CourseBean.getWebsite());
+            stmt.setTime(13, CourseBean.getTime());
             LOGGER.config("Object CourseBean is equal to :" + CourseBean);
             int affected = stmt.executeUpdate();
-
+            
             if (affected == 1) {
                 keys = stmt.getGeneratedKeys();
                 keys.next();
@@ -139,13 +142,15 @@ public class CourseManager {
                 CourseBean.setCourseID(newKey);
             } else {
                 LOGGER.log(Level.SEVERE, "Exception occur", stmt.getGeneratedKeys());
+                if(conn!= null)
+                conn.rollback();
                 System.err.println("No rows affected");
                 return false;
             }
 
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Exception occur", e);
-            System.err.println(e);
+            System.err.println(e);            
             return false;
         } finally {
             if (keys != null) {
@@ -186,7 +191,7 @@ public class CourseManager {
                 CourseBean.setCourseID(rs.getString("ID"));
                 CourseBean.setSection(rs.getString("Section"));
                 CourseBean.setDays(rs.getString("Days"));
-                CourseBean.setOfficeHours(rs.getString("OfficeHours"));
+                
                 CourseBean.setBuilding(rs.getString("Building"));
                 CourseBean.setRoom(rs.getString("Room"));
                 CourseBean.setCredits(rs.getInt("Credits"));
@@ -289,7 +294,7 @@ public class CourseManager {
                 courseBean.setCourseID(rs.getString("ID"));
                 courseBean.setSection(rs.getString("Section"));
                 courseBean.setDays(rs.getString("Days"));
-                courseBean.setOfficeHours(rs.getString("OfficeHours"));
+                
                 courseBean.setBuilding(rs.getString("Building"));
                 courseBean.setRoom(rs.getString("Room"));
                 courseBean.setCredits(rs.getInt("Credits"));
@@ -356,7 +361,7 @@ public class CourseManager {
                 courseBean.setCourseID(rs.getString("ID"));
                 courseBean.setSection(rs.getString("Section"));
                 courseBean.setDays(rs.getString("Days"));
-                courseBean.setOfficeHours(rs.getString("OfficeHours"));
+                
                 courseBean.setBuilding(rs.getString("Building"));
                 courseBean.setRoom(rs.getString("Room"));
                 courseBean.setCredits(rs.getInt("Credits"));
@@ -372,5 +377,46 @@ public class CourseManager {
         }
 
         return courseBean;
+    }
+    
+    public static String getLastCourseID() throws SQLException, ClassNotFoundException, IOException {        
+        
+        File f = new File("c:/SimControl/Logging/");
+        if(!f.exists()){
+            f.mkdirs();
+            
+        }
+        FileHandler fh;
+        fh = new FileHandler(f.getPath() + "\\Assignment_Log.log");
+        LOGGER.addHandler(fh);
+        SimpleFormatter formatter = new SimpleFormatter();  
+        fh.setFormatter(formatter);
+        
+        LOGGER.info("Logger Name: " + LOGGER.getName());
+        LOGGER.info("Method getLastCourseID()");
+        String sql = "SELECT MAX(ID) AS ID FROM Course";
+        ResultSet rs = null;
+        String returnId = "";
+        LOGGER.warning("Creating the connection to the database");
+        try (
+                Connection conn = DBUtil.getConnection(DBType.MYSQL);
+                PreparedStatement stmt = conn.prepareStatement(sql);) {
+                rs = stmt.executeQuery();
+            if (rs.next()) {
+                returnId = rs.getString("ID");   
+            }
+            LOGGER.config("Object rs is :" + rs);
+
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+        }
+
+        return returnId ;
+        
     }
 }

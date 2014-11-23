@@ -102,7 +102,7 @@ public class AssignmentManager {
         
         LOGGER.info("Logger Name: " + LOGGER.getName());
         LOGGER.info("Method getAssignmentNumber()");
-        String sql = "SELECT MAX(ID) FROM Assignment";
+        String sql = "SELECT MAX(ID) AS ID FROM Assignment";
         ResultSet rs = null;
         String returnId = "";
         LOGGER.warning("Creating the connection to the database");

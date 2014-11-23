@@ -1,6 +1,7 @@
 package OGS.beans;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 /**
  * This is the bean for course table
@@ -12,17 +13,38 @@ public class Course implements Serializable {
     private String identifier;
     private String name;
     private String days;
-    private String officeHours;
+    private java.sql.Time time;
+    
     private String building;
-    private String room;
-    private String term;
+    private String room;    
     private String prerequisites;
     private String section;
     private String ID;
-    private int instructorID;    
+    private String instructorID; 
+    private String Website;
     private int credits;
     private int numberOfAssignments;
 
+    public String getWebsite(){
+        return Website;
+    }
+    
+    public java.sql.Time getTime() {
+         return time;
+     }
+
+    /**
+     * sets assignment's due date into variable dueDate
+     *
+     * @param dueDate
+     */
+    public void setTime(java.sql.Time time) {
+         this.time = time;
+     }
+    
+    public void setWebsite(String website){
+        this.Website = website;
+    }
     /**
      *
      * @return course's identifier
@@ -78,18 +100,14 @@ public class Course implements Serializable {
      *
      * @return course's office hours
      */
-    public String getOfficeHours() {
-        return officeHours;
-    }
+    
 
     /**
      * sets course's office hours into variable officeHours
      *
      * @param officeHours
      */
-    public void setOfficeHours(String officeHours) {
-        this.officeHours = officeHours;
-    }
+    
 
     /**
      *
@@ -125,23 +143,7 @@ public class Course implements Serializable {
         this.room = room;
     }
 
-    /**
-     *
-     * @return course's term
-     */
-    public String getTerm() {
-        return term;
-    }
-
-    /**
-     * sets course's term into variable term
-     *
-     * @param term
-     */
-    public void setTerm(String term) {
-        this.term = term;
-    }
-
+    
     /**
      *
      * @return course's prerequisites
@@ -180,11 +182,11 @@ public class Course implements Serializable {
      *
      * @return course's instructor ID
      */
-    public int getInstructorID() {
+    public String getInstructorID() {
         return instructorID;
     }
 
-    public void setInstructorID(int instructorID) {
+    public void setInstructorID(String instructorID) {
         this.instructorID = instructorID;
     }
 
