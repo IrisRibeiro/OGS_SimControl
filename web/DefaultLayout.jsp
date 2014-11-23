@@ -300,21 +300,23 @@
                                     <li>
                                         <a href="SearchCourses.jsp">Search Class</a> <!-- /.Modify to link to the page -->
                                     </li>
-                                    <li>
-                                        <a href="CreateAssignment.jsp">Create Assignment</a>  <!-- /.Modify to link to the page -->
+                                   <!-- <li>
+                                        <a href="CreateAssignment.jsp">Create Assignment</a>   /.Modify to link to the page 
                                     </li>
+                                   <li>
+                                        <a href="PreviousClasses.jsp">Previous Courses</a>  <!-- /.Modify to link to the page 
+                                    </li>
+                                    <li>
+                                        <a href="RequestedClasses.jsp">Requested Classes</a> <!-- /.Modify to link to the page 
+                                    </li>
+                                    <li>
+                                        <a href="enrolledClasses.jsp">Enrolled Classes</a> <!-- /.Modify to link to the page 
+                                    </li>
+                                   -->
                                     <li>
                                         <a href="SearchAssignment.jsp">Search Assignment</a> <!-- /.Modify to link to the page -->
                                     </li>
-                                    <li>
-                                        <a href="PreviousClasses.jsp">Previous Courses</a>  <!-- /.Modify to link to the page -->
-                                    </li>
-                                    <li>
-                                        <a href="RequestedClasses.jsp">Requested Classes</a> <!-- /.Modify to link to the page -->
-                                    </li>
-                                    <li>
-                                        <a href="enrolledClasses.jsp">Enrolled Classes</a> <!-- /.Modify to link to the page -->
-                                    </li>
+                                    
                                     <li>
                                         <a href="courses.jsp">All Courses</a> <!-- /.Modify to link to the page -->
                                     </li>

@@ -48,7 +48,7 @@
                                                             <input class="form-control" name="tcredits" type="number">
                                             </div>
                                             <div class="form-group">
-                                                    <label>Room/Building</label>
+                                                    <label>Building</label>
                                                             <input class="form-control" name="tbuilding" type="text">
                                             </div>
                                             <div class="form-group">
@@ -57,13 +57,14 @@
                                             </div>
                                             <div class="form-group">
                                                     <label>Period</label>
-                                                    <select class="form-control">
-                                                            <option>Spring</option>
-                                                            <option>Summer</option>
-                                                            <option>Fall</option>
-                                                            <option>Winter</option>
+                                                    <select name="tsection" class="form-control">
+                                                            <option value="Spring">Spring</option>
+                                                            <option value="Summer">Summer</option>
+                                                            <option value="Fall">Fall</option>
+                                                            <option value="Winter">Winter</option>
                                                     </select>
                                             </div>
+                                           
                                             <div class="form-group">
                                                     <label>Import Students</label>
                                                     <input type="file">
@@ -80,8 +81,24 @@
                                                             <input class="form-control" name="tprerequisite">
                                             </div>
                                             <div class="form-group">
-                                                    <label>Date and Time</label>
-                                                            <input class="form-control" name="tdatetime" type="datetime">
+                                                    <label>Time</label>
+                                                            <input class="form-control" name="ttime" type="time">
+                                            </div>
+                                            <div class="form-group">
+                                                    <label>Days</label>
+                                                    <div class="checkbox">
+                                                        <label><input type="checkbox" value="Mon" name="days">Monday</label> 
+                                                        <label><input type="checkbox" value="Tue" name="days">Tuesday</label> 
+                                                        <label><input type="checkbox" value="Wed" name="days">Wednesday</label> 
+                                                        <label><input type="checkbox" value="Thu" name="days">Thursday</label>
+                                                        <label><input type="checkbox" value="Fri" name="days">Friday</label>
+                                                        <label><input type="checkbox" value="Sat" name="days">Saturday</label>
+                                                        <input type="hidden" id="day" name="day" />
+                                                    </div>        
+                                            </div>
+                                            <div class="form-group">
+                                                    <label>Room</label>
+                                                    <input class="form-control" name="tRoom" type="text">
                                             </div>
                                             <div class="form-group">
                                                 <label>Specifications</label>
@@ -95,9 +112,9 @@
                                                         }
                                                     %>
                                                 </select>                                            
-                                            </div>
-                                        <button type="reset" class="btn btn-default" onclick="resetT()" >Reset</button>
-                                        <button type="button" class="btn btn-default" onclick="msg()">Submit</button>	
+                                            </div>                                        
+                                        <input type="reset" class="btn btn-default" value="Reset" >
+                                        <input class="btn btn-default" type="submit" value="Submit" onclick="validate()">	
                                         </div>							
                                 </form>
                                 </div>								
@@ -107,5 +124,17 @@
 		</div>
 		</div>
 </body>
-
+<script>
+  function validate(){
+    var Days = document.forms[0].days;
+    var txt = "";
+    var i;
+    for (i = 0; i < Days.lenght; i++) {
+        if (Days[i].checked) {
+            txt = txt + Days[i].value + "-";
+        }
+    }
+    document.getElementById("day").value = txt;
+  }  
+</script>
 </html>
