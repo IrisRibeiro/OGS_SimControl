@@ -70,13 +70,14 @@ public class CourseManager {
                 CourseBean.setCourseID(ID);
                 CourseBean.setSection(rs.getString("Section"));
                 CourseBean.setDays(rs.getString("Days"));
-                
+                CourseBean.setWebsite(rs.getString("webpage"));
                 CourseBean.setBuilding(rs.getString("Building"));
                 CourseBean.setRoom(rs.getString("Room"));
                 CourseBean.setCredits(rs.getInt("Credits"));
                 CourseBean.setNumberOfAssignments(rs.getInt("NumberOfAssignments"));
                 CourseBean.setPrerequisites(rs.getString("Prerequisite"));
                 CourseBean.setInstructorID(rs.getString("InstructorID"));
+                CourseBean.setTime(rs.getString("Time"));
                 LOGGER.config("Object CourseBean is equal to :" + CourseBean);
                 return CourseBean;
             } else {
@@ -122,8 +123,7 @@ public class CourseManager {
             stmt.setString(2, CourseBean.getName());
             stmt.setString(3, CourseBean.getCourseID());
             stmt.setString(4, CourseBean.getSection());
-            stmt.setString(5, CourseBean.getDays());
-           
+            stmt.setString(5, CourseBean.getDays());           
             stmt.setString(6, CourseBean.getBuilding());
             stmt.setString(7, CourseBean.getRoom());
             stmt.setInt(8, CourseBean.getCredits());
@@ -131,7 +131,7 @@ public class CourseManager {
             stmt.setString(10, CourseBean.getPrerequisites());
             stmt.setString(11, CourseBean.getInstructorID());
             stmt.setString(12, CourseBean.getWebsite());
-            stmt.setTime(13, CourseBean.getTime());
+            stmt.setString(13, CourseBean.getTime());
             LOGGER.config("Object CourseBean is equal to :" + CourseBean);
             int affected = stmt.executeUpdate();
             
@@ -191,13 +191,14 @@ public class CourseManager {
                 CourseBean.setCourseID(rs.getString("ID"));
                 CourseBean.setSection(rs.getString("Section"));
                 CourseBean.setDays(rs.getString("Days"));
-                
+                CourseBean.setTime(rs.getString("Time"));
                 CourseBean.setBuilding(rs.getString("Building"));
                 CourseBean.setRoom(rs.getString("Room"));
                 CourseBean.setCredits(rs.getInt("Credits"));
                 CourseBean.setNumberOfAssignments(rs.getInt("NumberOfAssignments"));
                 CourseBean.setPrerequisites(rs.getString("Prerequisite"));
                 CourseBean.setInstructorID(rs.getString("InstructorID"));
+                CourseBean.setWebsite(rs.getString("webpage"));
                 courses.add(CourseBean);
                 LOGGER.config("Object CourseBean is equal to :" + courses);
                
@@ -294,13 +295,14 @@ public class CourseManager {
                 courseBean.setCourseID(rs.getString("ID"));
                 courseBean.setSection(rs.getString("Section"));
                 courseBean.setDays(rs.getString("Days"));
-                
+                courseBean.setTime(rs.getString("Time"));
                 courseBean.setBuilding(rs.getString("Building"));
                 courseBean.setRoom(rs.getString("Room"));
                 courseBean.setCredits(rs.getInt("Credits"));
                 courseBean.setNumberOfAssignments(rs.getInt("NumberOfAssignments"));
                 courseBean.setPrerequisites(rs.getString("Prerequisite"));
                 courseBean.setInstructorID(rs.getString("InstructorID"));
+                courseBean.setWebsite(rs.getString("webpage"));
                 courses.add(courseBean);
                 LOGGER.config("List of courses is euqal to :" + courses);
             }
@@ -361,13 +363,14 @@ public class CourseManager {
                 courseBean.setCourseID(rs.getString("ID"));
                 courseBean.setSection(rs.getString("Section"));
                 courseBean.setDays(rs.getString("Days"));
-                
+                courseBean.setTime(rs.getString("Time"));
                 courseBean.setBuilding(rs.getString("Building"));
                 courseBean.setRoom(rs.getString("Room"));
                 courseBean.setCredits(rs.getInt("Credits"));
                 courseBean.setNumberOfAssignments(rs.getInt("NumberOfAssignments"));
                 courseBean.setPrerequisites(rs.getString("Prerequisite"));
                 courseBean.setInstructorID(rs.getString("InstructorID"));
+                courseBean.setWebsite(rs.getString("webpage"));
                 LOGGER.config("Object CourseBean is equal to :" + courseBean);
             }
         } catch (SQLException e) {

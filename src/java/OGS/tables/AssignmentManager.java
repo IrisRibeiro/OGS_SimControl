@@ -63,11 +63,12 @@ public class AssignmentManager {
                 Assignment assignmentBean = new Assignment();
                 assignmentBean.setName(rs.getString("Name"));
                 assignmentBean.setSpecification(rs.getString("Specification"));
-                assignmentBean.setDueDate(rs.getDate("DueDate"));
+                assignmentBean.setDueDate(rs.getString("DueDate"));
                 assignmentBean.setInstructions(rs.getString("Instructions"));
                 assignmentBean.setPath(rs.getString("Path"));
                 assignmentBean.setCourseID(rs.getString("courseID"));
                 assignmentBean.setPointsPossible(rs.getInt("PointsPossible"));
+                assignmentBean.setTimeDue(rs.getString("TimeDue"));
                 assignmentBean.setID(ID);
                 LOGGER.config("Object AssignmentBeans is :" + assignmentBean);
                 return assignmentBean;
@@ -162,14 +163,14 @@ public class AssignmentManager {
 
             stmt.setString(1, assignmentBean.getName());
             stmt.setString(2, assignmentBean.getSpecification());
-            stmt.setDate(3, assignmentBean.getDueDate());
+            stmt.setString(3, assignmentBean.getDueDate());
             stmt.setString(4, assignmentBean.getInstructions());         
             stmt.setString(5, assignmentBean.getPath());           
             stmt.setString(6, assignmentBean.getCourseID());
             stmt.setInt(7, assignmentBean.getPointsPossible());
             stmt.setString(8, assignmentBean.getID());
             stmt.setInt(9,assignmentBean.getNumber());
-            stmt.setTime(10, assignmentBean.getTimeDue());
+            stmt.setString(10, assignmentBean.getTimeDue());
             int affected = stmt.executeUpdate();
             conn.commit();
             
@@ -221,7 +222,7 @@ public class AssignmentManager {
         String sql
                 = "UPDATE Assignment SET " + "name = ?, specification = ?, "
                 + "dueDate = ?, instructions = ?, " + "path = ?, "
-                + "courseID = ?, pointsPossible = ? WHERE ID = ?";
+                + "courseID = ?, TimeDuse = ?, pointsPossible = ? WHERE ID = ?";
         LOGGER.warning("Creating the connection to the database");
         try (
                 Connection conn = DBUtil.getConnection(DBType.MYSQL);
@@ -229,12 +230,13 @@ public class AssignmentManager {
 
             stmt.setString(1, assignmentBean.getName());
             stmt.setString(2, assignmentBean.getSpecification());
-            stmt.setDate(3, assignmentBean.getDueDate());
+            stmt.setString(3, assignmentBean.getDueDate());
             stmt.setString(4, assignmentBean.getInstructions());
             stmt.setString(5, assignmentBean.getPath());
             stmt.setString(6, assignmentBean.getCourseID());
             stmt.setInt(7, assignmentBean.getPointsPossible());
             stmt.setString(8, assignmentBean.getID());
+            stmt.setString(9, assignmentBean.getTimeDue());
             LOGGER.config("Object AssignmentBeans is :" + assignmentBean);
             int affected = stmt.executeUpdate();
             if (affected == 1) {

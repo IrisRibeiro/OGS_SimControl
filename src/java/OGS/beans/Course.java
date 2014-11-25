@@ -13,7 +13,7 @@ public class Course implements Serializable {
     private String identifier;
     private String name;
     private String days;
-    private java.sql.Time time;
+    private String time;
     
     private String building;
     private String room;    
@@ -29,7 +29,7 @@ public class Course implements Serializable {
         return Website;
     }
     
-    public java.sql.Time getTime() {
+    public String getTime() {
          return time;
      }
 
@@ -38,7 +38,7 @@ public class Course implements Serializable {
      *
      * @param dueDate
      */
-    public void setTime(java.sql.Time time) {
+    public void setTime(String time) {
          this.time = time;
      }
     

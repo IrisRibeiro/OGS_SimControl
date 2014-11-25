@@ -108,20 +108,7 @@ public class CreateClassServlet extends HttpServlet {
         _course.setInstructorID(ProfessorID);
         _course.setCourseID(newID);
         time = request.getParameter("ttime");    
-       
-    
-            SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-            java.util.Date d1 = null;
-           
-        try {
-            d1 = (java.util.Date)format.parse(time);
-            
-        } catch (ParseException ex) {
-            Logger.getLogger(CreateClassServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-            java.sql.Time ppstime = new java.sql.Time(d1.getTime());
-            _course.setTime(ppstime);
+        _course.setTime(time);
             
         try {
             boolean insert = CManager.insert(_course);

@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import OGS.beans.Assignment;
 import OGS.tables.AssignmentManager;
-import java.sql.Date;
+
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -85,33 +85,10 @@ public class CreateAssignmentServelet extends HttpServlet {
         }else{
             idValue = 1;
         }
-        time = request.getParameter("ttime");    
-       
-    
-            SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-            java.util.Date d1 = null;
-           
-        try {
-            d1 = (java.util.Date)format.parse(time);
-            
-        } catch (ParseException ex) {
-            Logger.getLogger(CreateClassServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        java.sql.Time ppstime = new java.sql.Time(d1.getTime());
-        
+        time = request.getParameter("ttime");
         newId = Integer.toString(idValue);
         String name = request.getParameter("assignName");        
         String dueDate = request.getParameter("dDate");
-        SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy");
-        java.util.Date date = null;
-        try {
-            date = sdf.parse(dueDate);
-        } catch (ParseException ex) {
-            Logger.getLogger(CreateAssignmentServelet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        java.sql.Date sqlDate = new Date(date.getTime());
-        
         String specs = request.getParameter("specs");        
         String instructions = request.getParameter("instrucstions"); 
         String courseID = request.getParameter("Classes");        
@@ -123,13 +100,13 @@ public class CreateAssignmentServelet extends HttpServlet {
         
         assign.setID(newId);
         assign.setName(name);
-        assign.setDueDate(sqlDate);
+        assign.setDueDate(dueDate);
         assign.setSpecification(specs);
         assign.setInstructions(instructions);
         assign.setPointsPossible(points);
         assign.setCourseID(courseID);
         assign.setNumber(assignmentnum);
-        assign.setTimeDue(ppstime);
+        assign.setTimeDue(time);
         assign.setPath("default");
         
         

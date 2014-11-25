@@ -15,16 +15,16 @@ public class Assignment implements Serializable {
     
     private String name;
     private String specification;
-    private Date dueDate;
+    private String dueDate;
     private String instructions;
     private String path;
     private String courseID;
     private int pointsPossible;
     private String ID;
     private int number;
-    private java.sql.Time timeDue;
+    private String timeDue;
     
-    public java.sql.Time getTimeDue() {
+    public String getTimeDue() {
          return timeDue;
      }
 
@@ -33,7 +33,7 @@ public class Assignment implements Serializable {
      *
      * @param dueDate
      */
-    public void setTimeDue(java.sql.Time timeDue) {
+    public void setTimeDue(String timeDue) {
          this.timeDue = timeDue;
      }
     /**
@@ -85,7 +85,7 @@ public class Assignment implements Serializable {
      *
      * @return assignment's due date
      */
-    public Date getDueDate() {
+    public String getDueDate() {
          return dueDate;
      }
 
@@ -94,7 +94,7 @@ public class Assignment implements Serializable {
      *
      * @param dueDate
      */
-    public void setDueDate(Date dueDate) {
+    public void setDueDate(String dueDate) {
          this.dueDate = dueDate;
      }
 
