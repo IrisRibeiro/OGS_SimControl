@@ -14,6 +14,11 @@
  %>
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+       <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        
+        
+    </head>
     <jsp:include page="DefaultLayout.jsp" flush="true"/>
     <body>
         <div id="page-wrapper">
@@ -42,11 +47,33 @@
                                         
                                         <div class="form-group">
                                              <label>Due Date</label>
-                                                <input class="form-control" name="dDate" type="datetime"/>  
+                                                <div class='input-group date' id='datetimepicker1'>
+                                                    <input type='text' class="form-control" />
+                                                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+                                                    </span>
+                                                    <script type="text/javascript">
+                                                        $(function () {
+                                                            $('#datetimepicker1').datetimepicker({
+                                                               pickTime:false 
+                                                            });
+                                                        });
+                                                    </script>
+                                                </div> 
                                         </div>   
                                         <div class="form-group">
                                             <label>Time</label>
-                                                    <input class="form-control" name="ttime" type="time">
+                                                    <div class='input-group date' id='datetimepicker4'>
+                                                        <input type='text' class="form-control" />
+                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span>
+                                                        </span>
+                                                        <script type="text/javascript">
+                                                            $(function () {
+                                                                $('#datetimepicker4').datetimepicker({
+                                                                    pickDate: false
+                                                                });
+                                                            });
+                                                        </script>
+                                                    </div>
                                             </div>
                                         <div class="form-group">
                                             <label>Course</label>
@@ -92,8 +119,8 @@
                         </div>								
                     </div>
                 </div>
-            </div>       
+            </div> 
+        <script type="text/javascript" src="assets/twitterbootstrap/js/bootstrap.js"></script>
     </body>
-
 </html>
 

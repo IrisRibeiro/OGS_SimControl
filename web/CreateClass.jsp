@@ -17,6 +17,10 @@
         List <Person> _Professors = PersonManager.getAllProfessor();
 %>
 <html lang="en">
+    <head>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        
+    </head>
     <jsp:include page="DefaultLayout.jsp" flush="true"/>
     <body>
         <!-- Page Content -->
@@ -82,7 +86,18 @@
                                             </div>
                                             <div class="form-group">
                                                     <label>Time</label>
-                                                            <input class="form-control" name="ttime" type="time">
+                                                            <div class='input-group date' id='datetimepicker4'>
+                                                                <input type='text' class="form-control" />
+                                                                <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span>
+                                                                </span>
+                                                                <script type="text/javascript">
+                                                                    $(function () {
+                                                                        $('#datetimepicker4').datetimepicker({
+                                                                            pickDate: false
+                                                                        });
+                                                                    });
+                                                                </script>
+                                                            </div>
                                             </div>
                                             <div class="form-group">
                                                     <label>Days</label>
@@ -123,6 +138,7 @@
 			</div>
 		</div>
 		</div>
+                                                
 </body>
 
 </html>

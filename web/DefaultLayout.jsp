@@ -205,7 +205,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-user">                       
                         <li class="divider"></li>
-                        <li><a href="Logout.jsp"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li><a href="${pageContext.request.contextPath}/LogoutServelet"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->

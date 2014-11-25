@@ -22,14 +22,15 @@
 <%
 	return;
 	}
-	String classID = request.getParameter("classID");
-	int ID = Integer.parseInt(classID);
-	Course course = CourseManager.getCoursesByIDForPerson(ID, person);
+	String classID = request.getParameter("classID");	
+	Course course = CourseManager.getRow(classID);
+        Person Professor = PersonManager.getRowfromID(course.getInstructorID());
 	if (course == null) {
 		course = new Course();
 %>
 <script type="text/javascript">
-	alert("Class(classID="+<%=classID%>+") is not Found...");
+	alert("Class is not Found... You'll be redirected");
+        location.href = "faces/Dashboard.jsp";
 </script>
 <%
 	}
@@ -61,52 +62,41 @@
 										</div>
 										<div class="form-group">
 											<label>Credits</label> <input class="form-control"
-												name="tcredits" type="number">
+												name="tcredits" type="number" value="<%=course.getCredits()%>">
 										</div>
 										<div class="form-group">
 											<label>Room/Building</label> <input class="form-control"
-												name="tbuilding" type="text">
+												name="tbuilding" type="text" value="<%=course.getRoom() + "/" +course.getBuilding() %>">
 										</div>
 										<div class="form-group">
 											<label>Official Webpage</label> <input class="form-control"
-												name="twebpage" type="text">
+												name="twebpage" type="text" value="<%=course.getWebsite()%>">
 										</div>
 										<div class="form-group">
-											<label>Period</label> <select class="form-control">
-												<option>Spring</option>
-												<option>Summer</option>
-												<option>Fall</option>
-												<option>Winter</option>
-											</select>
-										</div>
-										<div class="form-group">
-											<label>Import Students</label> <input type="file">
-										</div>
+											<label>Period</label> <input class="form-control"
+												name="tPeriod" type="text" value="<%=course.getSection()%>">
+										</div>										
 									</div>
 									<div class="col-lg-6">
 										<div class="form-group">
 											<label>Name</label> <input type="text" class="form-control"
-												name="tname">
+												name="tname" value="<%=course.getName()%>">
 										</div>
 										<div class="form-group">
 											<label>Prerequisite</label> <input class="form-control"
-												name="tprerequisite">
+												name="tprerequisite" value="<%=course.getPrerequisites()%>">
 										</div>
 										<div class="form-group">
 											<label>Date and Time</label> <input class="form-control"
-												name="tdatetime" type="datetime">
-										</div>
-										<div class="form-group">
-											<label>Instructor ID</label> <input class="form-control"
-												name="tinstructorId" type="number">
-										</div>
+												name="tdatetime" type="text" value="<%=course.getDays()+ " - "+ course.getTime()%>">
+										</div>										
 										<div class="form-group">
 											<label>Instructor Name</label> <input class="form-control"
-												name="tinstructorname">
+												name="tinstructorname" value="<%=Professor.getName()%>">
 										</div>
 										<div class="form-group">
 											<label>Instructor Email</label> <input class="form-control"
-												name="tinstructoremial" type="email">
+												name="tinstructoremial" type="email" value="<%=Professor.getEmailAddress()%>">
 										</div>
 									</div>
 								</fieldset>

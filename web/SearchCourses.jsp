@@ -7,7 +7,7 @@
 <html lang="en">
 <head>
     <jsp:include page="DefaultLayout.jsp" flush="true"/>
-    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <%@page language="java" contentType="text/html;charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="OGS.tables.*,OGS.beans.*, java.util.*"%>
@@ -25,6 +25,9 @@
 	List<Course> courses = CourseManager.getCoursesForPerson(person);
 	//List<Course> courses = new ArrayList<>();
 %>
+</head>
+
+</head>
 <body>
 
 	<div id="page-wrapper">
@@ -58,12 +61,12 @@
 										for (Course course : courses) {
 									%>
 									<tr class="gradeA">
-										<td>
-											<div class="checkbox">
-												<input type="hidden" value="<%=course.getCourseID()%>"></input>
-												<label> <input type="checkbox" value=""></label>
-											</div>
+										<td class="something">
+                                                                                   												
+                                                                                <label> <input  type="checkbox" value=""></label>
+                                                                                <input type="hidden" name="CourseID" value="<%=course.getCourseID()%>"/>
 										</td>
+                                                                                
 										<td><%=course.getIdentifier()%></td>
 										<td><%=course.getName()%></td>
 										<td class="center"><%=course.getCredits()%></td>
@@ -106,12 +109,12 @@
 					.click(
                         function() {
                                 var checked = $("#dataTables-classes").find(
-                                                "div.checkbox").find(":checked");
+                                                "td.something").find(":checked");
                                 if (checked.size() != 1) {
                                         alert("One and ONLY one course should be checked...");
                                 } else {
                                         var classID = checked.parents(
-                                                        "div.checkbox").find(
+                                                        "td.something").find(
                                                         "input[type='hidden']").val();
                                         location.href = "ViewClass.jsp?classID="
                                                         + classID;
