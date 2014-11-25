@@ -112,8 +112,14 @@ public class CreateClassServlet extends HttpServlet {
             
         try {
             boolean insert = CManager.insert(_course);
+            if (insert==true){
+                response.sendRedirect("faces/Dashboard.jsp");
+            }else{
+                 response.sendRedirect("faces/ErrorPage.jsp");
+            }
         } catch (Exception ex) {
             Logger.getLogger(CreateClassServlet.class.getName()).log(Level.SEVERE, null, ex);
+             response.sendRedirect("faces/ErrorPage.jsp");
         }
     }
 

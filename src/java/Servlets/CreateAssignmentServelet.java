@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import OGS.beans.Assignment;
 import OGS.tables.AssignmentManager;
+import OGS.tables.CourseManager;
 
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -71,9 +72,11 @@ public class CreateAssignmentServelet extends HttpServlet {
             throws ServletException, IOException {
         Assignment assign = new Assignment();
         AssignmentManager man = new AssignmentManager();
+        CourseManager CManager = new CourseManager();
         String newId = "";
         int idValue = 0;
         String time = ""; 
+        int numberofassignments = 0;
         try {
             newId = man.getAssignmentNumber();
         } catch (SQLException | ClassNotFoundException ex) {
@@ -117,10 +120,21 @@ public class CreateAssignmentServelet extends HttpServlet {
             Logger.getLogger(CreateAssignmentServelet.class.getName()).log(Level.SEVERE, null, ex);
         }
         if (check == true) {
-            response.sendRedirect("Dashboard.jsp");
+            try {
+                numberofassignments = CManager.getNumberofAssignments(courseID);
+                if (numberofassignments ==-1){
+                    response.sendRedirect("faces/ErrorPage.jsp");
+                }else{
+                    check = CManager.UpdateNumofAssignments(courseID,numberofassignments);
+                }
+                
+            } catch (Exception ex) {
+                Logger.getLogger(CreateAssignmentServelet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            response.sendRedirect("faces/Dashboard.jsp");
 
         } else {
-            response.sendRedirect("ErrorPage.jsp");
+            response.sendRedirect("faces/ErrorPage.jsp");
         }
 
     }

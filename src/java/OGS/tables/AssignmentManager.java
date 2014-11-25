@@ -171,8 +171,7 @@ public class AssignmentManager {
             stmt.setString(8, assignmentBean.getID());
             stmt.setInt(9,assignmentBean.getNumber());
             stmt.setString(10, assignmentBean.getTimeDue());
-            int affected = stmt.executeUpdate();
-            conn.commit();
+            int affected = stmt.executeUpdate();           
             
             LOGGER.warning("Finish executing query");
             if (affected == 1) {

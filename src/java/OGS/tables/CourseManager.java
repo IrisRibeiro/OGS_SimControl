@@ -216,38 +216,7 @@ public class CourseManager {
         return courses;
     }
 
-    public void checkMeetPrereqs() {
-
-    }
-
-    /**
-     * Are Seats full methods
-     */
-    public void areSeatsFull() {
-
-    }
-
-    /**
-     * Create Cousre method
-     */
-    public void createCourse() {
-
-    }
-
-    /**
-     * Delete Course method
-     */
-    public void deleteCourse() {
-
-    }
-
-    /**
-     * Modify method
-     */
-    public void modify() {
-
-    }
-
+    
     public static List<Course> getCoursesForPerson(Person person) throws SQLException, ClassNotFoundException, IOException {
         File f = new File("c:/SimControl/Logging/");
         if(!f.exists()){
@@ -413,6 +382,89 @@ public class CourseManager {
         } catch (SQLException e) {
             System.err.println(e);
             return null;
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+        }
+
+        return returnId ;
+        
+    }
+    
+    public static boolean UpdateNumofAssignments(String ID, int numberofassignments) throws Exception {
+        File f = new File("c:/SimControl/Logging/");
+        if(!f.exists()){
+            f.mkdirs();
+            
+        }
+        FileHandler fh;
+        fh = new FileHandler(f.getPath() + "\\Course_Log.log");
+        LOGGER.addHandler(fh);
+        SimpleFormatter formatter = new SimpleFormatter();  
+        fh.setFormatter(formatter);
+        
+        LOGGER.info("Logger Name: " + LOGGER.getName());
+        LOGGER.info("Method UpdateNumofAssignments()");
+        String sql
+                = "UPDATE Course SET NumberOfAssignments = ? "
+                + "Where ID = ? ";
+        LOGGER.warning("Creating the connection to the database");
+        try (
+                Connection conn = DBUtil.getConnection(DBType.MYSQL);
+                PreparedStatement stmt = conn.prepareStatement(sql);) {
+            
+            stmt.setInt(1, numberofassignments);
+            stmt.setString(2,ID);
+            LOGGER.config("Variables ID and NumberOfassignments are :" + ID +" "+ numberofassignments);
+            int affected = stmt.executeUpdate();
+            
+            if (affected == 1) {
+                return true;
+            } else {
+                return false;
+            }
+
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Exception occur", e);
+            System.err.println(e);
+            return false;
+        }
+
+    }
+    
+    public static int getNumberofAssignments(String ID) throws SQLException, ClassNotFoundException, IOException {        
+        
+        File f = new File("c:/SimControl/Logging/");
+        if(!f.exists()){
+            f.mkdirs();
+            
+        }
+        FileHandler fh;
+        fh = new FileHandler(f.getPath() + "\\Assignment_Log.log");
+        LOGGER.addHandler(fh);
+        SimpleFormatter formatter = new SimpleFormatter();  
+        fh.setFormatter(formatter);
+        
+        LOGGER.info("Logger Name: " + LOGGER.getName());
+        LOGGER.info("Method getNumberofAssignments()");
+        String sql = "SELECT NumberOfAssignments FROM Course Where = ?";
+        ResultSet rs = null;
+        int returnId = 0;
+        LOGGER.warning("Creating the connection to the database");
+        try (
+                Connection conn = DBUtil.getConnection(DBType.MYSQL);
+                PreparedStatement stmt = conn.prepareStatement(sql);) {
+                stmt.setString(1, ID);
+                rs = stmt.executeQuery();
+            if (rs.next()) {
+                returnId = rs.getInt("NumberOfAssignments");   
+            }
+            LOGGER.config("Object rs is :" + rs);
+
+        } catch (SQLException e) {
+            System.err.println(e);
+            return -1;
         } finally {
             if (rs != null) {
                 rs.close();
