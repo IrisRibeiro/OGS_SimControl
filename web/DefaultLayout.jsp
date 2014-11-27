@@ -291,8 +291,12 @@
                                 
                                 <% }else if(acesslevel == 4) { // Manager %> <!-- / -->
                                     <li>
-                                        <a href="CreateClass.jsp">Create Course</a>  <!-- /.Modify to link to the page -->
+                                        <a href="CreateClass.jsp">Create Class</a>  <!-- /.Modify to link to the page -->
                                     </li>
+                                    <li>
+                                        <a href="CreateCourse.jsp">Create Course</a>  <!-- /.Modify to link to the page -->
+                                    </li>
+                                    
                                     <li>
                                         <a href="SearchCourses.jsp">Search Class</a> <!-- /.Modify to link to the page -->
                                     </li>

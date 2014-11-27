@@ -47,7 +47,7 @@
                                         
                                         <div class="form-group">
                                              <label>Due Date</label>
-                                                <div class='input-group date' id='datetimepicker1'>
+                                                <div class='input-group date' id='datetimepicker1' name="dDate">
                                                     <input type='text' class="form-control" />
                                                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
                                                     </span>
@@ -62,7 +62,7 @@
                                         </div>   
                                         <div class="form-group">
                                             <label>Time</label>
-                                                    <div class='input-group date' id='datetimepicker4'>
+                                                    <div class='input-group date' id='datetimepicker4' name="ttime">
                                                         <input type='text' class="form-control" />
                                                         <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span>
                                                         </span>

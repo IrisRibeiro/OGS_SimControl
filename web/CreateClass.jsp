@@ -5,20 +5,32 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import=" OGS.beans.Person, OGS.tables.PersonManager, java.util.*"%>
-<%
-	Person person = (Person) session.getAttribute("currentSessionUser");
-	if (person == null) {
-		response.sendRedirect("faces/Login.jsp");
-		return;
-        }
-        
-        PersonManager PManager = new PersonManager();
-        List <Person> _Professors = PersonManager.getAllProfessor();
-%>
+<%@page import=" OGS.beans.Person, OGS.beans.Course, OGS.tables.PersonManager, OGS.tables.CourseManager, java.util.*"%>
+
 <html lang="en">
     <head>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<%
+Person person = (Person) session.getAttribute("currentSessionUser");
+if (person == null) {
+        response.sendRedirect("faces/Login.jsp");
+        return;
+}
+
+PersonManager PManager = new PersonManager();
+List <Person> _Professors = PersonManager.getAllProfessor();
+List <Course> _Courses = CourseManager.getAllCourses();
+
+if (_Courses == null) {
+%>
+<script type="text/javascript">
+	alert("No courses created to creat a class");
+	location.href = "Login.jsp";
+</script>
+<%
+return;
+}
+%>
         
     </head>
     <jsp:include page="DefaultLayout.jsp" flush="true"/>
@@ -42,23 +54,24 @@
                         <div class="panel-body" >
                                 <div class="row">
                                 <form role="form" method="get" action="CreateClassServlet" >
-                                        <div class="col-lg-6">								
+                                        <div class="col-lg-6">							
                                             <div class="form-group">
-                                                    <label>Class Identifier</label>
-                                                            <input class="form-control" name="tidentifier">
-                                            </div>
-                                            <div class="form-group">
-                                                    <label>Credits</label>
-                                                            <input class="form-control" name="tcredits" type="number">
-                                            </div>
+                                                <label>Course</label>
+                                                 <select name="CourseID" class="form-control">
+                                                    <%
+                                                            for (Course _course : _Courses) {
+                                                                String Name = _course.getCourseID() + " - " + _course.getIdentifier() + ":" + _course.getName();
+                                                    %>
+                                                        <option><%=Name%></option>   
+                                                    <%                                                 
+                                                        }
+                                                    %>
+                                                </select>                                            
+                                            </div> 
                                             <div class="form-group">
                                                     <label>Building</label>
                                                             <input class="form-control" name="tbuilding" type="text">
-                                            </div>
-                                            <div class="form-group">
-                                                    <label>Official Webpage</label>
-                                                            <input class="form-control" name="twebpage" type="text">
-                                            </div>
+                                            </div>                                           
                                             <div class="form-group">
                                                     <label>Period</label>
                                                     <select name="tsection" class="form-control">
@@ -67,27 +80,18 @@
                                                             <option value="Fall">Fall</option>
                                                             <option value="Winter">Winter</option>
                                                     </select>
-                                            </div>
-                                           
+                                            </div>                                           
                                             <div class="form-group">
                                                     <label>Import Students</label>
                                                     <input type="file">
                                             </div>
 
                                         </div>
-                                        <div class="col-lg-6">								
-                                            <div class="form-group">
-                                                    <label>Name</label>
-                                                            <input type="text" class="form-control" name="tname">
-                                            </div>
-                                            <div class="form-group">
-                                                    <label>Prerequisite</label>
-                                                            <input class="form-control" name="tprerequisite">
-                                            </div>
+                                        <div class="col-lg-6">
                                             <div class="form-group">
                                                     <label>Time</label>
                                                             <div class='input-group date' id='datetimepicker4'>
-                                                                <input type='text' class="form-control" />
+                                                                <input type='text' class="form-control" name="ttime" />
                                                                 <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span>
                                                                 </span>
                                                                 <script type="text/javascript">
@@ -127,8 +131,7 @@
                                                         }
                                                     %>
                                                 </select>                                            
-                                            </div>                                        
-                                        <input type="reset" class="btn btn-default" value="Reset" >
+                                            </div> 
                                         <input class="btn btn-default" type="submit" value="Submit">	
                                         </div>							
                                 </form>
