@@ -15,7 +15,7 @@ import java.io.Serializable;
 public class TACourse implements Serializable {
 
     private int TAID;
-    private int CourseID;
+    private int ClassID;
 
     public int getTAID() {
         return TAID;
@@ -26,12 +26,12 @@ public class TACourse implements Serializable {
         this.TAID = TAID;
     }
     
-    public int getCourseID(){
-        return CourseID;
+    public int getClassID(){
+        return ClassID;
     }
     
-    public void setCourseID(){
-        this.CourseID = CourseID;
+    public void setClassID(){
+        this.ClassID = ClassID;
     }
     
 }

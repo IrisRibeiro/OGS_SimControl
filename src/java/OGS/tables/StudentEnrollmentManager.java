@@ -32,7 +32,7 @@ public class StudentEnrollmentManager {
             if (rs.next()) {
                 StudentEnrollment studentenrollment = new StudentEnrollment();
                 studentenrollment.setStudentID(rs.getString("StudentID"));
-                studentenrollment.setCourseID(rs.getString("CourseID"));
+                studentenrollment.setClassID(rs.getString("ClassID"));
                 studentenrollment.setFlag(rs.getString("Flag"));
                 return studentenrollment;
             } else {
@@ -64,7 +64,7 @@ public class StudentEnrollmentManager {
             if (rs.next()) {
                 StudentEnrollment studentenrollment = new StudentEnrollment();
                 studentenrollment.setStudentID(rs.getString("StudentID"));
-                studentenrollment.setCourseID(rs.getString("CourseID"));
+                studentenrollment.setClassID(rs.getString("ClassID"));
                  studentenrollment.setFlag(rs.getString("Flag"));
                 return studentenrollment;
             } else {
@@ -85,7 +85,7 @@ public class StudentEnrollmentManager {
     
      public static StudentEnrollment getRowID(String StudentID, String CourseID) throws SQLException, ClassNotFoundException {
 
-        String sql = "SELECT * FROM StudentEnrollment WHERE StudentID = ? AND CourseID= ?";
+        String sql = "SELECT * FROM StudentEnrollment WHERE StudentID = ? AND ClassID= ?";
         ResultSet rs = null;
 
         try (
@@ -98,7 +98,7 @@ public class StudentEnrollmentManager {
             if (rs.next()) {
                 StudentEnrollment studentenrollment = new StudentEnrollment();
                 studentenrollment.setStudentID(rs.getString("StudentID"));
-                studentenrollment.setCourseID(rs.getString("CourseID"));
+                studentenrollment.setClassID(rs.getString("ClassID"));
                  studentenrollment.setFlag(rs.getString("Flag"));
                 return studentenrollment;
             } else {

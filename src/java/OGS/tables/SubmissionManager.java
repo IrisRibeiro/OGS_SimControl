@@ -90,15 +90,10 @@ public class SubmissionManager {
             stmt.setString(8, submissionBean.getSubmissionTime());
             int affected = stmt.executeUpdate();
 
-            if (affected == 1) {
-                keys = stmt.getGeneratedKeys();
-                keys.next();
-                String newKey = keys.getString(1);
-                submissionBean.setSubmissionID(newKey);
-            } else {
+            if (affected != 1) {
                 System.err.println("No rows affected");
                 return false;
-            }
+            } 
 
         } catch (SQLException e) {
             System.err.println(e);

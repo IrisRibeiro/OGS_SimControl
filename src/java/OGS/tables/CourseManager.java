@@ -67,17 +67,10 @@ public class CourseManager {
                 Course CourseBean = new Course();
                 CourseBean.setIdentifier(rs.getString("Identifier"));
                 CourseBean.setName(rs.getString("Name"));
-                CourseBean.setCourseID(ID);
-                CourseBean.setSection(rs.getString("Section"));
-                CourseBean.setDays(rs.getString("Days"));
-                CourseBean.setWebsite(rs.getString("webpage"));
-                CourseBean.setBuilding(rs.getString("Building"));
-                CourseBean.setRoom(rs.getString("Room"));
-                CourseBean.setCredits(rs.getInt("Credits"));
-                CourseBean.setNumberOfAssignments(rs.getInt("NumberOfAssignments"));
-                CourseBean.setPrerequisites(rs.getString("Prerequisite"));
-                CourseBean.setInstructorID(rs.getString("InstructorID"));
-                CourseBean.setTime(rs.getString("Time"));
+                CourseBean.setCourseID(ID);                
+                CourseBean.setWebsite(rs.getString("webpage"));                
+                CourseBean.setCredits(rs.getInt("Credits"));                
+                CourseBean.setPrerequisites(rs.getString("Prerequisite"));                
                 LOGGER.config("Object CourseBean is equal to :" + CourseBean);
                 return CourseBean;
             } else {
@@ -110,10 +103,9 @@ public class CourseManager {
         LOGGER.info("Logger Name: " + LOGGER.getName());
         LOGGER.info("Method insert()");
 
-        String sql = "INSERT into Course" + " (Identifier, Name, ID, Section, Days, "
-                + "Building, Room,Credits," + "NumberOfAssignments, Prerequisite, InstructorID,"
-                + "webpage, time) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?, ?)";
+        String sql = "INSERT into Course (Identifier, Name, ID,"
+                + "Credits,Prerequisite, Webpage )"
+                + "VALUES (?, ?, ?, ?, ?, ?)";
         ResultSet keys = null;
         LOGGER.warning("Creating the connection to the database");
         try (Connection conn = DBUtil.getConnection(DBType.MYSQL);
@@ -122,25 +114,14 @@ public class CourseManager {
             stmt.setString(1, CourseBean.getIdentifier());
             stmt.setString(2, CourseBean.getName());
             stmt.setString(3, CourseBean.getCourseID());
-            stmt.setString(4, CourseBean.getSection());
-            stmt.setString(5, CourseBean.getDays());           
-            stmt.setString(6, CourseBean.getBuilding());
-            stmt.setString(7, CourseBean.getRoom());
-            stmt.setInt(8, CourseBean.getCredits());
-            stmt.setInt(9, CourseBean.getNumberOfAssignments());
-            stmt.setString(10, CourseBean.getPrerequisites());
-            stmt.setString(11, CourseBean.getInstructorID());
-            stmt.setString(12, CourseBean.getWebsite());
-            stmt.setString(13, CourseBean.getTime());
+            stmt.setInt(4, CourseBean.getCredits());
+            stmt.setString(5, CourseBean.getPrerequisites());
+            stmt.setString(6, CourseBean.getWebsite());
+            
             LOGGER.config("Object CourseBean is equal to :" + CourseBean);
             int affected = stmt.executeUpdate();
             
-            if (affected == 1) {
-                keys = stmt.getGeneratedKeys();
-                keys.next();
-                String newKey = keys.getString(1);
-                CourseBean.setCourseID(newKey);
-            } else {
+            if (affected != 1) {
                 LOGGER.log(Level.SEVERE, "Exception occur", stmt.getGeneratedKeys());
                 if(conn!= null)
                 conn.rollback();
@@ -158,198 +139,7 @@ public class CourseManager {
             }
         }
         return true;
-    }
-    
-    public static List<Course> getCourseByProfessor(String ProfessorID) throws SQLException, ClassNotFoundException, IOException {
-        File f = new File("c:/SimControl/Logging/");
-        if(!f.exists()){
-            f.mkdirs();
-            
-        }
-        FileHandler fh;
-        fh = new FileHandler(f.getPath() + "\\Course_Log.log");
-        LOGGER.addHandler(fh);
-        SimpleFormatter formatter = new SimpleFormatter();  
-        fh.setFormatter(formatter);
-        
-        LOGGER.info("Logger Name: " + LOGGER.getName());
-        LOGGER.info("Method getRow()");
-        
-        List<Course> courses = new ArrayList<Course>();
-        String sql = "SELECT * FROM Course WHERE InstructorID = ?";
-        ResultSet rs = null;
-        LOGGER.warning("Creating the connection to the database");
-        try (Connection conn = DBUtil.getConnection(DBType.MYSQL);
-                PreparedStatement stmt = conn.prepareStatement(sql);) {
-            stmt.setString(1, ProfessorID);
-            rs = stmt.executeQuery();
-            LOGGER.warning("Finish executing query");
-            while (rs.next()) {
-                Course CourseBean = new Course();
-                CourseBean.setIdentifier(rs.getString("Identifier"));
-                CourseBean.setName(rs.getString("Name"));
-                CourseBean.setCourseID(rs.getString("ID"));
-                CourseBean.setSection(rs.getString("Section"));
-                CourseBean.setDays(rs.getString("Days"));
-                CourseBean.setTime(rs.getString("Time"));
-                CourseBean.setBuilding(rs.getString("Building"));
-                CourseBean.setRoom(rs.getString("Room"));
-                CourseBean.setCredits(rs.getInt("Credits"));
-                CourseBean.setNumberOfAssignments(rs.getInt("NumberOfAssignments"));
-                CourseBean.setPrerequisites(rs.getString("Prerequisite"));
-                CourseBean.setInstructorID(rs.getString("InstructorID"));
-                CourseBean.setWebsite(rs.getString("webpage"));
-                courses.add(CourseBean);
-                LOGGER.config("Object CourseBean is equal to :" + courses);
-               
-            } 
-
-        } catch (SQLException e) {
-            System.err.println(e);
-            LOGGER.log(Level.SEVERE, "Exception occur", e);
-            return null;
-        } finally {
-            if (rs != null) {
-                rs.close();
-            }
-        }
-        return courses;
-    }
-
-    
-    public static List<Course> getCoursesForPerson(Person person) throws SQLException, ClassNotFoundException, IOException {
-        File f = new File("c:/SimControl/Logging/");
-        if(!f.exists()){
-            f.mkdirs();
-            
-        }
-        FileHandler fh;
-        fh = new FileHandler(f.getPath() + "\\Course_Log.log");
-        LOGGER.addHandler(fh);
-        SimpleFormatter formatter = new SimpleFormatter();  
-        fh.setFormatter(formatter);
-        
-        LOGGER.info("Logger Name: " + LOGGER.getName());
-        LOGGER.info("Method getCoursesForPerson()");
-        List<Course> courses = new ArrayList<Course>();
-        String sql;
-        switch (person.getAccessLevel()) {
-            case 1:
-                sql = "select Course.* from Course, StudentEnrollment "
-                        + "where Course.ID = StudentEnrollment.CourseID and StudentEnrollment.StudentID = ?";
-                break;
-            case 2:
-                sql = "select Course.* from Course, TACourse "
-                        + "where Course.ID = TACourse.CourseID and TACourse.TAID = ?";
-                break;
-            case 3:
-                sql = "select * from Course, person " + "where Course.instructorID = ?";
-                break;
-            case 4:
-                sql = "select Course.* from Course " + "where 1 = 1 or (0 = ?)";
-                break;
-            default:
-                return courses;
-        }
-        ResultSet rs = null;
-        LOGGER.warning("Creating the connection to the database");
-        try (Connection conn = DBUtil.getConnection(DBType.MYSQL);
-                PreparedStatement stmt = conn.prepareStatement(sql);) {
-            stmt.setString(1, person.getID()); // set Person ID
-            rs = stmt.executeQuery();
-            while (rs.next()) {
-                Course courseBean = new Course();
-                courseBean.setIdentifier(rs.getString("Identifier"));
-                courseBean.setName(rs.getString("Name"));
-                courseBean.setCourseID(rs.getString("ID"));
-                courseBean.setSection(rs.getString("Section"));
-                courseBean.setDays(rs.getString("Days"));
-                courseBean.setTime(rs.getString("Time"));
-                courseBean.setBuilding(rs.getString("Building"));
-                courseBean.setRoom(rs.getString("Room"));
-                courseBean.setCredits(rs.getInt("Credits"));
-                courseBean.setNumberOfAssignments(rs.getInt("NumberOfAssignments"));
-                courseBean.setPrerequisites(rs.getString("Prerequisite"));
-                courseBean.setInstructorID(rs.getString("InstructorID"));
-                courseBean.setWebsite(rs.getString("webpage"));
-                courses.add(courseBean);
-                LOGGER.config("List of courses is euqal to :" + courses);
-            }
-        } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Exception occur", e);
-            System.err.println(e);
-
-        }
-        return courses;
-    }
-
-    public static Course getCoursesByIDForPerson(String classID, Person person) throws SQLException, ClassNotFoundException, IOException {
-        File f = new File("c:/SimControl/Logging/");
-        if(!f.exists()){
-            f.mkdirs();
-            
-        }
-        FileHandler fh;
-        fh = new FileHandler(f.getPath() + "\\Course_Log.log");
-        LOGGER.addHandler(fh);
-        SimpleFormatter formatter = new SimpleFormatter();  
-        fh.setFormatter(formatter);
-        
-        LOGGER.info("Logger Name: " + LOGGER.getName());
-        LOGGER.info("Method getCoursesByIDForPerson()" + classID + " " + person);
-        String sql;
-        switch (person.getAccessLevel()) {
-            case 1:
-                sql = "select Course.* from Course, StudentEnrollment "
-                        + "where Course.ID = StudentEnrollment.CourseID and Course.ID=? and StudentEnrollment.StudentID = ?";
-                break;
-            case 2:
-                sql = "select Course.* from Course, TACourse "
-                        + "where Course.ID = TACourse.CourseID and Course.ID=? and TACourse.TAID = ?";
-                break;
-            case 3:
-                sql = "select * from Course, person " + "where Course.ID=? and Course.instructorID = ?";
-                break;
-            case 4:
-                sql = "select Course.* from Course " + "where Course.ID=? and (1 = 1 or (0 = ?))";
-                break;
-            default:
-                return null;
-        }
-        ResultSet rs = null;
-
-        Course courseBean = null;
-        LOGGER.warning("Creating the connection to the database");
-        try (Connection conn = DBUtil.getConnection(DBType.MYSQL);
-                PreparedStatement stmt = conn.prepareStatement(sql);) {
-            stmt.setString(1, classID); // set ClassID
-            stmt.setString(2, person.getID()); // set Person ID
-            rs = stmt.executeQuery();
-            if (rs.next()) {
-                courseBean = new Course();
-                courseBean.setIdentifier(rs.getString("Identifier"));
-                courseBean.setName(rs.getString("Name"));
-                courseBean.setCourseID(rs.getString("ID"));
-                courseBean.setSection(rs.getString("Section"));
-                courseBean.setDays(rs.getString("Days"));
-                courseBean.setTime(rs.getString("Time"));
-                courseBean.setBuilding(rs.getString("Building"));
-                courseBean.setRoom(rs.getString("Room"));
-                courseBean.setCredits(rs.getInt("Credits"));
-                courseBean.setNumberOfAssignments(rs.getInt("NumberOfAssignments"));
-                courseBean.setPrerequisites(rs.getString("Prerequisite"));
-                courseBean.setInstructorID(rs.getString("InstructorID"));
-                courseBean.setWebsite(rs.getString("webpage"));
-                LOGGER.config("Object CourseBean is equal to :" + courseBean);
-            }
-        } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Exception occur", e);
-            System.err.println(e);
-
-        }
-
-        return courseBean;
-    }
+    } 
     
     public static String getLastCourseID() throws SQLException, ClassNotFoundException, IOException {        
         
@@ -392,7 +182,8 @@ public class CourseManager {
         
     }
     
-    public static boolean UpdateNumofAssignments(String ID, int numberofassignments) throws Exception {
+    
+    public static List<Course> getAllCourses() throws SQLException, ClassNotFoundException, IOException {
         File f = new File("c:/SimControl/Logging/");
         if(!f.exists()){
             f.mkdirs();
@@ -405,73 +196,41 @@ public class CourseManager {
         fh.setFormatter(formatter);
         
         LOGGER.info("Logger Name: " + LOGGER.getName());
-        LOGGER.info("Method UpdateNumofAssignments()");
-        String sql
-                = "UPDATE Course SET NumberOfAssignments = ? "
-                + "Where ID = ? ";
-        LOGGER.warning("Creating the connection to the database");
-        try (
-                Connection conn = DBUtil.getConnection(DBType.MYSQL);
-                PreparedStatement stmt = conn.prepareStatement(sql);) {
-            
-            stmt.setInt(1, numberofassignments);
-            stmt.setString(2,ID);
-            LOGGER.config("Variables ID and NumberOfassignments are :" + ID +" "+ numberofassignments);
-            int affected = stmt.executeUpdate();
-            
-            if (affected == 1) {
-                return true;
-            } else {
-                return false;
-            }
-
-        } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Exception occur", e);
-            System.err.println(e);
-            return false;
-        }
-
-    }
-    
-    public static int getNumberofAssignments(String ID) throws SQLException, ClassNotFoundException, IOException {        
+        LOGGER.info("Method getAllCourses()");
         
-        File f = new File("c:/SimControl/Logging/");
-        if(!f.exists()){
-            f.mkdirs();
-            
-        }
-        FileHandler fh;
-        fh = new FileHandler(f.getPath() + "\\Assignment_Log.log");
-        LOGGER.addHandler(fh);
-        SimpleFormatter formatter = new SimpleFormatter();  
-        fh.setFormatter(formatter);
-        
-        LOGGER.info("Logger Name: " + LOGGER.getName());
-        LOGGER.info("Method getNumberofAssignments()");
-        String sql = "SELECT NumberOfAssignments FROM Course Where = ?";
+        List<Course> Courses = new ArrayList<Course>();
+        String sql = "SELECT * FROM Course ";
         ResultSet rs = null;
-        int returnId = 0;
         LOGGER.warning("Creating the connection to the database");
-        try (
-                Connection conn = DBUtil.getConnection(DBType.MYSQL);
+        try (Connection conn = DBUtil.getConnection(DBType.MYSQL);
                 PreparedStatement stmt = conn.prepareStatement(sql);) {
-                stmt.setString(1, ID);
-                rs = stmt.executeQuery();
-            if (rs.next()) {
-                returnId = rs.getInt("NumberOfAssignments");   
-            }
-            LOGGER.config("Object rs is :" + rs);
+           
+            rs = stmt.executeQuery();
+            LOGGER.warning("Finish executing query");
+            while (rs.next()) {
+                Course CourseBean = new Course();
+                CourseBean.setIdentifier(rs.getString("Identifier"));
+                CourseBean.setName(rs.getString("Name"));
+                CourseBean.setCourseID(rs.getString("ID"));                
+                CourseBean.setWebsite(rs.getString("webpage"));                
+                CourseBean.setCredits(rs.getInt("Credits"));                
+                CourseBean.setPrerequisites(rs.getString("Prerequisite"));  
+                Courses.add(CourseBean);
+                LOGGER.config("Object CourseBean is equal to :" + CourseBean);
+                
+               
+            } 
 
         } catch (SQLException e) {
             System.err.println(e);
-            return -1;
+            LOGGER.log(Level.SEVERE, "Exception occur", e);
+            return null;
         } finally {
             if (rs != null) {
                 rs.close();
             }
         }
-
-        return returnId ;
-        
+        return Courses;
     }
+    
 }

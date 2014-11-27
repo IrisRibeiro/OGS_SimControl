@@ -14,7 +14,7 @@ import java.io.Serializable;
 public class StudentEnrollment implements Serializable {
 
     private String studentID;
-    private String courseID;
+    private String ClassID;
     private String flag;
 
     /**
@@ -38,8 +38,8 @@ public class StudentEnrollment implements Serializable {
      *
      * @return student enrollment's course ID
      */
-    public String getCourseID() {
-        return courseID;
+    public String getClassID() {
+        return ClassID;
     }
 
     /**
@@ -47,8 +47,8 @@ public class StudentEnrollment implements Serializable {
      *
      * @param courseID
      */
-    public void setCourseID(String courseID) {
-        this.courseID = courseID;
+    public void setClassID(String classID) {
+        this.ClassID = classID;
     }
 
     /**

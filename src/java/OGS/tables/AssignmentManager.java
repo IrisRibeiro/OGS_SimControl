@@ -66,9 +66,12 @@ public class AssignmentManager {
                 assignmentBean.setDueDate(rs.getString("DueDate"));
                 assignmentBean.setInstructions(rs.getString("Instructions"));
                 assignmentBean.setPath(rs.getString("Path"));
-                assignmentBean.setCourseID(rs.getString("courseID"));
+                assignmentBean.setClassID(rs.getString("classID"));
                 assignmentBean.setPointsPossible(rs.getInt("PointsPossible"));
                 assignmentBean.setTimeDue(rs.getString("TimeDue"));
+                assignmentBean.setNumber(rs.getInt("number"));
+                assignmentBean.setFlag(rs.getString("Flag"));
+                assignmentBean.setQuestions(rs.getString("Questions"));
                 assignmentBean.setID(ID);
                 LOGGER.config("Object AssignmentBeans is :" + assignmentBean);
                 return assignmentBean;
@@ -153,8 +156,8 @@ public class AssignmentManager {
         LOGGER.info("Method insert()");
         String sql = "INSERT into assignment"
                 + " (name, specification, dueDate, instructions, path, "
-                + "courseID, pointsPossible, ID, number, TimeDue) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
+                + "classID, pointsPossible, ID, number, TimeDue, Flag, Questions) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?)";
         ResultSet keys = null;
         LOGGER.warning("Creating the connection to the database");
         try (
@@ -166,23 +169,20 @@ public class AssignmentManager {
             stmt.setString(3, assignmentBean.getDueDate());
             stmt.setString(4, assignmentBean.getInstructions());         
             stmt.setString(5, assignmentBean.getPath());           
-            stmt.setString(6, assignmentBean.getCourseID());
+            stmt.setString(6, assignmentBean.getClassID());
             stmt.setInt(7, assignmentBean.getPointsPossible());
             stmt.setString(8, assignmentBean.getID());
             stmt.setInt(9,assignmentBean.getNumber());
             stmt.setString(10, assignmentBean.getTimeDue());
+            stmt.setString(11, assignmentBean.getFlag());
+            stmt.setString(12, assignmentBean.getQuestions());
             int affected = stmt.executeUpdate();           
             
             LOGGER.warning("Finish executing query");
-            if (affected == 1) {
-                keys = stmt.getGeneratedKeys();
-                keys.next();
-                String newKey = keys.getString(1);
-                assignmentBean.setID(newKey);
-            } else {
+            if (affected != 1) {
                 System.err.println("No rows affected");
                 return false;
-            }
+            } 
 
         } catch (SQLException e) {
             System.err.println(e);
@@ -221,7 +221,8 @@ public class AssignmentManager {
         String sql
                 = "UPDATE Assignment SET " + "name = ?, specification = ?, "
                 + "dueDate = ?, instructions = ?, " + "path = ?, "
-                + "courseID = ?, TimeDuse = ?, pointsPossible = ? WHERE ID = ?";
+                + "classID = ?, TimeDue = ?, pointsPossible = ?, number=?,"
+                + "Flag =?,Questions =? WHERE ID = ?";
         LOGGER.warning("Creating the connection to the database");
         try (
                 Connection conn = DBUtil.getConnection(DBType.MYSQL);
@@ -232,10 +233,14 @@ public class AssignmentManager {
             stmt.setString(3, assignmentBean.getDueDate());
             stmt.setString(4, assignmentBean.getInstructions());
             stmt.setString(5, assignmentBean.getPath());
-            stmt.setString(6, assignmentBean.getCourseID());
-            stmt.setInt(7, assignmentBean.getPointsPossible());
-            stmt.setString(8, assignmentBean.getID());
-            stmt.setString(9, assignmentBean.getTimeDue());
+            stmt.setString(6, assignmentBean.getClassID());
+            stmt.setString(7, assignmentBean.getTimeDue());
+            stmt.setInt(8, assignmentBean.getPointsPossible());
+            stmt.setInt(9, assignmentBean.getNumber());
+            stmt.setString(10, assignmentBean.getFlag());
+            stmt.setString(11, assignmentBean.getQuestions());
+            stmt.setString(12, assignmentBean.getID());
+            
             LOGGER.config("Object AssignmentBeans is :" + assignmentBean);
             int affected = stmt.executeUpdate();
             if (affected == 1) {

@@ -18,11 +18,21 @@ public class Assignment implements Serializable {
     private String dueDate;
     private String instructions;
     private String path;
-    private String courseID;
+    private String ClassID;
     private int pointsPossible;
     private String ID;
     private int number;
     private String timeDue;
+    private String Questions;
+    private String Flag;
+    
+    public String getQuestions(){
+        return Questions;
+    }
+    
+    public String getFlag(){
+        return Flag;
+    }
     
     public String getTimeDue() {
          return timeDue;
@@ -60,8 +70,16 @@ public class Assignment implements Serializable {
         this.number = number;
     }
     
+    public void setFlag(String flag){
+        this.Flag = flag;
+    }
+    
     public void setName(String name) {
         this.name = name;
+    }
+    
+    public void setQuestions (String questions){
+        this.Questions = questions;
     }
 
     /**
@@ -136,8 +154,8 @@ public class Assignment implements Serializable {
      *
      * @return assignment's course ID
      */
-    public String getCourseID() {
-        return courseID;
+    public String getClassID() {
+        return ClassID;
     }
 
     /**
@@ -145,8 +163,8 @@ public class Assignment implements Serializable {
      *
      * @param courseID
      */
-    public void setCourseID(String courseID) {
-        this.courseID = courseID;
+    public void setClassID(String classID) {
+        this.ClassID = classID;
     }
 
     /**

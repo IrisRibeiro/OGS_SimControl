@@ -5,15 +5,11 @@
  */
 package Servlets;
 
-import OGS.tables.ClassManager;
-import OGS.beans.Class;
+import OGS.beans.Course;
+import OGS.tables.CourseManager;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -26,8 +22,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Iris
  */
-@WebServlet(name = "CreateClassServlet", urlPatterns = {"/CreateClassServlet"})
-public class CreateClassServlet extends HttpServlet {
+@WebServlet(name = "CreateCourseServlet", urlPatterns = {"/CreateCourseServlet"})
+public class CreateCourseServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -46,10 +42,10 @@ public class CreateClassServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CreateClassServlet</title>");            
+            out.println("<title>Servlet CreateCourseServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet CreateClassServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet CreateCourseServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -67,27 +63,14 @@ public class CreateClassServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Class _class = new Class();
-        ClassManager CManager = new ClassManager();
+        Course _course = new Course();
+        CourseManager CManager = new CourseManager();
         String newID = "";
         String LastID = "";
-        int tempID = 0;        
-        String time = "";        
-        String ProfessorID = request.getParameter("Instructor");
-        String Course = request.getParameter("CourseID");
-        String[] CourseID = Course.split("-");
-        Course = CourseID[0].trim();
-        String[] Professor = ProfessorID.split("-");
+        int tempID = 0;       
         
-        ProfessorID = Professor[0].trim();
-        String[] Days = request.getParameterValues("days");
-        String finaldays = "";
-        int i = 0;
-        for (i = 0; i< Days.length;i++){
-            finaldays = Days[i]+"/"+finaldays;
-        }
         try {
-            LastID = CManager.getLastClassID();
+            LastID = CManager.getLastCourseID();
         } catch (SQLException ex) {
             Logger.getLogger(CreateClassServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
@@ -100,21 +83,16 @@ public class CreateClassServlet extends HttpServlet {
         tempID = Integer.parseInt(LastID) + 1;
         newID = Integer.toString(tempID);
         
-         
+        _course.setIdentifier(request.getParameter("tidentifier")); 
+        _course.setCredits(Integer.parseInt(request.getParameter("tcredits")));
+        _course.setWebsite(request.getParameter("twebpage"));
+        _course.setName(request.getParameter("tname"));
+        _course.setPrerequisites(request.getParameter("tprerequisite"));
+        _course.setCourseID(newID);
        
-        _class.setRoom(request.getParameter("tRoom"));
-        _class.setBuilding(request.getParameter("tbuilding"));               
-        _class.setSection(request.getParameter("tsection"));
-        _class.setDays(finaldays);
-        _class.setInstructorID(ProfessorID);
-        _class.setClassID(newID);
-        _class.setCourseID(Course);
-        time = request.getParameter("ttime"); 
-        _class.setNumberOfAssignments(0);
-        _class.setTime(time);
             
         try {
-            boolean insert = CManager.insert(_class);
+            boolean insert = CManager.insert(_course);
             if (insert==true){
                 response.sendRedirect("faces/Dashboard.jsp");
             }else{

@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import OGS.beans.Assignment;
 import OGS.tables.AssignmentManager;
-import OGS.tables.CourseManager;
+import OGS.tables.ClassManager;
 
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -72,7 +72,7 @@ public class CreateAssignmentServelet extends HttpServlet {
             throws ServletException, IOException {
         Assignment assign = new Assignment();
         AssignmentManager man = new AssignmentManager();
-        CourseManager CManager = new CourseManager();
+        ClassManager CManager = new ClassManager();
         String newId = "";
         int idValue = 0;
         String time = ""; 
@@ -94,9 +94,9 @@ public class CreateAssignmentServelet extends HttpServlet {
         String dueDate = request.getParameter("dDate");
         String specs = request.getParameter("specs");        
         String instructions = request.getParameter("instrucstions"); 
-        String courseID = request.getParameter("Classes");        
-        String[] Course = courseID.split("-");
-        courseID = Course[0].trim();
+        String ClassID = request.getParameter("Classes");        
+        String[] Course = ClassID.split("-");
+        ClassID = Course[0].trim();
         int assignmentnum = Integer.parseInt(request.getParameter("assignNum"));
         int points = Integer.parseInt(request.getParameter("points"));
        
@@ -107,7 +107,7 @@ public class CreateAssignmentServelet extends HttpServlet {
         assign.setSpecification(specs);
         assign.setInstructions(instructions);
         assign.setPointsPossible(points);
-        assign.setCourseID(courseID);
+        assign.setClassID(ClassID);
         assign.setNumber(assignmentnum);
         assign.setTimeDue(time);
         assign.setPath("default");
@@ -121,11 +121,11 @@ public class CreateAssignmentServelet extends HttpServlet {
         }
         if (check == true) {
             try {
-                numberofassignments = CManager.getNumberofAssignments(courseID);
+                numberofassignments = CManager.getNumberofAssignments(ClassID);
                 if (numberofassignments ==-1){
                     response.sendRedirect("faces/ErrorPage.jsp");
                 }else{
-                    check = CManager.UpdateNumofAssignments(courseID,numberofassignments);
+                    check = CManager.UpdateNumofAssignments(ClassID,numberofassignments);
                 }
                 
             } catch (Exception ex) {

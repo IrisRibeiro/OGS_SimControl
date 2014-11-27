@@ -27,6 +27,7 @@ public class Submission implements Serializable {
     private String path;
     private String dateFlag;
     private String submissionTime;
+    private String Answers;
 
     /**
      *
@@ -34,6 +35,10 @@ public class Submission implements Serializable {
      */
     public String getStudentID() {
         return studentID;
+    }
+    
+    public String getAnswers(){
+        return Answers;
     }
 
     /**
@@ -77,6 +82,10 @@ public class Submission implements Serializable {
      */
     public void setGraderID(String graderID) {
         this.graderID = graderID;
+    }
+    
+    public void setAnswers(String answers){
+        this.Answers = answers;
     }
 
     /**
