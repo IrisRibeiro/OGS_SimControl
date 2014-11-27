@@ -6,7 +6,7 @@
 
 <%@page language="java" contentType="text/html;charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@page import="OGS.tables.*,OGS.beans.*, java.util.*"%>
+<%@page import="OGS.tables.*,OGS.beans.Person, OGS.beans.Course, OGS.beans.Class, java.util.*"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,14 +22,14 @@
 <%
 	return;
 	}
-	String classID = request.getParameter("classID");	
-	Course course = CourseManager.getRow(classID);
-        Person Professor = PersonManager.getRowfromID(course.getInstructorID());
-	if (course == null) {
-		course = new Course();
+	String classID = request.getParameter("classID");
+        Class _class = ClassManager.getRowbyID(classID);
+        Course _course = CourseManager.getRow(_class.getCourseID());
+        Person Professor = PersonManager.getRowfromID(_class.getInstructorID());
+	if (( _class == null) || ( _course == null) || ( Professor == null) ) {		
 %>
 <script type="text/javascript">
-	alert("Class is not Found... You'll be redirected");
+	alert("Class  not Found... You'll be redirected");
         location.href = "faces/Dashboard.jsp";
 </script>
 <%
@@ -57,38 +57,38 @@
 									<div class="col-lg-6">
 
 										<div class="form-group">
-											<label>Class Identifier</label> <input class="form-control"
-												name="tidentifier" value="<%=course.getIdentifier()%>">
+											<label>Course Identifier</label> <input class="form-control"
+												name="tidentifier" value="<%=_course.getIdentifier()%>">
 										</div>
 										<div class="form-group">
 											<label>Credits</label> <input class="form-control"
-												name="tcredits" type="number" value="<%=course.getCredits()%>">
+												name="tcredits" type="number" value="<%=_course.getCredits()%>">
 										</div>
 										<div class="form-group">
 											<label>Room/Building</label> <input class="form-control"
-												name="tbuilding" type="text" value="<%=course.getRoom() + "/" +course.getBuilding() %>">
+												name="tbuilding" type="text" value="<%=_class.getRoom() + "/" +_class.getBuilding() %>">
 										</div>
 										<div class="form-group">
 											<label>Official Webpage</label> <input class="form-control"
-												name="twebpage" type="text" value="<%=course.getWebsite()%>">
+												name="twebpage" type="text" value="<%=_course.getWebsite()%>">
 										</div>
 										<div class="form-group">
 											<label>Period</label> <input class="form-control"
-												name="tPeriod" type="text" value="<%=course.getSection()%>">
+												name="tPeriod" type="text" value="<%=_class.getSection()%>">
 										</div>										
 									</div>
 									<div class="col-lg-6">
 										<div class="form-group">
 											<label>Name</label> <input type="text" class="form-control"
-												name="tname" value="<%=course.getName()%>">
+												name="tname" value="<%=_course.getName()%>">
 										</div>
 										<div class="form-group">
 											<label>Prerequisite</label> <input class="form-control"
-												name="tprerequisite" value="<%=course.getPrerequisites()%>">
+												name="tprerequisite" value="<%=_course.getPrerequisites()%>">
 										</div>
 										<div class="form-group">
 											<label>Date and Time</label> <input class="form-control"
-												name="tdatetime" type="text" value="<%=course.getDays()+ " - "+ course.getTime()%>">
+												name="tdatetime" type="text" value="<%=_class.getDays()+ " - "+ _class.getTime()%>">
 										</div>										
 										<div class="form-group">
 											<label>Instructor Name</label> <input class="form-control"
