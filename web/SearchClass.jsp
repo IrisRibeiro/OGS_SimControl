@@ -14,6 +14,7 @@
 <%@page import=" OGS.tables.PersonManager , OGS.tables.ClassManager,  OGS.beans.Person,  OGS.beans.Class , OGS.tables.CourseManager , OGS.beans.Course , java.util.*"%>
 <%
 	Person person = (Person) session.getAttribute("currentSessionUser");
+        int AccesLevel = person.getAccessLevel();
 	if (person == null) {
 %>
 <script type="text/javascript">
@@ -27,7 +28,7 @@
         
 	//List<Course> courses = new ArrayList<>();
 %>
-</head>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
 </head>
 <body>
@@ -56,6 +57,7 @@
 										<th>Course Info</th>
 										<th>Days</th>
 										<th>Time</th>
+                                                                                <th>Instructor Info</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -97,13 +99,11 @@
 						</div>
 						<p>
 							<button type="button" id="viewClassButton"
-								class="btn btn-outline btn-default">View Class</button>
-							<button type="button" class="btn btn-outline btn-default">Edit</button>
-							<button type="button" class="btn btn-outline btn-default">Grade
-								Center</button>
-							<button type="button" class="btn btn-outline btn-default"
-								onclick="checktest()">Delete</button>
-
+								class="btn btn-outline btn-default">View</button>
+                                                         <% if (AccesLevel == 4){ %>
+                                                            <button type="button" class="btn btn-outline btn-default" id="ModifyClassButton">Modify</button>
+                                                            <button type="button" class="btn btn-outline btn-default" id="DeleteClassButton">Delete</button>
+                                                        <% } %>
 						</p>
 					</div>
 					<!-- /.panel-body -->
@@ -115,14 +115,56 @@
 
 		<!-- /.col-lg-6 -->
 	</div>
-	<!-- /.row -->
-	<!-- 	</div>
-	/#page-wrapper
-	</div>
-	/#wrapper -->
+	 <!-- jQuery Version 1.11.0 -->
+    <script src="js/jquery-1.11.0.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+   
+
+    <!-- DataTables JavaScript -->
+    <script src="js/plugins/dataTables/jquery.dataTables.js"></script>
+    <script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="js/sb-admin-2.js"></script>
+    
 	<script type="text/javascript">
 		$(function() {
 			$("#viewClassButton")
+					.click(
+                        function() {
+                                var checked = $("#dataTables-classes").find(
+                                                "td.something").find(":checked");
+                                if (checked.size() != 1) {
+                                        alert("One and ONLY one course should be checked...");
+                                } else {
+                                        var classID = checked.parents(
+                                                        "td.something").find(
+                                                        "input[type='hidden']").val();
+                                        location.href = "ViewClass.jsp?classID="
+                                                        + classID;
+                                }
+                        });
+                        
+                        $("#ModifyClassButton")
+					.click(
+                        function() {
+                                var checked = $("#dataTables-classes").find(
+                                                "td.something").find(":checked");
+                                if (checked.size() != 1) {
+                                        alert("One and ONLY one course should be checked...");
+                                } else {
+                                        var classID = checked.parents(
+                                                        "td.something").find(
+                                                        "input[type='hidden']").val();
+                                        location.href = "ViewClass.jsp?classID="
+                                                        + classID;
+                                }
+                        });
+                        
+                         $("#DeleteClassButton")
 					.click(
                         function() {
                                 var checked = $("#dataTables-classes").find(

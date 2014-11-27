@@ -26,8 +26,9 @@
 	List<Course> Course = CourseManager.getAllCourses();       
 	
 %>
-</head>
 
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    
 </head>
 <body>
 
@@ -92,9 +93,9 @@
 						<p>
                                                      <% if (AccesLevel == 4){ %>
 							<button type="button" id="DeleteClassButton"
-								class="btn btn-outline btn-default">Delete Course</button>
+								class="btn btn-outline btn-default">Delete </button>
                                                         <button type="button" id="ModifyClassButton"
-								class="btn btn-outline btn-default">Modify Course</button>                                                                
+								class="btn btn-outline btn-default">Modify </button>                                                                
                                                      <% } %>
 						</p>
 					</div>
@@ -107,14 +108,22 @@
 
 		<!-- /.col-lg-6 -->
 	</div>
-	<!-- /.row -->
-	<!-- 	</div>
-	/#page-wrapper
-	</div>
-	/#wrapper -->
+	 <!-- jQuery Version 1.11.0 -->
+    <script src="js/jquery-1.11.0.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- DataTables JavaScript -->
+    <script src="js/plugins/dataTables/jquery.dataTables.js"></script>
+    <script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="js/sb-admin-2.js"></script>
+    
 	<script type="text/javascript">
 		$(function() {
-			$("#viewClassButton")
+			$("#DeleteClassButton")
 					.click(
                         function() {
                                 var checked = $("#dataTables-classes").find(
@@ -122,11 +131,27 @@
                                 if (checked.size() != 1) {
                                         alert("One and ONLY one course should be checked...");
                                 } else {
-                                        var classID = checked.parents(
+                                        var CourseID = checked.parents(
                                                         "td.something").find(
                                                         "input[type='hidden']").val();
-                                        location.href = "ViewClass.jsp?classID="
-                                                        + classID;
+                                        location.href = "DeleteCourse.jsp?CourseID="
+                                                        + CourseID;
+                                }
+                        });
+                        
+                        $("#ModifyClassButton")
+					.click(
+                        function() {
+                                var checked = $("#dataTables-classes").find(
+                                                "td.something").find(":checked");
+                                if (checked.size() != 1) {
+                                        alert("One and ONLY one course should be checked...");
+                                } else {
+                                        var CourseID = checked.parents(
+                                                        "td.something").find(
+                                                        "input[type='hidden']").val();
+                                        location.href = "Modifycourse.jsp?CourseID="
+                                                        + CourseID;
                                 }
                         });
 		});

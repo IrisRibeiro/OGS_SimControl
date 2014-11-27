@@ -325,7 +325,11 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
-    
+
+    <!-- DataTables JavaScript -->
+    <script src="js/plugins/dataTables/jquery.dataTables.js"></script>
+    <script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
+
     <!-- Custom Theme JavaScript -->
     <script src="js/sb-admin-2.js"></script>
 
@@ -335,13 +339,6 @@
         $('#dataTables-example').dataTable();
     });
     </script>
-	
-	<script>
-	function RequestC(){
-		alert("Class Requested. Follow the new at the RequestedClasses page");
-		window.location.href = "RequestedClasses.jsp"
-	}
-	</script>
 
 </body>
 
