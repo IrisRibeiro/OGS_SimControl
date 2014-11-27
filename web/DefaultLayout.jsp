@@ -239,27 +239,18 @@
                                     if (acesslevel == 1){ // student
                                 %>  
                                     <li>
-                                        <a href="SearchCourses.jsp">Search Class</a> <!-- /.Modify to link to the page -->
+                                        <a href="SearchCourses.jsp">All Courses</a> <!-- /.Modify to link to the page -->
                                     </li>
-                                    <li>
-                                        <a href="PreviousClasses.jsp">Previous Courses</a>  <!-- /.Modify to link to the page -->
-                                    </li>
-                                    <li>
-                                        <a href="RequestedClasses.jsp">Requested Classes</a> <!-- /.Modify to link to the page -->
-                                    </li>
-                                    <li>
-                                        <a href="enrolledClasses.jsp">Enrolled Classes</a> <!-- /.Modify to link to the page -->
-                                    </li>
-                                    <li>
-                                        <a href="courses.jsp">All Courses</a> <!-- /.Modify to link to the page -->
-                                    </li>
+                                   <li>
+                                        <a href="SearchClass.jsp">Classes I'm enrolled</a> <!-- /.Modify to link to the page -->
+                                    </li>                                   
                                     <li>
                                         <a href="gradesystem.jsp">Grade system</a> <!-- /.Modify to link to the page -->
                                     </li>
                                     
                                 <%    }else if (acesslevel == 2) { // TA %> 
                                     <li>
-                                        <a href="SearchCourses.jsp">Classes I'm TA</a> <!-- /.Modify to link to the page -->
+                                        <a href="SearchClass.jsp">Classes I'm TA</a> <!-- /.Modify to link to the page -->
                                     </li>
                                     <li>
                                         <a href="CreateAssignment.jsp">Create Assignment</a>  <!-- /.Modify to link to the page -->
@@ -268,7 +259,7 @@
                                         <a href="SearchAssignment.jsp">Search Assignment</a> <!-- /.Modify to link to the page -->
                                     </li>
                                     <li>
-                                        <a href="courses.jsp">All Courses</a> <!-- /.Modify to link to the page -->
+                                        <a href="SearchCourses.jsp">All Courses</a> <!-- /.Modify to link to the page -->
                                     </li>
                                     <li>
                                         <a href="gradesystem.jsp">Grade system</a> <!-- /.Modify to link to the page -->
@@ -276,7 +267,7 @@
                                 
                                 <% }else if(acesslevel == 3) {// Professor %>
                                      <li>
-                                        <a href="SearchCourses.jsp">Classes I'm Teaching</a> <!-- /.Modify to link to the page -->
+                                        <a href="SearchClass.jsp">Classes I'm Teaching</a> <!-- /.Modify to link to the page -->
                                     </li>
                                     <li>
                                         <a href="CreateAssignment.jsp">Create Assignment</a>  <!-- /.Modify to link to the page -->
@@ -285,7 +276,7 @@
                                         <a href="SearchAssignment.jsp">Search Assignment</a> <!-- /.Modify to link to the page -->
                                     </li>
                                     <li>
-                                        <a href="courses.jsp">All Courses</a> <!-- /.Modify to link to the page -->
+                                        <a href="SearchCourses.jsp">All Courses</a> <!-- /.Modify to link to the page -->
                                     </li>
                                     
                                 
@@ -298,28 +289,16 @@
                                     </li>
                                     
                                     <li>
-                                        <a href="SearchCourses.jsp">Search Class</a> <!-- /.Modify to link to the page -->
+                                        <a href="SearchCourses.jsp">All Courses</a> <!-- /.Modify to link to the page -->
                                     </li>
-                                   <!-- <li>
-                                        <a href="CreateAssignment.jsp">Create Assignment</a>   /.Modify to link to the page 
+                                     <li>
+                                        <a href="SearchClass.jsp">All Classes</a> <!-- /.Modify to link to the page -->
                                     </li>
-                                   <li>
-                                        <a href="PreviousClasses.jsp">Previous Courses</a>  <!-- /.Modify to link to the page 
-                                    </li>
-                                    <li>
-                                        <a href="RequestedClasses.jsp">Requested Classes</a> <!-- /.Modify to link to the page 
-                                    </li>
-                                    <li>
-                                        <a href="enrolledClasses.jsp">Enrolled Classes</a> <!-- /.Modify to link to the page 
-                                    </li>
-                                   -->
+                                  
                                     <li>
                                         <a href="SearchAssignment.jsp">Search Assignment</a> <!-- /.Modify to link to the page -->
-                                    </li>
+                                    </li>                                    
                                     
-                                    <li>
-                                        <a href="courses.jsp">All Courses</a> <!-- /.Modify to link to the page -->
-                                    </li>
                                     <li>
                                         <a href="gradesystem.jsp">Grade system</a> <!-- /.Modify to link to the page -->
                                     </li>
