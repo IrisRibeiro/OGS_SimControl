@@ -1,11 +1,11 @@
 <%-- 
-    Document   : CreateClass
-    Created on : Oct 29, 2014, 4:54:32 PM
+    Document   : ModifyClass
+    Created on : Nov 27, 2014, 1:35:19 AM
     Author     : Iris
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import=" OGS.beans.Person, OGS.beans.Course, OGS.tables.PersonManager, OGS.tables.CourseManager, java.util.*"%>
+<%@page import=" OGS.beans.Person, OGS.beans.Course, OGS.beans.Class , OGS.tables.PersonManager, OGS.tables.CourseManager, OGS.tables.ClassManager , java.util.*"%>
 
 <html lang="en">
     <head>
@@ -16,16 +16,16 @@ if (person == null) {
         response.sendRedirect("faces/Login.jsp");
         return;
 }
+String classID = request.getParameter("classID");
+Class _class = ClassManager.getRowbyID(classID);
+Course _course = CourseManager.getRow(_class.getCourseID());
+Person Prof = PersonManager.getRowfromID(_class.getInstructorID());
 
-PersonManager PManager = new PersonManager();
-List <Person> _Professors = PersonManager.getAllProfessor();
-List <Course> _Courses = CourseManager.getAllCourses();
-
-if (_Courses == null) {
+if (_class == null) {
 %>
 <script type="text/javascript">
 	alert("No courses created to creat a class");
-	location.href = "Login.jsp";
+	location.href = "ErrorPage.jsp";
 </script>
 <%
 return;
@@ -53,33 +53,25 @@ return;
                         <!-- /.panel-heading -->
                         <div class="panel-body" >
                                 <div class="row">
-                                <form role="form" method="post" action="CreateClassServlet" enctype="multipart/form-data">
+                                <form role="form" method="Post" action="ModifyClassServlet" enctype="multipart/form-data">
                                         <div class="col-lg-6">							
                                             <div class="form-group">
                                                 <label>Course</label>
-                                                 <select name="CourseID" class="form-control">
-                                                    <%
-                                                            for (Course _course : _Courses) {
-                                                                String Name = _course.getCourseID() + " - " + _course.getIdentifier() + ":" + _course.getName();
+                                                   <%
+                                                          
+                                                        String Name = _course.getCourseID() + " - " + _course.getIdentifier() + ":" + _course.getName();
                                                     %>
-                                                        <option><%=Name%></option>   
-                                                    <%                                                 
-                                                        }
-                                                    %>
-                                                </select>                                            
+                                                   <label><%=Name%></label> 
+                                                   <input type="hidden" name="CourseID" value="<%=Name%>"/>
+                                                                                                
                                             </div> 
                                             <div class="form-group">
                                                     <label>Building</label>
-                                                            <input class="form-control" name="tbuilding" type="text">
+                                                            <input class="form-control" name="tbuilding" type="text" value="<%=_class.getBuilding()%>">
                                             </div>                                           
                                             <div class="form-group">
                                                     <label>Period</label>
-                                                    <select name="tsection" class="form-control">
-                                                            <option value="Spring">Spring</option>
-                                                            <option value="Summer">Summer</option>
-                                                            <option value="Fall">Fall</option>
-                                                            <option value="Winter">Winter</option>
-                                                    </select>
+                                                    <input class="form-control" name="tsection" type="text" value="<%=_class.getSection()%>">
                                             </div>                                           
                                             <div class="form-group">
                                                     <label>Import Students</label>
@@ -91,7 +83,7 @@ return;
                                             <div class="form-group">
                                                     <label>Time</label>
                                                             <div class='input-group date' id='datetimepicker4'>
-                                                                <input type='text' class="form-control" name="ttime" />
+                                                                <input type='text' class="form-control" name="ttime" value="<%=_class.getTime()%>" />
                                                                 <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span>
                                                                 </span>
                                                                 <script type="text/javascript">
@@ -105,29 +97,22 @@ return;
                                             </div>
                                             <div class="form-group">
                                                     <label>Days</label>
-                                                    <select name="days" class="form-control">
-                                                            <option value="Mon - Wed">Mon - Wed</option>
-                                                            <option value="Tue - Thu">Tue - Thu</option>
-                                                            <option value="Mon - Fri">Mon - Fri</option>
-                                                            <option value="Wed - Fri">Wed - Fri</option>
-                                                    </select>       
+                                                    <input class="form-control" name="days" type="text" value="<%=_class.getDays()%>"/>
                                             </div>
                                             <div class="form-group">
                                                     <label>Room</label>
-                                                    <input class="form-control" name="tRoom" type="text">
+                                                    <input class="form-control" name="tRoom" type="text" value="<%=_class.getRoom()%>">
                                             </div>
                                             <div class="form-group">
                                                 <label>Instructor</label>
-                                                 <select name="Instructor" id="Instructor" type="text" class="form-control">
-                                                    <%
-                                                            for (Person Professor : _Professors) {
-                                                                String Name = Professor.getID() +"-"+ Professor.getName();
+                                                 
+                                                    <%                                                            
+                                                      String NameIns = Prof.getID() +" - "+ Prof.getName();
                                                     %>
-                                                        <option><%=Name%></option>   
-                                                    <%                                                 
-                                                        }
-                                                    %>
-                                                </select>                                            
+                                                    <label name="Instructor" ><%=NameIns%></label>   
+                                                    <input type="hidden" name="Instructor" value="<%=NameIns%>"/>
+                                                    <input type="hidden" name="ClassID" value="<%=_class.getClassID()%>"/>
+                                                    <input type="hidden" name="AssignmentNumber" value="<%=_class.getNumberOfAssignments()%>"/>
                                             </div> 
                                         <input class="btn btn-default" type="submit" value="Submit">	
                                         </div>							
