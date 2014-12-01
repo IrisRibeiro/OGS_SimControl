@@ -5,53 +5,55 @@
  */
 package Servlets;
 
-import OGS.tables.ClassManager;
-import OGS.beans.Class;
 import OGS.beans.Person;
 import OGS.beans.StudentEnrollment;
+import OGS.tables.ClassManager;
 import OGS.tables.PersonManager;
 import OGS.tables.StudentEnrollmentManager;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.Part;
-import static javax.xml.bind.JAXBIntrospector.getValue;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.io.FilenameUtils;
 
 /**
  *
  * @author Iris
  */
-@WebServlet(name = "CreateClassServlet", urlPatterns = {"/CreateClassServlet"})
+@WebServlet(name = "ModifyClassServlet", urlPatterns = {"/ModifyClassServlet"})
 @MultipartConfig
-public class CreateClassServlet extends HttpServlet {
-   
+public class ModifyClassServlet extends HttpServlet {
+    
+    private static String getValue(Part part) throws IOException {
+    BufferedReader reader = new BufferedReader(new InputStreamReader(part.getInputStream(), "UTF-8"));
+    StringBuilder value = new StringBuilder();
+    char[] buffer = new char[1024];
+    for (int length = 0; (length = reader.read(buffer)) > 0;) {
+        value.append(buffer, 0, length);
+    }
+        return value.toString();
+    }
+    
+   private static String getFilename(Part part) {
+    for (String cd : part.getHeader("content-disposition").split(";")) {
+        if (cd.trim().startsWith("filename")) {
+            String filename = cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
+            return filename.substring(filename.lastIndexOf('/') + 1).substring(filename.lastIndexOf('\\') + 1); // MSIE fix.
+        }
+    }
+    return null;
+}
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -69,10 +71,10 @@ public class CreateClassServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CreateClassServlet</title>");            
+            out.println("<title>Servlet ModifyClassServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet CreateClassServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ModifyClassServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -90,8 +92,9 @@ public class CreateClassServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       
+        processRequest(request, response);
     }
+
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -103,7 +106,7 @@ public class CreateClassServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Class _class = new Class();        
+         OGS.beans.Class _class = new OGS.beans.Class();        
         ClassManager CManager = new ClassManager();
         Person student = new Person();
         PersonManager PManager = new PersonManager();
@@ -112,10 +115,7 @@ public class CreateClassServlet extends HttpServlet {
         StudentEnrollmentManager SEManager = new StudentEnrollmentManager();
         
             BufferedReader bufferedReader = null;  
-            String newID = "";
-            String LastID = "";
-            String line="";
-            int tempID = 0;
+            String line="";           
             int newStudentID = 0;
             String time = "";        
             String ProfessorID = getValue(request.getPart("Instructor"));
@@ -131,30 +131,16 @@ public class CreateClassServlet extends HttpServlet {
             InputStream filecontent = filePart.getInputStream();
             bufferedReader = new BufferedReader(new InputStreamReader(filecontent));     
             String finaldays = "";
-           
-            try {
-                LastID = CManager.getLastClassID();
-            } catch (SQLException ex) {
-                Logger.getLogger(CreateClassServlet.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(CreateClassServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            if (LastID == null){
-                LastID = "0";
-            }
-            tempID = Integer.parseInt(LastID) + 1;
-            newID = Integer.toString(tempID);
-
+            
             _class.setRoom(getValue(request.getPart("tRoom")));
             _class.setBuilding(getValue(request.getPart("tbuilding")));               
             _class.setSection(getValue(request.getPart("tsection")));
             _class.setDays(Days);
             _class.setInstructorID(ProfessorID);
-            _class.setClassID(newID);
+            _class.setClassID(getValue(request.getPart("ClassID")));
             _class.setCourseID(Course);
             time = getValue(request.getPart("ttime")); 
-            _class.setNumberOfAssignments(0);
+            _class.setNumberOfAssignments(Integer.parseInt(getValue(request.getPart("AssignmentNumber"))));
             _class.setTime(time);
             
         try {
@@ -208,30 +194,9 @@ public class CreateClassServlet extends HttpServlet {
         } catch (Exception ex) {
             Logger.getLogger(CreateClassServlet.class.getName()).log(Level.SEVERE, null, ex);
              response.sendRedirect("faces/ErrorPage.jsp");
-        }  
-       
-        
+        } 
     }
-    
-    private static String getValue(Part part) throws IOException {
-    BufferedReader reader = new BufferedReader(new InputStreamReader(part.getInputStream(), "UTF-8"));
-    StringBuilder value = new StringBuilder();
-    char[] buffer = new char[1024];
-    for (int length = 0; (length = reader.read(buffer)) > 0;) {
-        value.append(buffer, 0, length);
-    }
-        return value.toString();
-    }
-    
-   private static String getFilename(Part part) {
-    for (String cd : part.getHeader("content-disposition").split(";")) {
-        if (cd.trim().startsWith("filename")) {
-            String filename = cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
-            return filename.substring(filename.lastIndexOf('/') + 1).substring(filename.lastIndexOf('\\') + 1); // MSIE fix.
-        }
-    }
-    return null;
-}
+
     /**
      * Returns a short description of the servlet.
      *

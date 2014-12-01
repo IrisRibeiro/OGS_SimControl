@@ -15,6 +15,7 @@ import OGS.dbaccess.DBType;
 import OGS.dbaccess.DBUtil;
 import OGS.beans.Student;
 import OGS.beans.Manager;
+import OGS.beans.StudentEnrollment;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,6 +34,61 @@ import java.util.logging.SimpleFormatter;
  */
 public class PersonManager {
     private static final Logger LOGGER = Logger.getLogger(PersonManager.class.getName());
+    
+    public static boolean insert(Person person) throws Exception {
+        File f = new File("c:/SimControl/Logging/");
+        if(!f.exists()){
+            f.mkdirs();
+            
+        }
+        FileHandler fh;
+        fh = new FileHandler(f.getPath() + "\\PersonManager_Log.log");
+        LOGGER.addHandler(fh);
+        SimpleFormatter formatter = new SimpleFormatter();  
+        fh.setFormatter(formatter);
+        
+        LOGGER.info("Logger Name: " + LOGGER.getName());
+        LOGGER.info("Method insert()");
+
+        String sql = "INSERT into Person (Name,ID,UserName, Password, EmailAddress, AcessLevel, Type)" 
+                + "VALUES (?,?,?,?,?,?,?)";
+        ResultSet keys = null;
+        LOGGER.warning("Creating the connection to the database");
+        try (Connection conn = DBUtil.getConnection(DBType.MYSQL);
+                PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
+            
+            stmt.setString(1,person.getName());
+            stmt.setString(2, person.getID());
+            stmt.setString(3, person.getUserName());
+            stmt.setString(4, person.getPassword());
+            stmt.setString(5, person.getEmailAddress());
+            stmt.setInt(6, person.getAccessLevel());
+            stmt.setString(7,person.getType() );
+                    
+            LOGGER.config("Object Person is equal to :" + person);
+            int affected = stmt.executeUpdate();
+            
+            if (affected != 1) {
+               LOGGER.log(Level.SEVERE, "Exception occur", stmt.getGeneratedKeys());
+                if(conn!= null)
+                conn.rollback();
+                System.err.println("No rows affected");
+                return false;
+            } 
+
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Exception occur", e);
+            System.err.println(e);            
+            return false;
+        } finally {
+            if (keys != null) {
+                keys.close();
+            }
+        }
+        return true;
+    }
+     
+
     
     public static Person getRowfromID(String ID) throws SQLException, ClassNotFoundException, IOException {
         File f = new File("c:/SimControl/Logging/");

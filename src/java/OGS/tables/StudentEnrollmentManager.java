@@ -8,16 +8,64 @@ package OGS.tables;
 import OGS.beans.StudentEnrollment;
 import OGS.dbaccess.DBType;
 import OGS.dbaccess.DBUtil;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 /**
  *
  * @author Eric
  */
 public class StudentEnrollmentManager {
+    private static final Logger LOGGER = Logger.getLogger(CourseManager.class.getName());
+    
+    public static String getLastPersonID() throws SQLException, ClassNotFoundException, IOException {
+        File f = new File("c:/SimControl/Logging/");
+        if(!f.exists()){
+            f.mkdirs();
+            
+        }
+        FileHandler fh;
+        fh = new FileHandler(f.getPath() + "\\StudentEnrollment_Log.log");
+        LOGGER.addHandler(fh);
+        SimpleFormatter formatter = new SimpleFormatter();  
+        fh.setFormatter(formatter);
+        
+        LOGGER.info("Logger Name: " + LOGGER.getName());
+        LOGGER.info("Method getAssignmentNumber()");
+        String sql = "SELECT MAX(ID) AS ID FROM Person";
+        ResultSet rs = null;
+        String returnId = "";
+        LOGGER.warning("Creating the connection to the database");
+        try (
+                Connection conn = DBUtil.getConnection(DBType.MYSQL);
+                PreparedStatement stmt = conn.prepareStatement(sql);) {
+                rs = stmt.executeQuery();
+            if (rs.next()) {
+                returnId = rs.getString("ID");   
+            }
+            LOGGER.config("Object rs is :" + rs);
+
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+        }
+
+        return returnId ;
+    }
+
     public static StudentEnrollment getRowwithID(String ID) throws SQLException, ClassNotFoundException {
 
         String sql = "SELECT * FROM StudentEnrollment WHERE StudentID = ?";
@@ -115,4 +163,53 @@ public class StudentEnrollmentManager {
         }
 
     }
+     public static boolean insert(StudentEnrollment studentEn) throws Exception {
+        File f = new File("c:/SimControl/Logging/");
+        if(!f.exists()){
+            f.mkdirs();
+            
+        }
+        FileHandler fh;
+        fh = new FileHandler(f.getPath() + "\\StudentEnrollment_Log.log");
+        LOGGER.addHandler(fh);
+        SimpleFormatter formatter = new SimpleFormatter();  
+        fh.setFormatter(formatter);
+        
+        LOGGER.info("Logger Name: " + LOGGER.getName());
+        LOGGER.info("Method insert()");
+
+        String sql = "INSERT into studentenrollment (ClassID, StudentID, Flag)" 
+                + "VALUES (?,?,?)";
+        ResultSet keys = null;
+        LOGGER.warning("Creating the connection to the database");
+        try (Connection conn = DBUtil.getConnection(DBType.MYSQL);
+                PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
+            
+            stmt.setString(1,studentEn.getClassID() );
+            stmt.setString(2, studentEn.getStudentID());
+            stmt.setString(3, studentEn.getFlag());
+            
+            LOGGER.config("Object Student Enrollment is equal to :" + studentEn);
+            int affected = stmt.executeUpdate();
+            
+            if (affected != 1) {
+               LOGGER.log(Level.SEVERE, "Exception occur", stmt.getGeneratedKeys());
+                if(conn!= null)
+                conn.rollback();
+                System.err.println("No rows affected");
+                return false;
+            } 
+
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Exception occur", e);
+            System.err.println(e);            
+            return false;
+        } finally {
+            if (keys != null) {
+                keys.close();
+            }
+        }
+        return true;
+    }
+     
 }

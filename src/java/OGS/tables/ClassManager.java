@@ -31,6 +31,53 @@ import java.util.logging.SimpleFormatter;
 public class ClassManager {
     private static final Logger LOGGER = Logger.getLogger(CourseManager.class.getName());
     
+    public static boolean UpdateClass(Class _class) throws Exception {
+        File f = new File("c:/SimControl/Logging/");
+        if(!f.exists()){
+            f.mkdirs();
+            
+        }
+        FileHandler fh;
+        fh = new FileHandler(f.getPath() + "\\Class_Log.log");
+        LOGGER.addHandler(fh);
+        SimpleFormatter formatter = new SimpleFormatter();  
+        fh.setFormatter(formatter);
+        
+        LOGGER.info("Logger Name: " + LOGGER.getName());
+        LOGGER.info("Method UpdateClass()");
+        String sql
+                = "UPDATE Class SET Days = ? , Time= ?, Building = ?, Room = ?, Section = ?, NumberOfAssignments = ?"
+                + "Where ID = ? AND InstructorID = ?";
+        LOGGER.warning("Creating the connection to the database");
+        try (
+                Connection conn = DBUtil.getConnection(DBType.MYSQL);
+                PreparedStatement stmt = conn.prepareStatement(sql);) {
+            
+            stmt.setString(1, _class.getDays());
+            stmt.setString(2,_class.getTime());
+            stmt.setString(3, _class.getRoom());
+            stmt.setString(4, _class.getSection());
+            stmt.setInt(5, _class.getNumberOfAssignments());
+            stmt.setString(6, _class.getClassID());
+            stmt.setString(7, _class.getInstructorID());
+            LOGGER.config("Object _class equals to :" + _class);
+            int affected = stmt.executeUpdate();
+            
+            if (affected == 1) {
+                return true;
+            } else {
+                return false;
+            }
+
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Exception occur", e);
+            System.err.println(e);
+            return false;
+        }
+
+    }
+    
+    
     public static Class getRowbyID(String ID) throws SQLException, ClassNotFoundException, IOException {
         File f = new File("c:/SimControl/Logging/");
         if(!f.exists()){
