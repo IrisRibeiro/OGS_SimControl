@@ -158,7 +158,7 @@ public class CreateClassServlet extends HttpServlet {
             _class.setTime(time);
             
         try {
-            boolean insert = CManager.UpdateClass(_class);
+            boolean insert = CManager.insert(_class);
             if (insert==true){
                 if (bufferedReader != null){
                     while( (line = bufferedReader.readLine()) != null ){

@@ -15,8 +15,12 @@ import OGS.dbaccess.DBType;
 import OGS.dbaccess.DBUtil;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -74,6 +78,11 @@ public class AssignmentManager {
                 assignmentBean.setNumber(rs.getInt("number"));
                 assignmentBean.setFlag(rs.getString("Flag"));
                 assignmentBean.setQuestions(rs.getString("Questions"));
+                assignmentBean.setFileName(rs.getString("FileName"));
+                Blob tempfile = rs.getBlob("File");
+                InputStream inputStream = tempfile.getBinaryStream();
+                assignmentBean.setFile(inputStream);
+                
                 assignmentBean.setID(ID);
                 LOGGER.config("Object AssignmentBeans is :" + assignmentBean);
                 return assignmentBean;
@@ -303,6 +312,10 @@ public class AssignmentManager {
                 assignmentBean.setFlag(rs.getString("Flag"));
                 assignmentBean.setQuestions(rs.getString("Questions"));
                 assignmentBean.setID(rs.getString("ID"));
+                assignmentBean.setFileName(rs.getString("FileName"));
+                Blob tempfile = rs.getBlob("File");
+                InputStream inputStream = tempfile.getBinaryStream();
+                assignmentBean.setFile(inputStream);
                
                 assignments.add(assignmentBean);
                 LOGGER.config("Object Assigments is equal to :" + assignments);

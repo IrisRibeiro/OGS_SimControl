@@ -1,5 +1,6 @@
 package OGS.beans;
 
+import java.io.InputStream;
 import java.io.Serializable;
 import java.sql.Date;
 /**
@@ -17,7 +18,7 @@ public class Assignment implements Serializable {
     private String specification;
     private String dueDate;
     private String instructions;
-    private String path;
+    private String contentfiletype;
     private String ClassID;
     private int pointsPossible;
     private String ID;
@@ -25,11 +26,24 @@ public class Assignment implements Serializable {
     private String timeDue;
     private String Questions;
     private String Flag;
+    private String FileName;
+    private InputStream File;
     
     public String getQuestions(){
         return Questions;
     }
-    
+     public InputStream getFile(){
+        return File;
+    }
+    public String getFileName(){
+       return FileName;
+    }
+     public void setFileName(String filename){
+        this.FileName = filename;
+    }
+    public void setFile(InputStream file){
+        this.File = file;
+    }
     public String getFlag(){
         return Flag;
     }
@@ -138,7 +152,7 @@ public class Assignment implements Serializable {
      * @return assignment's path
      */
     public String getPath() {
-        return path;
+        return contentfiletype;
     }
 
     /**
@@ -147,7 +161,7 @@ public class Assignment implements Serializable {
      * @param path
      */
     public void setPath(String path) {
-        this.path = path;
+        this.contentfiletype = path;
     }
 
     /**

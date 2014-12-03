@@ -155,10 +155,11 @@ public class SubmitAssignmentServlet extends HttpServlet {
       
        Part filePart = request.getPart("file"); // Retrieves <input type="file" name="file">
        String filename = "";
+       String filecontentype = "";
        if (filePart != null) {
            filename = getFilename(filePart);
-            // obtains input stream of the upload file
-            inputStream = filePart.getInputStream();
+           filecontentype = filePart.getContentType();           
+           inputStream = filePart.getInputStream();
         }
         
         try {
@@ -180,7 +181,7 @@ public class SubmitAssignmentServlet extends HttpServlet {
             submission.setGrade(grade);
             submission.setGraderID(graderId);
             submission.setComments(comments);
-            submission.setPath("default");
+            submission.setPath(filecontentype);
             submission.setDateFlag(dateflag);
             submission.setSubmissionTime(submissionTime);
             submission.setSubmissionID(SubmissionID);
