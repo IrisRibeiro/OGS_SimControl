@@ -91,7 +91,7 @@ public class DownloadServlet extends HttpServlet {
                 response.setContentType(mimeType);
                 response.setContentLength(fileLength);
                 String headerKey = "Content-Disposition";
-                String headerValue = String.format("attachment; filename=\"%s\"", fileName);
+                String headerValue = String.format("attachment; filename=\"%s\"", Filename);
                 response.setHeader(headerKey, headerValue);
  
                 // writes the file to the client

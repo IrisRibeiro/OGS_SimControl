@@ -181,7 +181,7 @@ public class SubmitAssignmentServlet extends HttpServlet {
             submission.setGrade(grade);
             submission.setGraderID(graderId);
             submission.setComments(comments);
-            submission.setPath(filecontentype);
+            submission.setPath("");
             submission.setDateFlag(dateflag);
             submission.setSubmissionTime(submissionTime);
             submission.setSubmissionID(SubmissionID);

@@ -7,7 +7,7 @@ package OGS.beans;
  */
 import java.io.InputStream;
 import java.io.Serializable;
-import java.sql.Blob;
+
 
 /**
  *
