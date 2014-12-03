@@ -15,6 +15,8 @@ import OGS.dbaccess.DBType;
 import OGS.dbaccess.DBUtil;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -255,7 +257,72 @@ public class AssignmentManager {
             return false;
         }
 
+    }    
+    
+    
+    public static List<Assignment> getAssignmentByStudentID(String StudentID) throws SQLException, ClassNotFoundException, IOException {
+        File f = new File("c:/SimControl/Logging/");
+        if(!f.exists()){
+            f.mkdirs();
+            
+        }
+        FileHandler fh;
+        fh = new FileHandler(f.getPath() + "\\Assignment_Log.log");
+        LOGGER.addHandler(fh);
+        SimpleFormatter formatter = new SimpleFormatter();  
+        fh.setFormatter(formatter);
+        
+        LOGGER.info("Logger Name: " + LOGGER.getName());
+        LOGGER.info("Method getAssignmentByStudentID()");
+        
+        List<Assignment> assignments = new ArrayList<Assignment>();
+        String sql = "SELECT ASSIGNMENT.* \n" +
+                     "FROM ASSIGNMENT, studentenrollment\n" +
+                     "WHERE assignment.ClassID = studentenrollment.ClassID\n" +
+                     "AND studentenrollment.Flag = 'E'\n" +
+                     "AND studentenrollment.StudentID = ?";
+        ResultSet rs = null;
+        LOGGER.warning("Creating the connection to the database");
+        try (Connection conn = DBUtil.getConnection(DBType.MYSQL);
+                PreparedStatement stmt = conn.prepareStatement(sql);) {
+                stmt.setString(1, StudentID);
+                rs = stmt.executeQuery();
+                LOGGER.warning("Finish executing query");
+            while (rs.next()) {
+                
+                Assignment assignmentBean = new Assignment();
+                assignmentBean.setName(rs.getString("Name"));
+                assignmentBean.setSpecification(rs.getString("Specification"));
+                assignmentBean.setDueDate(rs.getString("DueDate"));
+                assignmentBean.setInstructions(rs.getString("Instructions"));
+                assignmentBean.setPath(rs.getString("Path"));
+                assignmentBean.setClassID(rs.getString("classID"));
+                assignmentBean.setPointsPossible(rs.getInt("PointsPossible"));
+                assignmentBean.setTimeDue(rs.getString("TimeDue"));
+                assignmentBean.setNumber(rs.getInt("number"));
+                assignmentBean.setFlag(rs.getString("Flag"));
+                assignmentBean.setQuestions(rs.getString("Questions"));
+                assignmentBean.setID(rs.getString("ID"));
+               
+                assignments.add(assignmentBean);
+                LOGGER.config("Object Assigments is equal to :" + assignments);
+               
+            } 
+
+        } catch (SQLException e) {
+            System.err.println(e);
+            LOGGER.log(Level.SEVERE, "Exception occur", e);
+            return null;
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+        }
+        return assignments;
     }
+     
+    
+    
 
     /**
      * Sent Mail Method

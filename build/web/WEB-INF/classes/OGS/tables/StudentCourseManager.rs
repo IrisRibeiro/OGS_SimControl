@@ -1,1 +1,0 @@
-simcontrol.ogs.tables.StudentCourseManager

@@ -28,8 +28,15 @@
         
 	//List<Course> courses = new ArrayList<>();
 %>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-
+<link href="css/bootstrap.min.css" rel="stylesheet">
+  <!-- DataTables CSS -->
+<link href="css/plugins/dataTables.bootstrap.css" rel="stylesheet">
+ <!-- MetisMenu CSS -->
+<link href="css/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+<link href="css/sb-admin-2.css" rel="stylesheet">
+     <!-- Custom Fonts -->
+<link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 
@@ -49,7 +56,7 @@
 					<div class="panel-body">
 						<div class="table-responsive">
 							<table class="table table-striped table-bordered table-hover"
-								id="dataTables-example">
+								id="dataTables-classes">
 								<thead>
 									<tr>
 										<th>Select</th>
@@ -80,10 +87,9 @@
                                                                                    
 									%>
 									<tr class="gradeA">
-										<td class="something">
-                                                                                   												
-                                                                                <label> <input  type="checkbox" value=""></label>
-                                                                                <input type="hidden" name="CourseID" value="<%=_class.getClassID()%>"/>
+										<td Class="something">                                                                                   												
+                                                                                    <label> <input  type="checkbox" value=""></label>
+                                                                                    <input type="hidden" name="CourseID" value="<%=_class.getClassID()%>"/>
 										</td> 
                                                                                 <td><%=_class.getClassID()%></td>										                                                                               
                                                                                 <td> <%=CourseInfo%></td>
@@ -115,13 +121,11 @@
 
 		<!-- /.col-lg-6 -->
 	</div>
-	 <!-- jQuery Version 1.11.0 -->
-    <script src="js/jquery-1.11.0.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
+	
     <script src="js/bootstrap.min.js"></script>
 
-   
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="js/plugins/metisMenu/metisMenu.min.js"></script>
 
     <!-- DataTables JavaScript -->
     <script src="js/plugins/dataTables/jquery.dataTables.js"></script>
@@ -129,57 +133,67 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="js/sb-admin-2.js"></script>
+    <script type="text/javascript">
+        $(function() {
+                $("#viewClassButton")
+                                .click(
+                function() {
+                        var checked = $("#dataTables-classes").find(
+                                        "td.something").find(":checked");
+                        if (checked.size() != 1) {
+                                alert("One and ONLY one Class should be checked...");
+                        } else {
+                                var classID = checked.parents(
+                                                "td.something").find(
+                                                "input[type='hidden']").val();
+                                location.href = "ViewClass.jsp?classID="
+                                                + classID;
+                        }
+                });
+        });
+        
+    </script>
+    
+    <script type="text/javascript">
+        $(function() {			
+            $("#ModifyClassButton")
+                            .click(
+            function() {
+                    var checked = $("#dataTables-classes").find(
+                                    "td.something").find(":checked");
+                    if (checked.size() != 1) {
+                            alert("One and ONLY one Class should be checked...");
+                    } else {
+                            var classID = checked.parents(
+                                            "td.something").find(
+                                            "input[type='hidden']").val();
+                            location.href = "ModifyClass.jsp?classID="
+                                            + classID;
+                    }
+            });
+        });
+        
+    </script>
     
 	<script type="text/javascript">
-		$(function() {
-			$("#viewClassButton")
-					.click(
-                        function() {
-                                var checked = $("#dataTables-classes").find(
-                                                "td.something").find(":checked");
-                                if (checked.size() != 1) {
-                                        alert("One and ONLY one course should be checked...");
-                                } else {
-                                        var classID = checked.parents(
-                                                        "td.something").find(
-                                                        "input[type='hidden']").val();
-                                        location.href = "ViewClass.jsp?classID="
-                                                        + classID;
-                                }
-                        });
-                        
-                        $("#ModifyClassButton")
-					.click(
-                        function() {
-                                var checked = $("#dataTables-classes").find(
-                                                "td.something").find(":checked");
-                                if (checked.size() != 1) {
-                                        alert("One and ONLY one course should be checked...");
-                                } else {
-                                        var classID = checked.parents(
-                                                        "td.something").find(
-                                                        "input[type='hidden']").val();
-                                        location.href = "ViewClass.jsp?classID="
-                                                        + classID;
-                                }
-                        });
-                        
-                         $("#DeleteClassButton")
-					.click(
-                        function() {
-                                var checked = $("#dataTables-classes").find(
-                                                "td.something").find(":checked");
-                                if (checked.size() != 1) {
-                                        alert("One and ONLY one course should be checked...");
-                                } else {
-                                        var classID = checked.parents(
-                                                        "td.something").find(
-                                                        "input[type='hidden']").val();
-                                        location.href = "ViewClass.jsp?classID="
-                                                        + classID;
-                                }
-                        });
-		});
+            $(function() {
+
+                     $("#DeleteClassButton")
+                                    .click(
+                    function() {
+                            var checked = $("#dataTables-classes").find(
+                                            "td.something").find(":checked");
+                            if (checked.size() != 1) {
+                                    alert("One and ONLY one Class should be checked...");
+                            } else {
+                                    var classID = checked.parents(
+                                                    "td.something").find(
+                                                    "input[type='hidden']").val();
+                                    location.href = "DeleteClass.jsp?classID="
+                                                    + classID;
+                            }
+                    });
+            });
 	</script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="OGS.beans.Assignment"%>
-<%@page import=" OGS.beans.Person, OGS.beans.Course, OGS.tables.CourseManager, java.util.*"%>
+<%@page import=" OGS.beans.Person, OGS.beans.Class, OGS.tables.ClassManager, java.util.*"%>
 <%
     Person person = (Person) session.getAttribute("currentSessionUser");
     if (person == null) {
@@ -8,8 +8,8 @@
         
     }
    
-    CourseManager CManager = new CourseManager();
-   List <Course> _courses = CManager.getCourseByProfessor(person.getID());
+    ClassManager CManager = new ClassManager();
+   List <Class> _classes = CManager.getClassByProfessor(person.getID());
     
  %>
 <!DOCTYPE html>
@@ -79,8 +79,8 @@
                                             <label>Course</label>
                                              <select name="Classes" class="form-control">
                                                  <%
-                                                        for (Course course : _courses) {
-                                                            String Name = course.getCourseID()+ " - " + course.getIdentifier()+" : "+ course.getName();
+                                                        for (Class _class : _classes) {
+                                                            String Name = _class.getClassID()+ " - " + course.getIdentifier()+" : "+ course.getName();
                                                 %>
                                                     <option><%=Name%></option>   
                                                 <%                                                 

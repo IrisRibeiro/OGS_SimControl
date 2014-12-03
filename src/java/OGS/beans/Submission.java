@@ -5,7 +5,9 @@ package OGS.beans;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import java.io.InputStream;
 import java.io.Serializable;
+import java.sql.Blob;
 
 /**
  *
@@ -28,6 +30,8 @@ public class Submission implements Serializable {
     private String dateFlag;
     private String submissionTime;
     private String Answers;
+    private InputStream File;
+    private String Filename;
 
     /**
      *
@@ -35,6 +39,14 @@ public class Submission implements Serializable {
      */
     public String getStudentID() {
         return studentID;
+    }
+    
+    public String getFileName(){
+        return Filename;
+    }
+    
+    public InputStream getFile(){
+        return File;
     }
     
     public String getAnswers(){
@@ -48,6 +60,14 @@ public class Submission implements Serializable {
      */
     public void setStudentID(String studentID) {
         this.studentID = studentID;
+    }
+    
+    public void setFile(InputStream file){
+        this.File = file;
+    }
+    
+    public void setFileName(String filename){
+        this.Filename = filename;
     }
 
     /**

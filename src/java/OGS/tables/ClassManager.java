@@ -128,7 +128,8 @@ public class ClassManager {
                 rs.close();
             }
         }
-    }
+    }    
+    
     
      public static boolean insert(Class ClassBean) throws Exception {
         File f = new File("c:/SimControl/Logging/");
@@ -186,7 +187,7 @@ public class ClassManager {
         return true;
     }
      
-     public static List<Class> getCourseByProfessor(String ProfessorID) throws SQLException, ClassNotFoundException, IOException {
+     public static List<Class> getClassByProfessor(String ProfessorID) throws SQLException, ClassNotFoundException, IOException {
         File f = new File("c:/SimControl/Logging/");
         if(!f.exists()){
             f.mkdirs();

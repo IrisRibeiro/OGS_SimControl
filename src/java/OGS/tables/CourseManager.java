@@ -87,6 +87,56 @@ public class CourseManager {
             }
         }
     }
+    
+    public static Course getCourseByClass(String ClassID) throws SQLException, ClassNotFoundException, IOException {
+        File f = new File("c:/SimControl/Logging/");
+        if(!f.exists()){
+            f.mkdirs();
+            
+        }
+        FileHandler fh;
+        fh = new FileHandler(f.getPath() + "\\Course_Log.log");
+        LOGGER.addHandler(fh);
+        SimpleFormatter formatter = new SimpleFormatter();  
+        fh.setFormatter(formatter);
+        
+        LOGGER.info("Logger Name: " + LOGGER.getName());
+        LOGGER.info("Method getCourseByClass()");
+
+        String sql = "SELECT COURSE.* FROM COURSE, CLASS\n" +
+                    "WHERE CLASS.COURSEID = COURSE.ID\n" +
+                    "AND CLASS.ID = ?";
+        ResultSet rs = null;
+        LOGGER.warning("Creating the connection to the database");
+        try (Connection conn = DBUtil.getConnection(DBType.MYSQL);
+                PreparedStatement stmt = conn.prepareStatement(sql);) {
+            stmt.setString(1, ClassID);
+            rs = stmt.executeQuery();
+            LOGGER.warning("Finish executing query");
+            if (rs.next()) {
+                Course CourseBean = new Course();
+                CourseBean.setIdentifier(rs.getString("Identifier"));
+                CourseBean.setName(rs.getString("Name"));
+                CourseBean.setCourseID(rs.getString("ID"));                
+                CourseBean.setWebsite(rs.getString("webpage"));                
+                CourseBean.setCredits(rs.getInt("Credits"));                
+                CourseBean.setPrerequisites(rs.getString("Prerequisite"));                
+                LOGGER.config("Object CourseBean is equal to :" + CourseBean);
+                return CourseBean;
+            } else {
+                return null;
+            }
+
+        } catch (SQLException e) {
+            System.err.println(e);
+            LOGGER.log(Level.SEVERE, "Exception occur", e);
+            return null;
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+        }
+    }
 
     public static boolean insert(Course CourseBean) throws Exception {
         File f = new File("c:/SimControl/Logging/");

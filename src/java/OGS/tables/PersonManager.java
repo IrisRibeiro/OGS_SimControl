@@ -140,6 +140,49 @@ public class PersonManager {
 
     }
     
+    public static String getInstructorEmail(String ClassID) throws SQLException, ClassNotFoundException, IOException {
+        File f = new File("c:/SimControl/Logging/");
+        if(!f.exists()){
+            f.mkdirs();
+            
+        }
+        FileHandler fh;
+        fh = new FileHandler(f.getPath() + "\\Person_Log.log");
+        LOGGER.addHandler(fh);
+        SimpleFormatter formatter = new SimpleFormatter();  
+        fh.setFormatter(formatter);
+        
+        LOGGER.info("Logger Name: "+LOGGER.getName());
+        LOGGER.info("Method getInstructorEmail()" + ClassID);
+        String sql = "SELECT PERSON.EMAILADDRESS AS EMAIL FROM \n" +
+                    "PERSON, CLASS \n" +
+                    "WHERE PERSON.ID = CLASS.INSTRUCTORID\n" +
+                    "AND CLASS.CLASSID = ?";
+        ResultSet rs = null;
+        String email = "";
+        LOGGER.warning("Creating the connection to the database");
+        try (
+                Connection conn = DBUtil.getConnection(DBType.MYSQL);
+                PreparedStatement stmt = conn.prepareStatement(sql);) {
+            stmt.setString(1, ClassID);
+            rs = stmt.executeQuery();
+            LOGGER.warning("Finish executing query");
+            if (rs.next()) {
+                email = rs.getString("EMAIL");
+            } 
+
+        } catch (SQLException e) {
+             LOGGER.log(Level.SEVERE, "Exception occur", e);
+            System.err.println(e);
+            return null;
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+        }
+        return email;
+    }
+    
     public static Person getRowfromUserName(String UserName) throws SQLException, ClassNotFoundException, IOException {
         File f = new File("c:/SimControl/Logging/");
         if(!f.exists()){

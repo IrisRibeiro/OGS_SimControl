@@ -8,6 +8,11 @@ import java.sql.Statement;
 import OGS.beans.Submission;
 import OGS.dbaccess.DBType;
 import OGS.dbaccess.DBUtil;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 /**
  *
@@ -21,6 +26,9 @@ public class SubmissionManager {
      * @returns the Professor object 
      * @throws SQLException  
      */
+    
+    private static final Logger LOGGER = Logger.getLogger(AssignmentManager.class.getName());
+     
     public static Submission getRow(String studentID, String assignmentID) throws SQLException, ClassNotFoundException {
 
         String sql = "SELECT * FROM Submissions WHERE studentID = ? AND "
@@ -73,8 +81,8 @@ public class SubmissionManager {
 
         String sql = "INSERT into Submission"
                 + " (studentID, assignmentID, graderID"
-                + ", grade, comments, path, dateFlag, submissionTime) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                + ", grade, comments, path, dateFlag, submissionTime, ID, asnwers, File, Filename) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?)";
         ResultSet keys = null;
         try (
                 Connection conn = DBUtil.getConnection(DBType.MYSQL);
@@ -86,8 +94,13 @@ public class SubmissionManager {
             stmt.setDouble(4, submissionBean.getGrade());
             stmt.setString(5, submissionBean.getComments());
             stmt.setString(6, submissionBean.getPath());
-            stmt.setString(7, submissionBean.getPath());
+            stmt.setString(7, submissionBean.getDateFlag());
             stmt.setString(8, submissionBean.getSubmissionTime());
+            stmt.setString(9, submissionBean.getSubmissionID());
+            stmt.setString(10, submissionBean.getAnswers());
+            stmt.setBlob(11, submissionBean.getFile());
+            stmt.setString(12, submissionBean.getFileName());       
+            
             int affected = stmt.executeUpdate();
 
             if (affected != 1) {
@@ -144,6 +157,45 @@ public class SubmissionManager {
             return false;
         }
 
+    }
+    
+    public static String getSubmissionNumber() throws SQLException, ClassNotFoundException, IOException {
+        File f = new File("c:/SimControl/Logging/");
+        if(!f.exists()){
+            f.mkdirs();
+            
+        }
+        FileHandler fh;
+        fh = new FileHandler(f.getPath() + "\\Submission_Log.log");
+        LOGGER.addHandler(fh);
+        SimpleFormatter formatter = new SimpleFormatter();  
+        fh.setFormatter(formatter);
+        
+        LOGGER.info("Logger Name: " + LOGGER.getName());
+        LOGGER.info("Method getAssignmentNumber()");
+        String sql = "SELECT MAX(ID) AS ID FROM submissions ";
+        ResultSet rs = null;
+        String returnId = "";
+        LOGGER.warning("Creating the connection to the database");
+        try (
+                Connection conn = DBUtil.getConnection(DBType.MYSQL);
+                PreparedStatement stmt = conn.prepareStatement(sql);) {
+                rs = stmt.executeQuery();
+            if (rs.next()) {
+                returnId = rs.getString("ID");   
+            }
+            LOGGER.config("Object rs is :" + rs);
+
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+        }
+
+        return returnId ;
     }
 
 }

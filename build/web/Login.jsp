@@ -4,7 +4,9 @@
     Author     : Iris
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%@page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"   %>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -50,10 +52,10 @@
                         <h3 class="panel-title">Sign In</h3>
                     </div>
                     <div class="panel-body">
-                        <form role="form">
+                        <form  method="get" action="LoginServlet">
                             <fieldset>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="E-mail" name="email" type="email" autofocus>
+                                   <input class="form-control" placeholder="UserName" name="UserName" type="text" autofocus>
                                 </div>
                                 <div class="form-group">
                                     <input class="form-control" placeholder="Password" name="password" type="password" value="">
@@ -64,7 +66,7 @@
                                     </label>
                                 </div>
                                 <!-- Change this to a button or input when using this as a form -->
-                                <a href="Dashboard.jsp" class="btn btn-lg btn-default btn-block" >Login</a>
+                                <input class="btn btn-lg btn-default btn-block" type="submit" value="Login"  />
                             </fieldset>
                         </form>
                     </div>
@@ -72,7 +74,17 @@
             </div>
         </div>
     </div>
+<!--
+ 
+    public void validate(String UserName, String password)throws Exception{
+        if ((UserName == "")&&( password == "")){
+            
+        }else{
+        
+        }
+    }
 
+-->
     <!-- jQuery Version 1.11.0 -->
     <script src="js/jquery-1.11.0.js"></script>
 
