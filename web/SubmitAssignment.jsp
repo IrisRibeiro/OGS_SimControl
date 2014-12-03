@@ -83,6 +83,16 @@
                                                 <textarea class="form-control" rows="5" name="instructions" id="instructions" type="text" value="<%=assignments.getInstructions()%>" disabled></textarea>
                                                                                                 
                                             </div>
+                                             <% 
+                                                if (assignments.getFlag() == "Y"){                                                    
+                                             %>
+                                             <div class="form-group">
+                                                <label>Download Assignment File</label>
+                                                <a href="DownloadServlet">Download Link</a>           
+                                            </div>
+                                             <%   } %>
+                                             
+                                             
                                             <div class="form-group">
                                                 <label>Upload File</label>
                                                  <input type="file" name="file">
