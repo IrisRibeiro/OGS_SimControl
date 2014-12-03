@@ -10,6 +10,7 @@
 <html lang="en">
     <head>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+         <jsp:include page="DefaultLayout.jsp" flush="true"/>
 <%
 Person person = (Person) session.getAttribute("currentSessionUser");
 if (person == null) {
@@ -32,8 +33,8 @@ return;
 }
 %>
         
-    </head>
-    <jsp:include page="DefaultLayout.jsp" flush="true"/>
+</head>
+   
     <body>
         <!-- Page Content -->
         <div id="page-wrapper">
