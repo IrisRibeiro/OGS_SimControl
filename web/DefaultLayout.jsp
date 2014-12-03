@@ -247,6 +247,9 @@
                                     <li>
                                         <a href="gradesystem.jsp">Grade system</a> <!-- /.Modify to link to the page -->
                                     </li>
+                                    <li>
+                                        <a href="SubmitAssignment.jsp">Submit Assignment</a> <!-- /.Modify to link to the page -->
+                                    </li>
                                     
                                 <%    }else if (acesslevel == 2) { // TA %> 
                                     <li>
@@ -264,6 +267,9 @@
                                     <li>
                                         <a href="gradesystem.jsp">Grade system</a> <!-- /.Modify to link to the page -->
                                     </li>
+                                    <li>
+                                        <a href="GradeAssignment.jsp">Grade Assignment</a> <!-- /.Modify to link to the page -->
+                                    </li>
                                 
                                 <% }else if(acesslevel == 3) {// Professor %>
                                      <li>
@@ -278,7 +284,9 @@
                                     <li>
                                         <a href="SearchCourses.jsp">All Courses</a> <!-- /.Modify to link to the page -->
                                     </li>
-                                    
+                                    <li>
+                                        <a href="GradeAssignment.jsp">Grade Assignment</a> <!-- /.Modify to link to the page -->
+                                    </li>
                                 
                                 <% }else if(acesslevel == 4) { // Manager %> <!-- / -->
                                     <li>
