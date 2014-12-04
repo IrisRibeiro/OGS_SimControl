@@ -63,7 +63,8 @@ public class GradeSystem {
         return submission.get(counter/2).getGrade();
     }
 
-    public static Double calcGradeDist(Person p) throws Exception {
+    public static Double[] calcGradeDist(List<Submission> submission) throws Exception {
+        AssignmentManager.getRow(submission.get(1).getAssignmentID());
         return null;
     }
 }

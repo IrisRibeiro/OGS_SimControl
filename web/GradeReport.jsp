@@ -29,9 +29,15 @@
         Assignment assignmentBean = new Assignment();
         Course courseBean = new Course();
 %>
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    
+<link href="css/bootstrap.min.css" rel="stylesheet">
+  <!-- DataTables CSS -->
+<link href="css/plugins/dataTables.bootstrap.css" rel="stylesheet">
+ <!-- MetisMenu CSS -->
+<link href="css/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+<link href="css/sb-admin-2.css" rel="stylesheet">
+     <!-- Custom Fonts -->
+<link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 
@@ -77,11 +83,50 @@
                                                                                 <td><%=GradeSystem.calcMid(submission)%></td>
 									</tr>
 								</tbody>
+                                                                <!-- Second Half Grade Distribution-->
+                                                                <thead>
+									<tr>
+                                                                            <th>[0-10)</th>
+                                                                            <th>[10-20)</th>
+                                                                            <th>[20-30)</th>
+                                                                            <th>[30-40)</th>
+                                                                            <th>[40-50)</th>
+                                                                            <th>[50-60)</th>
+                                                                            <th>[60-70)</th>
+                                                                            <th>[70-80)</th>
+                                                                            <th>[80-90)</th>
+                                                                            <th>[90-100)</th>
+                                                                            <th>[100+]</th>
+									</tr>
+								</thead>
+								<tbody>
+									<%
+                                                                            assignmentBean = AssignmentManager.getRow(assignmentID);
+                                                                            classBean = ClassManager.getRowbyID(assignmentBean.getClassID());
+                                                                            courseBean = CourseManager.getRow(classBean.getCourseID());
+									%>
+									<tr class="gradeA">
+                                                                                <td><%=SubmissionManager.getNumGradedSubmissionsByAssignmentID(assignmentID)%></td>
+                                                                                <td><%=assignmentBean.getPointsPossible()%></td>
+                                                                                <td><%=GradeSystem.calcMax(submission)%></td>
+                                                                                <td><%=GradeSystem.calcMin(submission)%></td>
+                                                                                <td><%=GradeSystem.calcAvg(submission)%></td>
+                                                                                <td><%=GradeSystem.calcMid(submission)%></td>
+                                                                                <td><%=GradeSystem.calcMid(submission)%></td>
+                                                                                <td><%=GradeSystem.calcMid(submission)%></td>
+                                                                                <td><%=GradeSystem.calcMid(submission)%></td>
+                                                                                <td><%=GradeSystem.calcMid(submission)%></td>
+                                                                                <td><%=GradeSystem.calcMid(submission)%></td>
+									</tr>
+								</tbody>
 							</table>
 						</div>
+                                                                        
 						<p>
                                                      <button type="button" id="downloadGradeReportButton"
 								class="btn btn-outline btn-default">Download </button>
+                                                     <button type="button" id="backButton"
+								class="btn btn-outline btn-default">Back </button>
 						</p>
 					</div>
 					<!-- /.panel-body -->
@@ -93,11 +138,14 @@
 
 		<!-- /.col-lg-6 -->
 	</div>
-	 <!-- jQuery Version 1.11.0 -->
+	<!-- jQuery Version 1.11.0 -->
     <script src="js/jquery-1.11.0.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="js/plugins/metisMenu/metisMenu.min.js"></script>
 
     <!-- DataTables JavaScript -->
     <script src="js/plugins/dataTables/jquery.dataTables.js"></script>
@@ -108,7 +156,7 @@
     
 	<script type="text/javascript">
 		$(function() {
-                        $("#downloadGradeReport")
+                        $("#downloadGradeReportButton")
 					.click(
                         function() {
                                 var checked = $("#dataTables-classes").find(
@@ -124,6 +172,16 @@
                                 }
                         });
 		});
+	</script>
+        
+        <script type="text/javascript">
+		$(function() {
+                        $("#backButton")
+					.click(
+                        function() {
+                                        location.href = "GradeSystem.jsp";
+                                });
+                        });
 	</script>
 </body>
 </html>
