@@ -18,6 +18,23 @@
 %>
 <html lang="en">
     <head>
+        <script>
+        function validateForm() { 
+            if(document.frm.tidentifier.value=="") { 
+                alert("Course Identifier can't be null"); 
+                document.frm.tidentifier.focus(); 
+                return false; } 
+            else if(document.frm.tcredits.value=="") { 
+                alert("Credits can't be null "); 
+                document.frm.tcredits.focus(); 
+                return false; }
+            else if(document.tname.tcredits.value=="") { 
+                alert("Name can't be null "); 
+                document.frm.tname.focus(); 
+                return false; }
+             
+        }
+        </script>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         
     </head>
@@ -41,7 +58,7 @@
                         <!-- /.panel-heading -->
                         <div class="panel-body" >
                                 <div class="row">
-                                <form role="form" method="get" action="CreateCourseServlet" >
+                                <form role="form" name="frm" onSubmit="return validateForm()" method="get" action="CreateCourseServlet" >
                                         <div class="col-lg-6">								
                                             <div class="form-group">
                                                     <label>Course Identifier</label>

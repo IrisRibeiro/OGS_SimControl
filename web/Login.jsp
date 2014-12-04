@@ -38,6 +38,18 @@
             <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
             <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
+        <script>
+        function validateForm() { 
+            if(document.frm.UserName.value=="") { 
+                alert("User Name should not be blank.."); 
+                document.frm.UserName.focus(); 
+                return false; } 
+            else if(document.frm.password.value=="") { 
+                alert("Password should not be blank"); 
+                document.frm.password.focus(); 
+                return false; } 
+        }
+        </script>
 
     </head>
 <body>
@@ -52,7 +64,7 @@
                         <h3 class="panel-title">Sign In</h3>
                     </div>
                     <div class="panel-body">
-                        <form  method="get" action="LoginServlet">
+                        <form  method="get" name="frm" action="LoginServlet" onSubmit="return validateForm()">
                             <fieldset>
                                 <div class="form-group">
                                    <input class="form-control" placeholder="UserName" name="UserName" type="text" autofocus>

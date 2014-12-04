@@ -8,6 +8,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script>       
+    
     <%@page import="OGS.tables.AssignmentManager"%>
 <%@page import="OGS.beans.Assignment"%>
     <jsp:include page="DefaultLayout.jsp" flush="true"/>
@@ -64,7 +66,7 @@
                         <!-- /.panel-heading -->
                         <div class="panel-body" >
                                 <div class="row">
-                                <form role="form" method="post" action="SubmitAssignmentServlet" >
+                                <form role="form" method="post" name="frm" action="SubmitAssignmentServlet"  enctype="multipart/form-data">
                                         <div class="col-lg-6">								
                                             <div class="form-group">
                                                 <label>Available Assignment</label>                                                
