@@ -5,8 +5,14 @@
  */
 package OGS.GeneralClasses;
 
+import OGS.beans.Assignment;
 import OGS.beans.Person;
+import OGS.beans.Submission;
+import OGS.beans.Class;
+import OGS.beans.Course;
+import OGS.tables.AssignmentManager;
 import OGS.tables.ClassManager;
+import OGS.tables.CourseManager;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -15,32 +21,49 @@ import java.util.logging.Logger;
  * @author Eric
  */
 public class GradeSystem {
+
     private static final Logger LOGGER = Logger.getLogger(GradeSystem.class.getName());
-    
-    public static Double calcMax(Person p)throws Exception{
-        List<OGS.beans.Class> classes = ClassManager.getClassesForPerson(p.getAccessLevel(), p.getID());
-        for(int i = 0; i < classes.size(); i++){
-            System.out.println("Index: " + i + " :" + classes.get(i).getNumberOfAssignments());
+
+    public static Double calcMax(List<Submission> submission) throws Exception {
+        double max = 0.0;
+        for (Submission subs : submission) {
+            if (subs.getGrade() > max){
+                max = subs.getGrade();
+            }
         }
-        return null;
+        return max;
     }
-    
-    public static Double calcMin(Person p)throws Exception{
-        return null;
+
+    public static Double calcMin(List<Submission> submission) throws Exception {
+        double min = GradeSystem.calcMax(submission);
+        for (Submission subs : submission) {
+            if (subs.getGrade() < min){
+                min = subs.getGrade();
+            }
+        }
+        return min;
     }
-    
-    public static Double calcAvg(Person p)throws Exception{
-        return null;
+
+    public static Double calcAvg(List<Submission> submission) throws Exception {
+        double avg = 0.0;
+        double counter = 0;
+        for (Submission subs : submission) {
+            avg += subs.getGrade();
+            ++counter;
+        }
+        avg = avg / counter;
+        return avg;
     }
-    
-    public static Double calcMid(Person p)throws Exception{
-        return null;
+
+    public static Double calcMid(List<Submission> submission) throws Exception {
+        int counter = 0;
+        for (Submission subs : submission) {
+            ++counter;
+        }
+        return submission.get(counter/2).getGrade();
     }
-    
-    public static Double calcGradeDist(Person p)throws Exception{
+
+    public static Double calcGradeDist(Person p) throws Exception {
         return null;
-    }
-    public static void getAllSubmissions(Person p) throws Exception {
-        
     }
 }

@@ -1,5 +1,6 @@
 package OGS.tables;
 
+import OGS.beans.Assignment;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -334,7 +335,7 @@ public class SubmissionManager {
         LOGGER.info("Method getAllSubmissions()");
         
         List<Submission> Submission = new ArrayList<>();
-        String sql = "SELECT * FROM Submissions where StudentID = ?";
+        String sql = "SELECT * FROM Submissions";
         ResultSet rs = null;
         LOGGER.warning("Creating the connection to the database");
         try (Connection conn = DBUtil.getConnection(DBType.MYSQL);
@@ -375,7 +376,8 @@ public class SubmissionManager {
         return Submission;
     }
     
-     public static int getNumGradedSubmissions() throws SQLException, ClassNotFoundException, IOException {
+     public static int getNumGradedSubmissionsByAssignmentID(String assignmentID) 
+             throws SQLException, ClassNotFoundException, IOException {
         File f = new File("c:/SimControl/Logging/");
         if(!f.exists()){
             f.mkdirs();
@@ -388,16 +390,16 @@ public class SubmissionManager {
         fh.setFormatter(formatter);
         
         LOGGER.info("Logger Name: " + LOGGER.getName());
-        LOGGER.info("Method getNumGradedSubmissions()");
+        LOGGER.info("Method getNumGradedSubmissionsByAssignmentID()");
         
-        String sql = "SELECT * FROM Submissions where Grade != ?";
+        String sql = "SELECT * FROM Submissions where Grade IS NOT NULL AND AssignmentID = ?";
         ResultSet rs = null;
         int count = 0;
         LOGGER.warning("Creating the connection to the database");
         try (Connection conn = DBUtil.getConnection(DBType.MYSQL);
                 PreparedStatement stmt = conn.prepareStatement(sql);) {
             
-            stmt.setNull(1, java.sql.Types.DOUBLE);
+            stmt.setString(1, assignmentID);
             
             rs = stmt.executeQuery();
             LOGGER.warning("Finish executing query");
@@ -417,7 +419,8 @@ public class SubmissionManager {
         return count;
     }
      
-    public static List<Submission> getGradedSubmissions() throws SQLException, ClassNotFoundException, IOException {
+    public static List<Submission> getGradedSubmissionsByAssignmentID(String assignmentID) 
+            throws SQLException, ClassNotFoundException, IOException {
         File f = new File("c:/SimControl/Logging/");
         if(!f.exists()){
             f.mkdirs();
@@ -430,16 +433,16 @@ public class SubmissionManager {
         fh.setFormatter(formatter);
         
         LOGGER.info("Logger Name: " + LOGGER.getName());
-        LOGGER.info("Method getGradedSubmissions()");
+        LOGGER.info("Method getGradedSubmissionsByAssignmentID()");
         
         List<Submission> Submission = new ArrayList<>();
-        String sql = "SELECT * FROM Submissions where Grade != ?";
+        String sql = "SELECT * FROM simcontrol.submissions where AssignmentID = ? AND Grade IS NOT NULL;";
         ResultSet rs = null;
         LOGGER.warning("Creating the connection to the database");
         try (Connection conn = DBUtil.getConnection(DBType.MYSQL);
                 PreparedStatement stmt = conn.prepareStatement(sql);) {
             
-            stmt.setNull(1, java.sql.Types.DOUBLE);
+            stmt.setString(1, assignmentID);
            
             rs = stmt.executeQuery();
             LOGGER.warning("Finish executing query");
