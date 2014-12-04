@@ -25,15 +25,14 @@ import java.util.logging.SimpleFormatter;
  * @author Eric
  */
 public class SubmissionManager {
+    private static final Logger LOGGER = Logger.getLogger(SubmissionManager.class.getName());
     /**
      @param takes the ID of the row
      * This method connects to the database and then it gets the row which ID was referenced to and then 
      * it parses the information that was returned from the the row.
      * @returns the Professor object 
-     * @throws SQLException  
+     * @throws SQLException
      */
-    
-    private static final Logger LOGGER = Logger.getLogger(AssignmentManager.class.getName());
      
     public static Submission getRow(String studentID, String assignmentID) throws SQLException, ClassNotFoundException {
 
@@ -202,8 +201,285 @@ public class SubmissionManager {
                 rs.close();
             }
         }
+        return returnId;
+    }
+    
+    public static List<Submission> getStudentsSubmissions(String studentID) throws SQLException, ClassNotFoundException, IOException {
+        File f = new File("c:/SimControl/Logging/");
+        if(!f.exists()){
+            f.mkdirs();
+            
+        }
+        FileHandler fh;
+        fh = new FileHandler(f.getPath() + "\\Submission_Log.log");
+        LOGGER.addHandler(fh);
+        SimpleFormatter formatter = new SimpleFormatter();  
+        fh.setFormatter(formatter);
+        
+        LOGGER.info("Logger Name: " + LOGGER.getName());
+        LOGGER.info("Method getStudentsSubmissions()");
+        
+        List<Submission> Submission = new ArrayList<>();
+        String sql = "SELECT * FROM Submissions where StudentID = ?";
+        ResultSet rs = null;
+        LOGGER.warning("Creating the connection to the database");
+        try (Connection conn = DBUtil.getConnection(DBType.MYSQL);
+                PreparedStatement stmt = conn.prepareStatement(sql);) {
+            
+            stmt.setString(1, studentID);
+           
+            rs = stmt.executeQuery();
+            LOGGER.warning("Finish executing query");
+            while (rs.next()) {
+                Submission SubmissionBean = new Submission();
+                SubmissionBean.setStudentID(rs.getString("StudentID"));
+                SubmissionBean.setAssignmentID(rs.getString("AssignmentID"));
+                SubmissionBean.setGrade(rs.getDouble("Grade"));             
+                SubmissionBean.setGraderID(rs.getString("GraderID"));                
+                SubmissionBean.setComments(rs.getString("Comments"));                
+                SubmissionBean.setPath(rs.getString("Path"));
+                SubmissionBean.setDateFlag(rs.getString("DateFlag"));
+                SubmissionBean.setSubmissionTime(rs.getString("SubmissionTime"));
+                SubmissionBean.setSubmissionID(rs.getString("ID"));  
+                SubmissionBean.setAnswers(rs.getString("Answers"));  
+                SubmissionBean.setFile(rs.getAsciiStream("File"));  
+                SubmissionBean.setFileName(rs.getString("Filename"));  
+                
+                Submission.add(SubmissionBean);
+                LOGGER.config("Object SubmissionBean is equal to :" + SubmissionBean);
+                
+               
+            } 
 
-        return returnId ;
+        } catch (SQLException e) {
+            System.err.println(e);
+            LOGGER.log(Level.SEVERE, "Exception occur", e);
+            return null;
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+        }
+        return Submission;
+    }
+    
+    public static List<Submission> getSubmissionsByTAID(String TAID) throws SQLException, ClassNotFoundException, IOException {
+        File f = new File("c:/SimControl/Logging/");
+        if(!f.exists()){
+            f.mkdirs();
+            
+        }
+        FileHandler fh;
+        fh = new FileHandler(f.getPath() + "\\Submission_Log.log");
+        LOGGER.addHandler(fh);
+        SimpleFormatter formatter = new SimpleFormatter();  
+        fh.setFormatter(formatter);
+        
+        LOGGER.info("Logger Name: " + LOGGER.getName());
+        LOGGER.info("Method getSubmissionsByTAID()");
+        
+        List<Submission> Submission = new ArrayList<>();
+        String sql = "SELECT * FROM Submissions where GraderID = ?";
+        ResultSet rs = null;
+        LOGGER.warning("Creating the connection to the database");
+        try (Connection conn = DBUtil.getConnection(DBType.MYSQL);
+                PreparedStatement stmt = conn.prepareStatement(sql);) {
+            
+            stmt.setString(1, TAID);
+           
+            rs = stmt.executeQuery();
+            LOGGER.warning("Finish executing query");
+            while (rs.next()) {
+                Submission SubmissionBean = new Submission();
+                SubmissionBean.setStudentID(rs.getString("StudentID"));
+                SubmissionBean.setAssignmentID(rs.getString("AssignmentID"));
+                SubmissionBean.setGrade(rs.getDouble("Grade"));             
+                SubmissionBean.setGraderID(rs.getString("GraderID"));                
+                SubmissionBean.setComments(rs.getString("Comments"));                
+                SubmissionBean.setPath(rs.getString("Path"));
+                SubmissionBean.setDateFlag(rs.getString("DateFlag"));
+                SubmissionBean.setSubmissionTime(rs.getString("SubmissionTime"));
+                SubmissionBean.setSubmissionID(rs.getString("ID"));  
+                SubmissionBean.setAnswers(rs.getString("Answers"));  
+                SubmissionBean.setFile(rs.getAsciiStream("File"));  
+                SubmissionBean.setFileName(rs.getString("Filename"));  
+                
+                Submission.add(SubmissionBean);
+                LOGGER.config("Object SubmissionBean is equal to :" + SubmissionBean);
+                
+               
+            } 
+
+        } catch (SQLException e) {
+            System.err.println(e);
+            LOGGER.log(Level.SEVERE, "Exception occur", e);
+            return null;
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+        }
+        return Submission;
+    }
+    
+    public static List<Submission> getAllSubmissions() throws SQLException, ClassNotFoundException, IOException {
+        File f = new File("c:/SimControl/Logging/");
+        if(!f.exists()){
+            f.mkdirs();
+            
+        }
+        FileHandler fh;
+        fh = new FileHandler(f.getPath() + "\\Submission_Log.log");
+        LOGGER.addHandler(fh);
+        SimpleFormatter formatter = new SimpleFormatter();  
+        fh.setFormatter(formatter);
+        
+        LOGGER.info("Logger Name: " + LOGGER.getName());
+        LOGGER.info("Method getAllSubmissions()");
+        
+        List<Submission> Submission = new ArrayList<>();
+        String sql = "SELECT * FROM Submissions";
+        ResultSet rs = null;
+        LOGGER.warning("Creating the connection to the database");
+        try (Connection conn = DBUtil.getConnection(DBType.MYSQL);
+                PreparedStatement stmt = conn.prepareStatement(sql);) {
+            
+            rs = stmt.executeQuery();
+            LOGGER.warning("Finish executing query");
+            while (rs.next()) {
+                Submission SubmissionBean = new Submission();
+                SubmissionBean.setStudentID(rs.getString("StudentID"));
+                SubmissionBean.setAssignmentID(rs.getString("AssignmentID"));
+                SubmissionBean.setGrade(rs.getDouble("Grade"));             
+                SubmissionBean.setGraderID(rs.getString("GraderID"));                
+                SubmissionBean.setComments(rs.getString("Comments"));                
+                SubmissionBean.setPath(rs.getString("Path"));
+                SubmissionBean.setDateFlag(rs.getString("DateFlag"));
+                SubmissionBean.setSubmissionTime(rs.getString("SubmissionTime"));
+                SubmissionBean.setSubmissionID(rs.getString("ID"));  
+                SubmissionBean.setAnswers(rs.getString("Answers"));  
+                SubmissionBean.setFile(rs.getAsciiStream("File"));  
+                SubmissionBean.setFileName(rs.getString("Filename"));  
+                
+                Submission.add(SubmissionBean);
+                LOGGER.config("Object SubmissionBean is equal to :" + SubmissionBean);
+                
+               
+            } 
+
+        } catch (SQLException e) {
+            System.err.println(e);
+            LOGGER.log(Level.SEVERE, "Exception occur", e);
+            return null;
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+        }
+        return Submission;
+    }
+    
+     public static int getNumGradedSubmissionsByAssignmentID(String assignmentID) 
+             throws SQLException, ClassNotFoundException, IOException {
+        File f = new File("c:/SimControl/Logging/");
+        if(!f.exists()){
+            f.mkdirs();
+            
+        }
+        FileHandler fh;
+        fh = new FileHandler(f.getPath() + "\\Submission_Log.log");
+        LOGGER.addHandler(fh);
+        SimpleFormatter formatter = new SimpleFormatter();  
+        fh.setFormatter(formatter);
+        
+        LOGGER.info("Logger Name: " + LOGGER.getName());
+        LOGGER.info("Method getNumGradedSubmissionsByAssignmentID()");
+        
+        String sql = "SELECT * FROM Submissions where Grade IS NOT NULL AND AssignmentID = ?";
+        ResultSet rs = null;
+        int count = 0;
+        LOGGER.warning("Creating the connection to the database");
+        try (Connection conn = DBUtil.getConnection(DBType.MYSQL);
+                PreparedStatement stmt = conn.prepareStatement(sql);) {
+            
+            stmt.setString(1, assignmentID);
+            
+            rs = stmt.executeQuery();
+            LOGGER.warning("Finish executing query");
+            while (rs.next()) {
+                ++count;
+            } 
+
+        } catch (SQLException e) {
+            System.err.println(e);
+            LOGGER.log(Level.SEVERE, "Exception occur", e);
+            return -1;
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+        }
+        return count;
+    }
+     
+    public static List<Submission> getGradedSubmissionsByAssignmentID(String assignmentID) 
+            throws SQLException, ClassNotFoundException, IOException {
+        File f = new File("c:/SimControl/Logging/");
+        if(!f.exists()){
+            f.mkdirs();
+            
+        }
+        FileHandler fh;
+        fh = new FileHandler(f.getPath() + "\\Submission_Log.log");
+        LOGGER.addHandler(fh);
+        SimpleFormatter formatter = new SimpleFormatter();  
+        fh.setFormatter(formatter);
+        
+        LOGGER.info("Logger Name: " + LOGGER.getName());
+        LOGGER.info("Method getGradedSubmissionsByAssignmentID()");
+        
+        List<Submission> Submission = new ArrayList<>();
+        String sql = "SELECT * FROM simcontrol.submissions where AssignmentID = ? AND Grade IS NOT NULL;";
+        ResultSet rs = null;
+        LOGGER.warning("Creating the connection to the database");
+        try (Connection conn = DBUtil.getConnection(DBType.MYSQL);
+                PreparedStatement stmt = conn.prepareStatement(sql);) {
+            
+            stmt.setString(1, assignmentID);
+           
+            rs = stmt.executeQuery();
+            LOGGER.warning("Finish executing query");
+            while (rs.next()) {
+                Submission SubmissionBean = new Submission();
+                SubmissionBean.setStudentID(rs.getString("StudentID"));
+                SubmissionBean.setAssignmentID(rs.getString("AssignmentID"));
+                SubmissionBean.setGrade(rs.getDouble("Grade"));             
+                SubmissionBean.setGraderID(rs.getString("GraderID"));                
+                SubmissionBean.setComments(rs.getString("Comments"));                
+                SubmissionBean.setPath(rs.getString("Path"));
+                SubmissionBean.setDateFlag(rs.getString("DateFlag"));
+                SubmissionBean.setSubmissionTime(rs.getString("SubmissionTime"));
+                SubmissionBean.setSubmissionID(rs.getString("ID"));  
+                SubmissionBean.setAnswers(rs.getString("Answers"));  
+                SubmissionBean.setFile(rs.getAsciiStream("File"));  
+                SubmissionBean.setFileName(rs.getString("Filename"));  
+                
+                Submission.add(SubmissionBean);
+                LOGGER.config("Object SubmissionBean is equal to :" + SubmissionBean);
+                
+               
+            } 
+
+        } catch (SQLException e) {
+            System.err.println(e);
+            LOGGER.log(Level.SEVERE, "Exception occur", e);
+            return null;
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+        }
+        return Submission;
     }
     
     public static List<Submission> getSubmissionsByAssignment(String AssignmentID) throws SQLException, ClassNotFoundException, IOException {

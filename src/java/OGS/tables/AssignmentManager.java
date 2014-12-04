@@ -80,9 +80,10 @@ public class AssignmentManager {
                 assignmentBean.setQuestions(rs.getString("Questions"));
                 assignmentBean.setFileName(rs.getString("FileName"));
                 Blob tempfile = rs.getBlob("File");
-                InputStream inputStream = tempfile.getBinaryStream();
-                assignmentBean.setFile(inputStream);
-                
+                if(tempfile != null){
+                    InputStream inputStream = tempfile.getBinaryStream();
+                    assignmentBean.setFile(inputStream);
+                }
                 assignmentBean.setID(ID);
                 LOGGER.config("Object AssignmentBeans is :" + assignmentBean);
                 return assignmentBean;
@@ -314,8 +315,10 @@ public class AssignmentManager {
                 assignmentBean.setID(rs.getString("ID"));
                 assignmentBean.setFileName(rs.getString("FileName"));
                 Blob tempfile = rs.getBlob("File");
-                InputStream inputStream = tempfile.getBinaryStream();
-                assignmentBean.setFile(inputStream);
+                if(tempfile != null){
+                    InputStream inputStream = tempfile.getBinaryStream();
+                    assignmentBean.setFile(inputStream);
+                }
                
                 assignments.add(assignmentBean);
                 LOGGER.config("Object Assigments is equal to :" + assignments);
@@ -333,9 +336,10 @@ public class AssignmentManager {
         }
         return assignments;
     }
+
      
     public static List<Assignment> getAssigmentsForPerson(int accessLevel, String PersonID) throws SQLException, ClassNotFoundException, IOException {
-        File f = new File("c:/SimControl/Logging/");
+		File f = new File("c:/SimControl/Logging/");
         if(!f.exists()){
             f.mkdirs();
             
@@ -365,7 +369,7 @@ public class AssignmentManager {
                 break;
                  
         }
-        ResultSet rs = null;
+    	ResultSet rs = null;
         LOGGER.warning("Creating the connection to the database");
         try (Connection conn = DBUtil.getConnection(DBType.MYSQL);
                 PreparedStatement stmt = conn.prepareStatement(sql);) {
@@ -374,7 +378,65 @@ public class AssignmentManager {
                                 
                 rs = stmt.executeQuery();
             while (rs.next()) {
+            
+				Assignment assignmentBean = new Assignment();
+                assignmentBean.setName(rs.getString("Name"));
+                assignmentBean.setSpecification(rs.getString("Specification"));
+                assignmentBean.setDueDate(rs.getString("DueDate"));
+                assignmentBean.setInstructions(rs.getString("Instructions"));
+                assignmentBean.setPath(rs.getString("Path"));
+                assignmentBean.setClassID(rs.getString("classID"));
+                assignmentBean.setPointsPossible(rs.getInt("PointsPossible"));
+                assignmentBean.setTimeDue(rs.getString("TimeDue"));
+                assignmentBean.setNumber(rs.getInt("number"));
+                assignmentBean.setFlag(rs.getString("Flag"));
+                assignmentBean.setQuestions(rs.getString("Questions"));
+                assignmentBean.setID(rs.getString("ID"));
+                assignmentBean.setFileName(rs.getString("FileName"));
+                Blob tempfile = rs.getBlob("File");
+                if(tempfile != null){
+                    InputStream inputStream = tempfile.getBinaryStream();
+                    assignmentBean.setFile(inputStream);
+                }
                
+                Assigments.add(assignmentBean);
+                LOGGER.config("Object Assigments is equal to :" + Assigments);
+               
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Exception occur", e);
+            System.err.println(e);
+
+            }
+        return Assigments;
+        }
+
+            
+    public static List<Assignment> getAllAssignments() throws SQLException, ClassNotFoundException, IOException {
+        File f = new File("c:/SimControl/Logging/");
+        if(!f.exists()){
+            f.mkdirs();
+            
+        }
+        FileHandler fh;
+        fh = new FileHandler(f.getPath() + "\\Assignment_Log.log");
+        LOGGER.addHandler(fh);
+        SimpleFormatter formatter = new SimpleFormatter();  
+        fh.setFormatter(formatter);
+        
+        LOGGER.info("Logger Name: " + LOGGER.getName());
+        LOGGER.info("Method getAllAssignments()");
+        
+        List<Assignment> assign = new ArrayList<>();
+        String sql = "SELECT * FROM assignment";
+        ResultSet rs = null;
+        LOGGER.warning("Creating the connection to the database");
+        try (Connection conn = DBUtil.getConnection(DBType.MYSQL);
+                PreparedStatement stmt = conn.prepareStatement(sql);) {
+            
+            rs = stmt.executeQuery();
+            LOGGER.warning("Finish executing query");
+            while (rs.next()) {
                 Assignment assignmentBean = new Assignment();
                 assignmentBean.setName(rs.getString("Name"));
                 assignmentBean.setSpecification(rs.getString("Specification"));
@@ -390,19 +452,65 @@ public class AssignmentManager {
                 assignmentBean.setID(rs.getString("ID"));
                 assignmentBean.setFileName(rs.getString("FileName"));
                 Blob tempfile = rs.getBlob("File");
-                InputStream inputStream = tempfile.getBinaryStream();
-                assignmentBean.setFile(inputStream);
+                if(tempfile != null){
+                    InputStream inputStream = tempfile.getBinaryStream();
+                    assignmentBean.setFile(inputStream);
+                }
+                
+                assign.add(assignmentBean);
+                LOGGER.config("Object AssignmentBean is equal to :" + assignmentBean);
+                
                
-                Assigments.add(assignmentBean);
-                LOGGER.config("Object Assigments is equal to :" + Assigments);
-               
-            }
-        } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Exception occur", e);
-            System.err.println(e);
+            } 
 
+        } catch (SQLException e) {
+            System.err.println(e);
+            LOGGER.log(Level.SEVERE, "Exception occur", e);
+            return null;
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
         }
-        return Assigments;
+        return assign;
+    }
+    
+
+    /**
+     * Sent Mail Method
+     */
+    public void sentMail() {
+
+    }
+
+    /**
+     * Mark Assignment method
+     */
+    public void markAssignment() {
+
+    }
+
+    /**
+     * Grade Assignment method
+     */
+    public void gradeAssignment() {
+
+    }
+
+    /**
+     * Create Assignment method
+     */
+    public void createAssignment() {
+
+    }
+
+    //From Course Assignments
+    /**
+     * Get Points Possible Method
+     */
+    public void getPointsPossible() {
+
+        
     }
     
 
