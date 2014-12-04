@@ -1,5 +1,6 @@
 package OGS.tables;
 
+import OGS.beans.Assignment;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,7 +11,12 @@ import OGS.dbaccess.DBType;
 import OGS.dbaccess.DBUtil;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.FileHandler;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
@@ -196,6 +202,62 @@ public class SubmissionManager {
         }
 
         return returnId ;
+    }
+    
+    public static List<Submission> getSubmissionsByAssignment(String AssignmentID) throws SQLException, ClassNotFoundException, IOException {
+        File f = new File("c:/SimControl/Logging/");
+        if(!f.exists()){
+            f.mkdirs();
+            
+        }
+        FileHandler fh;
+        fh = new FileHandler(f.getPath() + "\\Submission_Log.log");
+        LOGGER.addHandler(fh);
+        SimpleFormatter formatter = new SimpleFormatter();  
+        fh.setFormatter(formatter);
+        
+        LOGGER.info("Logger Name: " + LOGGER.getName());
+        LOGGER.info("Method getAssignmentByStudentID()");
+        
+        List<Submission> submissions = new ArrayList<Submission>();
+        String sql = "SELECT * FROM submissions\n" +
+                    "WHERE SUBMISSIONS.ASSIGNMENTID = ? ";
+        ResultSet rs = null;
+        LOGGER.warning("Creating the connection to the database");
+        try (Connection conn = DBUtil.getConnection(DBType.MYSQL);
+                PreparedStatement stmt = conn.prepareStatement(sql);) {
+                stmt.setString(1, AssignmentID);
+                rs = stmt.executeQuery();
+                LOGGER.warning("Finish executing query");
+            while (rs.next()) {
+                
+                Submission submissionBean = new Submission();
+                
+                submissionBean.setStudentID(rs.getString("studentID"));
+                submissionBean.setAssignmentID(rs.getString("assignmentID"));
+                submissionBean.setGraderID(rs.getString("graderID"));
+                submissionBean.setSubmissionID(rs.getString("submissionID"));
+                submissionBean.setGrade(rs.getDouble("grade"));
+                submissionBean.setComments(rs.getString("comments"));
+                submissionBean.setPath(rs.getString("path"));
+                submissionBean.setDateFlag(rs.getString("dateFlag"));
+                submissionBean.setSubmissionTime(rs.getString("submissionTime"));
+               
+                submissions.add(submissionBean);
+                LOGGER.config("Object Assigments is equal to :" + submissions);
+               
+            } 
+
+        } catch (SQLException e) {
+            System.err.println(e);
+            LOGGER.log(Level.SEVERE, "Exception occur", e);
+            return null;
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+        }
+        return submissions;
     }
 
 }
