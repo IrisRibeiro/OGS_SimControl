@@ -245,7 +245,7 @@
                                         <a href="SearchClass.jsp">Classes I'm enrolled</a> <!-- /.Modify to link to the page -->
                                     </li>                                   
                                     <li>
-                                        <a href="gradesystem.jsp">Grade system</a> <!-- /.Modify to link to the page -->
+                                        <a href="GradeSystem.jsp">Grade system</a> <!-- /.Modify to link to the page -->
                                     </li>
                                     <li>
                                         <a href="SubmitAssignment.jsp">Submit Assignment</a> <!-- /.Modify to link to the page -->
@@ -265,7 +265,7 @@
                                         <a href="SearchCourses.jsp">All Courses</a> <!-- /.Modify to link to the page -->
                                     </li>
                                     <li>
-                                        <a href="gradesystem.jsp">Grade system</a> <!-- /.Modify to link to the page -->
+                                        <a href="GradeSystem.jsp">Grade system</a> <!-- /.Modify to link to the page -->
                                     </li>
                                     <li>
                                         <a href="GradeAssignment.jsp">Grade Assignment</a> <!-- /.Modify to link to the page -->
@@ -308,7 +308,7 @@
                                     </li>                                    
                                     
                                     <li>
-                                        <a href="gradesystem.jsp">Grade system</a> <!-- /.Modify to link to the page -->
+                                        <a href="GradeSystem.jsp">Grade system</a> <!-- /.Modify to link to the page -->
                                     </li>
                                 <% } %>                                
                             </ul>
