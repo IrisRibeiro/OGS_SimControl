@@ -141,16 +141,18 @@ public class SubmissionManager {
                 Connection conn = DBUtil.getConnection(DBType.MYSQL);
                 PreparedStatement stmt = conn.prepareStatement(sql);) {
 
-            stmt.setString(8, submissionBean.getStudentID());
-            stmt.setString(9, submissionBean.getAssignmentID());
             stmt.setString(1, submissionBean.getGraderID());
             stmt.setString(2, submissionBean.getSubmissionID());
             stmt.setDouble(3, submissionBean.getGrade());
             stmt.setString(4, submissionBean.getComments());
             stmt.setString(5, submissionBean.getPath());
-            stmt.setString(6, submissionBean.getPath());
+            stmt.setString(6, submissionBean.getDateFlag());
             stmt.setString(7, submissionBean.getSubmissionTime());
-
+            stmt.setString(8, submissionBean.getStudentID());
+            stmt.setString(9, submissionBean.getAssignmentID());
+            
+            
+            
             int affected = stmt.executeUpdate();
             if (affected == 1) {
                 return true;
