@@ -4,6 +4,8 @@
     Author     : Iris
 --%>
 
+<%@page import="OGS.tables.SubmissionManager"%>
+<%@page import="OGS.beans.Submission"%>
 <%@page import="OGS.tables.AssignmentManager"%>
 <%@page import="OGS.beans.Assignment"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -66,58 +68,52 @@
                                         for ( Assignment _assignments : assignments ) {
                                             String Name = _assignments.getName() +"-"+ _assignments.getNumber();
                                 %>
-                                    <option><%=Name%></option>   
+                                    <option value="<%=_assignments.getID()%>"><%=Name%></option>   
                                 <%                                                 
                                     }
                                 %>
                             </select> 
                             <div class="form-group">
-                                 <button type="button" class="btn btn-outline btn-default" id="Choose">Select</button>
+                                 <button type="button" class="btn btn-outline btn-default" id="Choose" onclick="validate()">Select</button>
                             </div>
                         </div> 
-                        <div class="panel-body">
+                        <div class="panel-body" id="grid" style=visibility:hidden>
+                            <% 
+                                        
+                            %>
+                            <input type="hidden" id="hiddenID" name="hiddenID"/>
                             <div class="table-responsive">
                                     <table class="table table-striped table-bordered table-hover"
                                             id="dataTables-classes">
                                             <thead>
                                                 <tr>
-                                                    <th>Select</th>
-                                                    <th>Assignment Number </th>
-                                                    <th>Course Info</th>
-                                                    <th>Days</th>
-                                                    <th>Time</th>
-                                                    <th>Instructor Info</th>
+                                                    <th>Select</th>                                                    
+                                                    <th>Student ID</th>
+                                                    <th>Submitted on time</th>                                                    
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <%
-                                                    for (Class _class : Classes) {
-                                                        String Days = _class.getDays();
-                                                        if (Days.endsWith("/")){
-                                                             Days = Days.trim();
-                                                             Days = Days.substring( 0 , Days.length() - 1) + " ";
-                                                        }
-
-                                                        Course Courses = CourseManager.getRow(_class.getCourseID());
-                                                        Person Prof = PersonManager.getRowfromID(_class.getInstructorID());
-                                                        if ((Prof == null) || (Courses == null)){
-                                                            String Url = "faces/ErrorPage.jsp";
-                                                            response.sendRedirect(Url);
-                                                        }
-                                                        String CourseInfo = Courses.getIdentifier() + "-" + Courses.getName();
-                                                        String ProfInfo = Prof.getID() + "-" +Prof.getName();
-
+                                                    Submission  submission = new Submission();
+                                                    SubmissionManager SManager = new SubmissionManager();
+                                                    String selectedassigment = request.getParameter("hiddenID");
+                                                    List<Submission> submissions = SManager.getSubmissionsByAssignment(selectedassigment);
+                                                    for (Submission _submission : submissions) {                                                       
+                                                    String submittedontime = "";
+                                                    String flag = _submission.getDateFlag();
+                                                    if (flag == "A"){
+                                                        submittedontime = "NO";
+                                                    }else{
+                                                        submittedontime = "YES";
+                                                    }
                                                 %>
                                                 <tr class="gradeA">
                                                     <td Class="something">                                                                                   												
                                                         <label> <input  type="checkbox" value=""></label>
-                                                        <input type="hidden" name="CourseID" value="<%=_class.getClassID()%>"/>
+                                                        <input type="hidden" name="CourseID" value="<%=_submission.getSubmissionID()%>"/>
                                                     </td> 
-                                                    <td><%=_class.getClassID()%></td>										                                                                               
-                                                    <td> <%=CourseInfo%></td>
-                                                    <td><%=Days%></td>
-                                                    <td><%=_class.getTime()%></td>
-                                                    <td><%=ProfInfo%></td>
+                                                    <td><%=_submission.getStudentID()%></td>										                                                                               
+                                                    <td> <%=submittedontime%></td>                                                    
                                                 </tr>
                                                 <%
                                                         }
@@ -126,12 +122,9 @@
                                     </table>
                             </div>
                             <p>
-                                <button type="button" id="viewClassButton"
-                                        class="btn btn-outline btn-default">View</button>
-                                 <% if (AccesLevel == 4){ %>
-                                    <button type="button" class="btn btn-outline btn-default" id="ModifyClassButton">Modify</button>
-                                    <button type="button" class="btn btn-outline btn-default" id="DeleteClassButton">Delete</button>
-                                <% } %>
+                                <button type="button" id="viewSubmissionButton"
+                                        class="btn btn-outline btn-default">View Submission</button>
+                                
                             </p>
                     </div>
                 </div>
@@ -150,6 +143,37 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="js/sb-admin-2.js"></script>
-                                                
+<script>
+function validate()
+{
+ var ddl = document.getElementById("Classes");
+ var selectedValue = ddl.options[ddl.selectedIndex].value;
+ document.getElementById("hiddenID").value = selectedValue; 
+ var div = document.getElementById('grid');
+ div.style.visibility = 'visible';
+}
+</script>
+
+<script type="text/javascript">
+        $(function() {			
+            $("#viewSubmissionButton")
+                            .click(
+            function() {
+                    var checked = $("#dataTables-classes").find(
+                                    "td.something").find(":checked");
+                    if (checked.size() != 1) {
+                            alert("One and ONLY one submission should be checked...");
+                    } else {
+                            var SubmissionID = checked.parents(
+                                            "td.something").find(
+                                            "input[type='hidden']").val();
+                            location.href = "ViewSubmission.jsp?SubmissionID="
+                                            + SubmissionID;
+                    }
+            });
+        });
+        
+    </script>
+    
 </body>
 </html>
