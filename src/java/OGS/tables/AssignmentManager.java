@@ -80,9 +80,10 @@ public class AssignmentManager {
                 assignmentBean.setQuestions(rs.getString("Questions"));
                 assignmentBean.setFileName(rs.getString("FileName"));
                 Blob tempfile = rs.getBlob("File");
-                InputStream inputStream = tempfile.getBinaryStream();
-                assignmentBean.setFile(inputStream);
-                
+                if(tempfile != null){
+                    InputStream inputStream = tempfile.getBinaryStream();
+                    assignmentBean.setFile(inputStream);
+                }
                 assignmentBean.setID(ID);
                 LOGGER.config("Object AssignmentBeans is :" + assignmentBean);
                 return assignmentBean;

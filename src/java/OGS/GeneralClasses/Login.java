@@ -7,7 +7,7 @@ package OGS.GeneralClasses;
  */
 /**
  *
- * @author Iris
+ * @author Iris, Eric
  */
 
 import OGS.beans.Person;
@@ -42,7 +42,7 @@ public class Login {
         EncryptDecrypt _encryptdecrypt = new EncryptDecrypt();
         PersonManager _personmanager = new PersonManager();
         
-        String keyFilePath = "C:\\Users\\Iris\\Documents\\CSE 308 - Software Engineering\\OGS_SimControl\\src\\java\\OGS\\GeneralClasses\\keyFile.File";
+        String keyFilePath = "C:\\Users\\Eric\\Dropbox\\SBUClass\\CSE308\\OGS_SimControl.git\\src\\java\\OGS\\GeneralClasses\\keyFile";
         Person _person = new Person();
         LOGGER.info("Create encrypt and person class");
         File keyFile = new File(keyFilePath);

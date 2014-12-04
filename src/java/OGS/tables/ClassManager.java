@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import OGS.beans.Class;
-import OGS.beans.Person;
 import OGS.dbaccess.DBType;
 import OGS.dbaccess.DBUtil;
 import java.io.File;
@@ -85,7 +84,7 @@ public class ClassManager {
             
         }
         FileHandler fh;
-        fh = new FileHandler(f.getPath() + "\\Course_Log.log");
+        fh = new FileHandler(f.getPath() + "\\Class_Log.log");
         LOGGER.addHandler(fh);
         SimpleFormatter formatter = new SimpleFormatter();  
         fh.setFormatter(formatter);
@@ -138,7 +137,7 @@ public class ClassManager {
             
         }
         FileHandler fh;
-        fh = new FileHandler(f.getPath() + "\\Course_Log.log");
+        fh = new FileHandler(f.getPath() + "\\Class_Log.log");
         LOGGER.addHandler(fh);
         SimpleFormatter formatter = new SimpleFormatter();  
         fh.setFormatter(formatter);
@@ -194,7 +193,7 @@ public class ClassManager {
             
         }
         FileHandler fh;
-        fh = new FileHandler(f.getPath() + "\\Course_Log.log");
+        fh = new FileHandler(f.getPath() + "\\Class_Log.log");
         LOGGER.addHandler(fh);
         SimpleFormatter formatter = new SimpleFormatter();  
         fh.setFormatter(formatter);
@@ -248,7 +247,7 @@ public class ClassManager {
             
         }
         FileHandler fh;
-        fh = new FileHandler(f.getPath() + "\\Course_Log.log");
+        fh = new FileHandler(f.getPath() + "\\Class_Log.log");
         LOGGER.addHandler(fh);
         SimpleFormatter formatter = new SimpleFormatter();  
         fh.setFormatter(formatter);
@@ -286,7 +285,7 @@ public class ClassManager {
                 PreparedStatement stmt = conn.prepareStatement(sql);) {
                 if (accessLevel != 4){
                     stmt.setString(1, PersonID);
-                }                
+                }
                 rs = stmt.executeQuery();
             while (rs.next()) {
                 Class classBean = new Class();             
@@ -319,7 +318,7 @@ public class ClassManager {
             
         }
         FileHandler fh;
-        fh = new FileHandler(f.getPath() + "\\Course_Log.log");
+        fh = new FileHandler(f.getPath() + "\\Class_Log.log");
         LOGGER.addHandler(fh);
         SimpleFormatter formatter = new SimpleFormatter();  
         fh.setFormatter(formatter);

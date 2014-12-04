@@ -11,6 +11,10 @@ import OGS.dbaccess.DBUtil;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.FileHandler;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
@@ -19,15 +23,14 @@ import java.util.logging.SimpleFormatter;
  * @author Eric
  */
 public class SubmissionManager {
+    private static final Logger LOGGER = Logger.getLogger(SubmissionManager.class.getName());
     /**
      @param takes the ID of the row
      * This method connects to the database and then it gets the row which ID was referenced to and then 
      * it parses the information that was returned from the the row.
      * @returns the Professor object 
-     * @throws SQLException  
+     * @throws SQLException
      */
-    
-    private static final Logger LOGGER = Logger.getLogger(AssignmentManager.class.getName());
      
     public static Submission getRow(String studentID, String assignmentID) throws SQLException, ClassNotFoundException {
 
@@ -142,7 +145,7 @@ public class SubmissionManager {
             stmt.setDouble(3, submissionBean.getGrade());
             stmt.setString(4, submissionBean.getComments());
             stmt.setString(5, submissionBean.getPath());
-            stmt.setString(6, submissionBean.getPath());
+            stmt.setString(6, submissionBean.getDateFlag());
             stmt.setString(7, submissionBean.getSubmissionTime());
 
             int affected = stmt.executeUpdate();
@@ -194,8 +197,66 @@ public class SubmissionManager {
                 rs.close();
             }
         }
+        return returnId;
+    }
+    
+    public static List<Submission> getAllSubmissions(String studentID) throws SQLException, ClassNotFoundException, IOException {
+        File f = new File("c:/SimControl/Logging/");
+        if(!f.exists()){
+            f.mkdirs();
+            
+        }
+        FileHandler fh;
+        fh = new FileHandler(f.getPath() + "\\Submission_Log.log");
+        LOGGER.addHandler(fh);
+        SimpleFormatter formatter = new SimpleFormatter();  
+        fh.setFormatter(formatter);
+        
+        LOGGER.info("Logger Name: " + LOGGER.getName());
+        LOGGER.info("Method getAllSubmissions()");
+        
+        List<Submission> Submission = new ArrayList<>();
+        String sql = "SELECT * FROM Submissions where StudentID = ?";
+        ResultSet rs = null;
+        LOGGER.warning("Creating the connection to the database");
+        try (Connection conn = DBUtil.getConnection(DBType.MYSQL);
+                PreparedStatement stmt = conn.prepareStatement(sql);) {
+            
+            stmt.setString(1, studentID);
+           
+            rs = stmt.executeQuery();
+            LOGGER.warning("Finish executing query");
+            while (rs.next()) {
+                Submission SubmissionBean = new Submission();
+                SubmissionBean.setStudentID(rs.getString("StudentID"));
+                SubmissionBean.setAssignmentID(rs.getString("AssignmentID"));
+                SubmissionBean.setGrade(rs.getDouble("Grade"));             
+                SubmissionBean.setGraderID(rs.getString("GraderID"));                
+                SubmissionBean.setComments(rs.getString("Comments"));                
+                SubmissionBean.setPath(rs.getString("Path"));
+                SubmissionBean.setDateFlag(rs.getString("DateFlag"));
+                SubmissionBean.setSubmissionTime(rs.getString("SubmissionTime"));
+                SubmissionBean.setSubmissionID(rs.getString("ID"));  
+                SubmissionBean.setAnswers(rs.getString("Answers"));  
+                SubmissionBean.setFile(rs.getAsciiStream("File"));  
+                SubmissionBean.setFileName(rs.getString("Filename"));  
+                
+                Submission.add(SubmissionBean);
+                LOGGER.config("Object SubmissionBean is equal to :" + SubmissionBean);
+                
+               
+            } 
 
-        return returnId ;
+        } catch (SQLException e) {
+            System.err.println(e);
+            LOGGER.log(Level.SEVERE, "Exception occur", e);
+            return null;
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+        }
+        return Submission;
     }
 
 }
