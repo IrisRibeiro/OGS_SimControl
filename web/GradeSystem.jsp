@@ -1,5 +1,5 @@
 <%-- 
-    Document   : SearchCourses
+    Document   : GradeSystem
     Created on : Oct 29, 2014, 5:18:29 PM
     Author     : Eric
 --%>
@@ -23,14 +23,21 @@
 <%
 		return;
 	}
-	List<Submission> submission = SubmissionManager.getStudentsSubmissions(person.getID());       
+	List<Submission> submission = SubmissionManager.getStudentsSubmissions(person.getID());    
+        List<Assignment> assign = AssignmentManager.getAllAssignments();    
 	Class classBean = new Class();
         Assignment assignmentBean = new Assignment();
         Course courseBean = new Course();
 %>
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    
+<link href="css/bootstrap.min.css" rel="stylesheet">
+  <!-- DataTables CSS -->
+<link href="css/plugins/dataTables.bootstrap.css" rel="stylesheet">
+ <!-- MetisMenu CSS -->
+<link href="css/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+<link href="css/sb-admin-2.css" rel="stylesheet">
+     <!-- Custom Fonts -->
+<link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 
@@ -50,36 +57,37 @@
 					<div class="panel-body">
 						<div class="table-responsive">
 							<table class="table table-striped table-bordered table-hover"
-								id="dataTables-example">
+								id="dataTables-gradeSystem">
 								<thead>
 									<tr>
                                                                              
-                                                                            <% if (AccesLevel == 4){ %>
-                                                                                 <th>Select</th>
-                                                                            <% } %>
-                                                                                 
+                                                                            <% if (AccesLevel > 1){ %>
+                                                                                <th>Select</th>
+                                                                                <th>CourseID</th>
+                                                                                <th>Identifier</th>
+                                                                                <th>Class</th>
+                                                                                <th>Assignment</th>
+                                                                                <th>Maximum Possible Points</th>
+                                                                                <th>Number of Submitted Submissions</th>
+                                                                            <% } else {%>
                                                                             <th>CourseID</th>
                                                                             <th>Identifier</th>
                                                                             <th>Class</th>
                                                                             <th>Assignment</th>
                                                                             <th>Grade</th>
                                                                             <th>Comments</th>
+                                                                            <% } %>
 									</tr>
 								</thead>
 								<tbody>
 									<%
+                                                                            if(AccesLevel == 1){
 										for (Submission subs : submission) {
                                                                                    assignmentBean = AssignmentManager.getRow(subs.getAssignmentID());
                                                                                    classBean = ClassManager.getRowbyID(assignmentBean.getClassID());
                                                                                    courseBean = CourseManager.getRow(classBean.getCourseID());
 									%>
 									<tr class="gradeA">
-                                                                                <% if (AccesLevel == 4){ %>
-                                                                                    <td class="something">                                                                                   												
-                                                                                    <label> <input  type="checkbox" value=""></label>
-                                                                                    <input type="hidden" name="CourseID" value="<%=courseBean.getCourseID()%>"/>
-                                                                                    </td>
-                                                                                <% } %>
                                                                                 <td><%=courseBean.getCourseID()%></td>										                                                                               
                                                                                 <td> <%=courseBean.getIdentifier()%></td>
                                                                                 <td><%=courseBean.getName()%></td>
@@ -89,7 +97,27 @@
 									</tr>
 									<%
 										}
+                                                                            } if(AccesLevel > 1){
+										for (Assignment assignments : assign) {
+                                                                                   classBean = ClassManager.getRowbyID(assignments.getClassID());
+                                                                                   courseBean = CourseManager.getRow(classBean.getCourseID());
 									%>
+                                                                        <tr class="gradeA">
+                                                                                <td class="gradeReportButton">                                                                                  												
+                                                                                    <label> <input  type="checkbox" value=""></label>
+                                                                                    <input type="hidden" name="AssignmentID" value="<%=assignments.getID()%>"/>
+                                                                                </td>
+                                                                                <td><%=courseBean.getCourseID()%></td>										                                                                               
+                                                                                <td> <%=courseBean.getIdentifier()%></td>
+                                                                                <td><%=courseBean.getName()%></td>
+                                                                                <td><%=assignments.getName()%></td>
+                                                                                <td><%=assignments.getPointsPossible()%></td>
+                                                                                <td><%=SubmissionManager.getNumGradedSubmissionsByAssignmentID(assignments.getID())%></td>
+									</tr>
+									<%
+										}
+                                                                            }
+                                                                        %>
 								</tbody>
 							</table>
 						</div>
@@ -98,13 +126,11 @@
 							<button type="button" id="InitClassButton"
 								class="btn btn-outline btn-default">Initialize </button>                                                            
                                                      <% }
-                                                        if (AccesLevel == 3) { %>
-                                                        <button type="button" id="DeleteAssignmentButton"
-								class="btn btn-outline btn-default">Delete </button>
-                                                        <button type="button" id="ModifyAssignmentButton"
-								class="btn btn-outline btn-default">Modify </button>
+                                                        if ((AccesLevel == 3) || (AccesLevel == 2)) { %>
+                                                        <button type="button" id="viewGradeReportButton"
+								class="btn btn-outline btn-default">View Grade Report </button>
                                                      <% } if (AccesLevel == 1) { %>
-                                                        <button type="button" id="DeleteAssignmentButton"
+                                                        <button type="button" id="viewCommentsButton"
 								class="btn btn-outline btn-default">View Comments </button>
                                                      <% } %>
 						</p>
@@ -118,11 +144,14 @@
 
 		<!-- /.col-lg-6 -->
 	</div>
-	 <!-- jQuery Version 1.11.0 -->
+     <!-- jQuery Version 1.11.0 -->
     <script src="js/jquery-1.11.0.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="js/plugins/metisMenu/metisMenu.min.js"></script>
 
     <!-- DataTables JavaScript -->
     <script src="js/plugins/dataTables/jquery.dataTables.js"></script>
@@ -133,35 +162,19 @@
     
 	<script type="text/javascript">
 		$(function() {
-			$("#DeleteAssignmentButton")
+			$("#viewGradeReportButton")
 					.click(
                         function() {
-                                var checked = $("#dataTables-classes").find(
-                                                "td.something").find(":checked");
-                                if (checked.size() != 1) {
+                                var checked = $("#dataTables-gradeSystem").find(
+                                                "td.gradeReportButton").find(":checked");
+                                if (checked.size() !== 1) {
                                         alert("One and ONLY one course should be checked...");
                                 } else {
-                                        var CourseID = checked.parents(
-                                                        "td.something").find(
+                                        var assignmentID = checked.parents(
+                                                        "td.gradeReportButton").find(
                                                         "input[type='hidden']").val();
-                                        location.href = "DeleteAssignment.jsp?CourseID="
-                                                        + CourseID;
-                                }
-                        });
-                        
-                        $("#ModifyAssignmentButton")
-					.click(
-                        function() {
-                                var checked = $("#dataTables-classes").find(
-                                                "td.something").find(":checked");
-                                if (checked.size() != 1) {
-                                        alert("One and ONLY one course should be checked...");
-                                } else {
-                                        var CourseID = checked.parents(
-                                                        "td.something").find(
-                                                        "input[type='hidden']").val();
-                                        location.href = "ModifyAssignment.jsp?CourseID="
-                                                        + CourseID;
+                                        location.href = "GradeReport.jsp?AssignmentID="
+                                                        + assignmentID;
                                 }
                         });
 		});

@@ -287,6 +287,9 @@
                                     <li>
                                         <a href="GradeAssignment.jsp">Grade Assignment</a> <!-- /.Modify to link to the page -->
                                     </li>
+                                    <li>
+                                        <a href="GradeSystem.jsp">Grade system</a> <!-- /.Modify to link to the page -->
+                                    </li>
                                 
                                 <% }else if(acesslevel == 4) { // Manager %> <!-- / -->
                                     <li>
