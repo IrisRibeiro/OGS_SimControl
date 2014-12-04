@@ -112,6 +112,9 @@
                                                         <label> <input  type="checkbox" value=""></label>
                                                         <input type="hidden" name="CourseID" value="<%=_submission.getSubmissionID()%>"/>
                                                     </td> 
+                                                    <td Class="something2" type="hidden">
+                                                        <input type="hidden" name="studentID" value="<%=_submission.getStudentID()%>"/>
+                                                    </td>
                                                     <td><%=_submission.getStudentID()%></td>										                                                                               
                                                     <td> <%=submittedontime%></td>                                                    
                                                 </tr>
@@ -167,8 +170,11 @@ function validate()
                             var SubmissionID = checked.parents(
                                             "td.something").find(
                                             "input[type='hidden']").val();
+                            var StudentID = checked.parents(
+                                            "td.something2").find(
+                                            "input[type='hidden']").val();
                             location.href = "ViewSubmission.jsp?SubmissionID="
-                                            + SubmissionID;
+                                            + SubmissionID+"StudentID="+StudentID;
                     }
             });
         });
