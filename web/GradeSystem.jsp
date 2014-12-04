@@ -23,7 +23,7 @@
 <%
 		return;
 	}
-	List<Submission> submission = SubmissionManager.getAllSubmissions(person.getID());       
+	List<Submission> submission = SubmissionManager.getStudentsSubmissions(person.getID());       
 	Class classBean = new Class();
         Assignment assignmentBean = new Assignment();
         Course courseBean = new Course();
