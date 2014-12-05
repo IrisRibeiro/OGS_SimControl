@@ -6,6 +6,10 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 </head>
     <body>
+        <jsp:include page="PageInfo.jsp" flush="true"/>
+        <div class="caption">
+            <p><a href="#SearchAssignment" data-toggle="modal" class="btn btn-primary pull-right" role="button"><span class="glyphicon glyphicon-hand-up" aria-hidden="true"></span></a></p>
+        </div>
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">

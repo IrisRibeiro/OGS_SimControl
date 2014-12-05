@@ -40,6 +40,10 @@
     </head>
     <jsp:include page="DefaultLayout.jsp" flush="true"/>
     <body>
+        <jsp:include page="PageInfo.jsp" flush="true"/>
+        <div class="caption">
+            <p><a href="#CreateCourse" data-toggle="modal" class="btn btn-primary pull-right" role="button"><span class="glyphicon glyphicon-hand-up" aria-hidden="true"></span></a></p>
+        </div>
         <!-- Page Content -->
         <div id="page-wrapper">
             <div class="row">
