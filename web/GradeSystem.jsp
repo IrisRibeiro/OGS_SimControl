@@ -10,7 +10,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <%@page language="java" contentType="text/html;charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@page import=" OGS.tables.PersonManager , OGS.tables.CourseManager, OGS.beans.Course, OGS.tables.ClassManager, OGS.beans.Person,  OGS.beans.Class , OGS.beans.Assignment , OGS.tables.SubmissionManager , OGS.tables.AssignmentManager, OGS.beans.Submission , java.util.*"%>
+<%@page import=" OGS.tables.PersonManager , OGS.tables.CourseManager, OGS.beans.Course, OGS.tables.ClassManager, OGS.beans.Person,  OGS.beans.Classes , OGS.beans.Assignment , OGS.tables.SubmissionManager , OGS.tables.AssignmentManager, OGS.beans.Submission , java.util.*"%>
 <%
 	Person person = (Person) session.getAttribute("currentSessionUser");
         int AccesLevel = person.getAccessLevel();

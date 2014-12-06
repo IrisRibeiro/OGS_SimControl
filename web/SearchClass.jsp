@@ -11,7 +11,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <%@page language="java" contentType="text/html;charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@page import=" OGS.tables.PersonManager , OGS.tables.ClassManager,  OGS.beans.Person,  OGS.beans.Class , OGS.tables.CourseManager , OGS.beans.Course , java.util.*"%>
+<%@page import=" OGS.tables.PersonManager , OGS.tables.ClassManager,  OGS.beans.Person,  OGS.beans.Classes , OGS.tables.CourseManager , OGS.beans.Course , java.util.*"%>
 <%
 	Person person = (Person) session.getAttribute("currentSessionUser");
         int AccesLevel = person.getAccessLevel();
@@ -24,7 +24,7 @@
 <%
 		return;
 	}
-	List<Class> Classes = ClassManager.getClassesForPerson(person.getAccessLevel(), person.getID());
+	List<Classes> Classes = ClassManager.getClassesForPerson(person.getAccessLevel(), person.getID());
         
 	//List<Course> courses = new ArrayList<>();
 %>
@@ -73,7 +73,7 @@
 								</thead>
 								<tbody>
 									<%
-										for (Class _class : Classes) {
+										for (Classes _class : Classes) {
                                                                                     String Days = _class.getDays();
                                                                                     if (Days.endsWith("/")){
                                                                                          Days = Days.trim();
