@@ -42,7 +42,7 @@ public class Login {
         EncryptDecrypt _encryptdecrypt = new EncryptDecrypt();
         PersonManager _personmanager = new PersonManager();
         
-        String keyFilePath = "C:\\Users\\Eric\\Dropbox\\SBUClass\\CSE308\\OGS_SimControl.git\\src\\java\\OGS\\GeneralClasses\\keyFile";
+        String keyFilePath = "/Users/zainul101/Desktop//CSE219/test/src/java/OGS/GeneralClasses/keyFile";
         Person _person = new Person();
         LOGGER.info("Create encrypt and person class");
         File keyFile = new File(keyFilePath);

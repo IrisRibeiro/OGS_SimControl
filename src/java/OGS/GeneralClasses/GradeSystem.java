@@ -8,7 +8,7 @@ package OGS.GeneralClasses;
 import OGS.beans.Assignment;
 import OGS.beans.Person;
 import OGS.beans.Submission;
-import OGS.beans.Class;
+import OGS.beans.Classes;
 import OGS.beans.Course;
 import OGS.tables.AssignmentManager;
 import OGS.tables.ClassManager;

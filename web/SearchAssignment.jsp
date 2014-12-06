@@ -8,6 +8,12 @@
 
     <jsp:include page="DefaultLayout.jsp" flush="true"/>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+</head>
+    <body>
+        <jsp:include page="PageInfo.jsp" flush="true"/>
+        <div class="caption">
+            <p><a href="#SearchAssignment" data-toggle="modal" class="btn btn-primary pull-right" role="button"><span class="glyphicon glyphicon-hand-up" aria-hidden="true"></span></a></p>
+        </div>
 <%@page language="java" contentType="text/html;charset=UTF-8"
 	pageEncoding="UTF-8"%>
 

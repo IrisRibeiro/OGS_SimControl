@@ -9,7 +9,17 @@
 
 <html lang="en">
     <head>
+        <script>
+        function validateForm() { 
+            if(document.frm.ttime.value=="") { 
+                alert("Time Can't be Blank"); 
+                document.frm.ttime.focus(); 
+                return false; } 
+             
+        }
+        </script>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+         <jsp:include page="DefaultLayout.jsp" flush="true"/>
 <%
 Person person = (Person) session.getAttribute("currentSessionUser");
 if (person == null) {
@@ -32,9 +42,13 @@ return;
 }
 %>
         
-    </head>
-    <jsp:include page="DefaultLayout.jsp" flush="true"/>
+</head>
+   
     <body>
+        <jsp:include page="PageInfo.jsp" flush="true"/>
+        <div class="caption">
+            <p><a href="#CreateClass" data-toggle="modal" class="btn btn-primary pull-right" role="button"><span class="glyphicon glyphicon-hand-up" aria-hidden="true"></span></a></p>
+        </div>
         <!-- Page Content -->
         <div id="page-wrapper">
             <div class="row">
@@ -53,7 +67,7 @@ return;
                         <!-- /.panel-heading -->
                         <div class="panel-body" >
                                 <div class="row">
-                                <form role="form" method="post" action="CreateClassServlet" enctype="multipart/form-data">
+                                <form role="form" method="post" name="frm" onSubmit="return validateForm()" action="CreateClassServlet" enctype="multipart/form-data">
                                         <div class="col-lg-6">							
                                             <div class="form-group">
                                                 <label>Course</label>

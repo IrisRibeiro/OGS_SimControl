@@ -6,7 +6,7 @@
 package Servlets;
 
 import OGS.tables.ClassManager;
-import OGS.beans.Class;
+import OGS.beans.Classes;
 import OGS.beans.Person;
 import OGS.beans.StudentEnrollment;
 import OGS.tables.PersonManager;
@@ -103,7 +103,7 @@ public class CreateClassServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Class _class = new Class();        
+        Classes _class = new Classes();        
         ClassManager CManager = new ClassManager();
         Person student = new Person();
         PersonManager PManager = new PersonManager();

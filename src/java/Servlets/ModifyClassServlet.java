@@ -106,7 +106,7 @@ public class ModifyClassServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         OGS.beans.Class _class = new OGS.beans.Class();        
+         OGS.beans.Classes _class = new OGS.beans.Classes();        
         ClassManager CManager = new ClassManager();
         Person student = new Person();
         PersonManager PManager = new PersonManager();

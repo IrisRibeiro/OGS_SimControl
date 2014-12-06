@@ -170,7 +170,7 @@ public class AssignmentManager {
         String sql = "INSERT into assignment"
                 + " (name, specification, dueDate, instructions, path, "
                 + "classID, pointsPossible, ID, number, TimeDue, Flag, Questions,File, Filename) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?)";
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?)";
         ResultSet keys = null;
         LOGGER.warning("Creating the connection to the database");
         try (
@@ -190,8 +190,8 @@ public class AssignmentManager {
             //stmt.setString(11, assignmentBean.getFlag());
             stmt.setString(11, "1");
             stmt.setString(12, assignmentBean.getQuestions());
-            stmt.setBlob(11, assignmentBean.getFile());
-            stmt.setString(12, assignmentBean.getFileName());
+            stmt.setBlob(13, assignmentBean.getFile());
+            stmt.setString(14, assignmentBean.getFileName());
             int affected = stmt.executeUpdate();           
             
             LOGGER.warning("Finish executing query");
@@ -238,7 +238,7 @@ public class AssignmentManager {
                 = "UPDATE Assignment SET " + "name = ?, specification = ?, "
                 + "dueDate = ?, instructions = ?, " + "path = ?, "
                 + "classID = ?, TimeDue = ?, pointsPossible = ?, number=?,"
-                + "Flag =?,Questions =? WHERE ID = ?";
+                + "Flag =?,Questions =?,File=?, FileName=?, WHERE ID =?";
         LOGGER.warning("Creating the connection to the database");
         try (
                 Connection conn = DBUtil.getConnection(DBType.MYSQL);
@@ -255,8 +255,9 @@ public class AssignmentManager {
             stmt.setInt(9, assignmentBean.getNumber());
             stmt.setString(10, assignmentBean.getFlag());
             stmt.setString(11, assignmentBean.getQuestions());
-            stmt.setString(12, assignmentBean.getID());
-            
+            stmt.setBlob(12, assignmentBean.getFile());
+            stmt.setString(13, assignmentBean.getFileName());
+            stmt.setString(14,assignmentBean.getID());
             LOGGER.config("Object AssignmentBeans is :" + assignmentBean);
             int affected = stmt.executeUpdate();
             if (affected == 1) {
@@ -575,10 +576,14 @@ public static List<Assignment> getAssignmentForPerson(Person person) throws SQLE
         LOGGER.info("Logger Name: " + LOGGER.getName());
         LOGGER.info("Method deleteAssignmentForPerson()");
         String sql="DELETE FROM ASSIGNMENT WHERE  ASSIGNMENT.ID ="+assignmentID;
+        String sql2="DELETE FROM SUBMISSIONS WHERE  ASSIGNMENT.ID ="+assignmentID;
          ResultSet rs = null;
         try (Connection conn = DBUtil.getConnection(DBType.MYSQL);
                 PreparedStatement stmt = conn.prepareStatement(sql);) {
+             PreparedStatement stmt2 = conn.prepareStatement(sql2);
+             stmt2.executeUpdate(sql2);
              stmt.executeUpdate(sql);
+             
            
         }
         catch (SQLException e) {

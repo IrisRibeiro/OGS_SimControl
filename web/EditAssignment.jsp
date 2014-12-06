@@ -4,6 +4,12 @@
     Author     : zainul101
 --%>
 
+<%@page import="Servlets.SubmitAssignmentServlet"%>
+<%@page import="java.util.logging.Level"%>
+<%@page import="java.util.logging.Logger"%>
+<%@page import="java.text.ParseException"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.text.DateFormat"%>
 <%@page import="OGS.beans.Classes"%>
 <%@page import="OGS.tables.ClassManager"%>
 <%@page import="OGS.tables.AssignmentManager"%>
@@ -22,8 +28,40 @@
    
     String classID = request.getParameter("classID");
     List<Classes> _courses = ClassManager.getClassByProfessor(person.getID());
+    DateFormat formatter = new SimpleDateFormat("dd/MM/yy");       
+       DateFormat formatterTime = new SimpleDateFormat("HH:mm");
+       
+       Calendar cal = Calendar.getInstance();
+       Date currentdatetime = cal.getTime();
 	Assignment assign = AssignmentManager.getRow(classID);
-    
+        String submissionDate = "";
+       String submissionTime = "";
+       String dateflag = "";
+    try {
+            Date Assignmentdate  = formatter.parse(assign.getDueDate());
+            Date AssignmentTime = formatterTime.parse(assign.getTimeDue());
+            
+            submissionDate = formatter.format(currentdatetime);
+            submissionTime = formatterTime.format(currentdatetime);
+            Date SubmssionDate = formatter.parse(submissionDate);
+            Date SubmissonTime = formatterTime.parse(submissionTime);
+            boolean check=SubmssionDate.before(Assignmentdate);
+            
+            if ((SubmssionDate.before(Assignmentdate)) ){
+                dateflag = "A";
+                
+            }else{
+                dateflag = "B";
+            }
+    }catch (ParseException ex) {
+             Logger.getLogger(SubmitAssignmentServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+             Logger.getLogger(SubmitAssignmentServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    if(dateflag.equals("B"))
+    {
+        response.sendRedirect("PastDueDate.jsp");
+    }
  %>
 <!DOCTYPE html>
 <html lang="en">
@@ -51,7 +89,7 @@
                         <!-- /.panel-heading -->
                         <div class="panel-body" > 
                             <div class="row">
-                                <form role="form" method="get" action ="ModifyAssignmentServelet" >
+                                <form role="form" method="post" action ="ModifyAssignmentServelet" enctype="multipart/form-data" >
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label>Assignment Number</label>
@@ -120,7 +158,7 @@
                                         </div>
                                         <div class="form-group" id="uploadFile" style=visibility:hidden>
                                             <label hidden>Upload File:</label>
-                                            <input  type="file">
+                                            <input  type="file" name="file">
                                             
                                         </div> 
                                             <div class="form-group" id="enterQuestion" style=visibility:hidden>

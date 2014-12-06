@@ -80,7 +80,7 @@
                                             <label>Point Possible</label>
                                             <input class="form-control" name="points" type="number" value="<%=assign.getPointsPossible()%>" disabled/>
                                         </div>                                      
-
+                                             
                                     </div>
                                      <div class="col-lg-6">
                                          <div class="form-group">

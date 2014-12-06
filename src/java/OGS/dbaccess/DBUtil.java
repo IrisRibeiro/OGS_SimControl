@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class DBUtil {
 	private static final String USERNAME = "root";
-	private static final String PASSWORD = "1234";
+	private static final String PASSWORD = "root";
 	private static final String M_CONN_STRING = 
 			"jdbc:mysql://localhost:3306/simcontrol";
         /**

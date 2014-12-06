@@ -12,7 +12,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import OGS.beans.Class;
+import OGS.beans.Classes;
 import OGS.dbaccess.DBType;
 import OGS.dbaccess.DBUtil;
 import java.io.File;
@@ -30,7 +30,7 @@ import java.util.logging.SimpleFormatter;
 public class ClassManager {
     private static final Logger LOGGER = Logger.getLogger(CourseManager.class.getName());
     
-    public static boolean UpdateClass(Class _class) throws Exception {
+    public static boolean UpdateClass(Classes _class) throws Exception {
         File f = new File("c:/SimControl/Logging/");
         if(!f.exists()){
             f.mkdirs();
@@ -77,7 +77,7 @@ public class ClassManager {
     }
     
     
-    public static Class getRowbyID(String ID) throws SQLException, ClassNotFoundException, IOException {
+    public static Classes getRowbyID(String ID) throws SQLException, ClassNotFoundException, IOException {
         File f = new File("c:/SimControl/Logging/");
         if(!f.exists()){
             f.mkdirs();
@@ -101,7 +101,7 @@ public class ClassManager {
             rs = stmt.executeQuery();
             LOGGER.warning("Finish executing query");
             if (rs.next()) {
-                Class ClassBean = new Class();
+                Classes ClassBean = new Classes();
                 
                 ClassBean.setClassID(ID);                
                 ClassBean.setSection(rs.getString("Section"));
@@ -130,7 +130,7 @@ public class ClassManager {
     }    
     
     
-     public static boolean insert(Class ClassBean) throws Exception {
+     public static boolean insert(Classes ClassBean) throws Exception {
         File f = new File("c:/SimControl/Logging/");
         if(!f.exists()){
             f.mkdirs();
@@ -186,7 +186,7 @@ public class ClassManager {
         return true;
     }
      
-     public static List<Class> getClassByProfessor(String ProfessorID) throws SQLException, ClassNotFoundException, IOException {
+     public static List<Classes> getClassByProfessor(String ProfessorID) throws SQLException, ClassNotFoundException, IOException {
         File f = new File("c:/SimControl/Logging/");
         if(!f.exists()){
             f.mkdirs();
@@ -201,7 +201,7 @@ public class ClassManager {
         LOGGER.info("Logger Name: " + LOGGER.getName());
         LOGGER.info("Method getRow()");
         
-        List<Class> classes = new ArrayList<Class>();
+        List<Classes> classes = new ArrayList<Classes>();
         String sql = "SELECT * FROM Class WHERE InstructorID = ?";
         ResultSet rs = null;
         LOGGER.warning("Creating the connection to the database");
@@ -211,7 +211,7 @@ public class ClassManager {
                 rs = stmt.executeQuery();
                 LOGGER.warning("Finish executing query");
             while (rs.next()) {
-                Class ClassBean = new Class();
+                Classes ClassBean = new Classes();
                 
                 ClassBean.setClassID(rs.getString("ID"));
                 ClassBean.setSection(rs.getString("Section"));
@@ -240,7 +240,7 @@ public class ClassManager {
         return classes;
     }
      
-     public static List<Class> getClassesForPerson(int accessLevel, String PersonID) throws SQLException, ClassNotFoundException, IOException {
+     public static List<Classes> getClassesForPerson(int accessLevel, String PersonID) throws SQLException, ClassNotFoundException, IOException {
         File f = new File("c:/SimControl/Logging/");
         if(!f.exists()){
             f.mkdirs();
@@ -254,7 +254,7 @@ public class ClassManager {
         
         LOGGER.info("Logger Name: " + LOGGER.getName());
         LOGGER.info("Method getCoursesForPerson()");
-        List<Class> Classes = new ArrayList<Class>();
+        List<Classes> Classes = new ArrayList<Classes>();
         String sql = null;
         switch (accessLevel) {
             case 1:
@@ -288,7 +288,7 @@ public class ClassManager {
                 }
                 rs = stmt.executeQuery();
             while (rs.next()) {
-                Class classBean = new Class();             
+                Classes classBean = new Classes();             
                 
                 classBean.setClassID(rs.getString("ID"));
                 classBean.setSection(rs.getString("Section"));
