@@ -1,7 +1,15 @@
-<%@page import="OGS.beans.Course"%>
+<%-- 
+    Document   : EditAssignment
+    Created on : Dec 2, 2014, 6:19:12 PM
+    Author     : zainul101
+--%>
+
+<%@page import="OGS.beans.Classes"%>
+<%@page import="OGS.tables.ClassManager"%>
+<%@page import="OGS.tables.AssignmentManager"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="OGS.beans.Assignment"%>
-<%@page import=" OGS.beans.Person, OGS.beans.Classes, OGS.tables.ClassManager, java.util.*"%>
+<%@page import=" OGS.beans.Person, OGS.beans.Course, OGS.tables.ClassManager,OGS.tables.CourseManager, java.util.*"%>
 <%
     Person person = (Person) session.getAttribute("currentSessionUser");
     if (person == null) {
@@ -9,9 +17,12 @@
         
     }
    
-    ClassManager CManager = new ClassManager();
-   List <Classes> _classes = CManager.getClassByProfessor(person.getID());
-   //List <Course> _courses = CManager.getCourseByProfessor(person.getID());
+    
+   
+   
+    String classID = request.getParameter("classID");
+    List<Classes> _courses = ClassManager.getClassByProfessor(person.getID());
+	Assignment assign = AssignmentManager.getRow(classID);
     
  %>
 <!DOCTYPE html>
@@ -26,7 +37,7 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Create Assignment</h1>
+                    <h1 class="page-header">Modify Assignment</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -40,8 +51,7 @@
                         <!-- /.panel-heading -->
                         <div class="panel-body" > 
                             <div class="row">
-                                <form role="form" method="post" name="frm" action ="CreateAssignmentServelet" enctype="multipart/form-data" >
-                                    
+                                <form role="form" method="get" action ="ModifyAssignmentServelet" >
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label>Assignment Number</label>
@@ -50,8 +60,8 @@
                                         
                                         <div class="form-group">
                                              <label>Due Date</label>
-                                                <div class='input-group date' id='datetimepicker1' name="dDate">
-                                                    <input type='text' class="form-control" name="dDate" />
+                                                <div class='input-group date' id='datetimepicker1'>
+                                                    <input type='text' class="form-control" name="dDate" value="<%=assign.getDueDate()%>"/>
                                                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
                                                     </span>
                                                     <script type="text/javascript">
@@ -65,8 +75,8 @@
                                         </div>   
                                         <div class="form-group">
                                             <label>Time</label>
-                                                    <div class='input-group date' id='ttime' >
-                                                        <input type='text' class="form-control" name="ttime"/>
+                                                    <div class='input-group date' id='datetimepicker4'>
+                                                        <input type='text' class="form-control" name="timedue" value="<%=assign.getTimeDue()%>" />
                                                         <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span>
                                                         </span>
                                                         <script type="text/javascript">
@@ -82,8 +92,8 @@
                                             <label>Course</label>
                                              <select name="Classes" class="form-control">
                                                  <%
-                                                        for (Classes _class : _classes) {
-                                                            String Name = _class.getClassID()+ " - " + _class.getClassID()+" : "+ _class.getSection();
+                                                        for (Classes course :_courses) {
+                                                            String Name = course.getCourseID()+ " - " + course.getClassID()+" : "+ course.getSection();
                                                 %>
                                                     <option><%=Name%></option>   
                                                 <%                                                 
@@ -93,29 +103,47 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Point Possible</label>
-                                            <input class="form-control" name="points" type="number">
+                                            <input class="form-control" name="points" type="number" value="<%=assign.getPointsPossible()%>">
                                         </div>                                      
-
-                                        <div class="form-group">
-                                            <label>Upload File:</label>
-                                            <input type="file" name="file">
-                                        </div>                                         
+                                          <div class="form-group">
+                                            <label>Upload File or Enter Questions</label>
+                                             <select id="option" class="form-control">
+                                                 
+                                                 <option ></option>
+                                                    <option value="upload">Upload File</option>   
+                                                    <option value="enter">Enter Questions</option>
+                                            </select>  
+                                            <div class="form-group">
+                                            <button type="button" class="btn btn-outline btn-default"
+								onclick=" validate()">Select</button>
+                                            </div>
+                                        </div>
+                                        <div class="form-group" id="uploadFile" style=visibility:hidden>
+                                            <label hidden>Upload File:</label>
+                                            <input  type="file">
+                                            
+                                        </div> 
+                                            <div class="form-group" id="enterQuestion" style=visibility:hidden>
+                                            <label  >Enter Questions</label>
+                                            <textarea class="form-control" rows="5" name="specs" id="specs" type="text"></textarea>
+                                            
+                                        </div>
                                           <input class="btn btn-default" type="submit" value="Submit"/>
                                     </div>
                                      <div class="col-lg-6">
                                          <div class="form-group">
                                             <label>Assignment Name</label>
-                                            <input class="form-control" name="assignName" type="text">
+                                            <input class="form-control" name="assignName" type="text" value="<%=assign.getName()%>">
                                         </div>
                                          <div class="form-group">
                                             <label >Specifications</label>
-                                            <textarea class="form-control" rows="5" name="specs" id="specs" type="text"></textarea>
+                                            <textarea class="form-control" rows="5" name="specs" id="specs" type="text"><%=assign.getSpecification()%></textarea>
                                         </div>
                                          <div class="form-group">
                                             <label>Instructions</label>
-                                             <textarea class="form-control" rows="5" name="instrucstions" id="instrucstions" type="text"></textarea>                                            
+                                             <textarea class="form-control" rows="5" name="instrucstions" id="instrucstions" type="text"><%=assign.getInstructions()%></textarea>                                            
                                         </div>
-                                         
+                                        
                                      </div>                                    								
                                 </form>							
                             </div>
@@ -124,18 +152,30 @@
                 </div>
             </div> 
         <script type="text/javascript" src="assets/twitterbootstrap/js/bootstrap.js"></script>
-         <!-- jQuery Version 1.11.0 -->
-    <script src="js/jquery-1.11.0.js"></script>
+        <script>
+function validate()
+{
+ var ddl = document.getElementById("option");
+ var selectedValue = ddl.options[ddl.selectedIndex].value;
+    if (selectedValue ==="enter")
+   {
+    var div = document.getElementById('enterQuestion');
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>    
+div.style.visibility = 'visible';
+// OR
+ var div2 = document.getElementById('uploadFile');
+div2.style.visibility="hidden";
 
-    <!-- DataTables JavaScript -->
-    <script src="js/plugins/dataTables/jquery.dataTables.js"></script>
-    <script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
-
-    <!-- Custom Theme JavaScript -->
-    <script src="js/sb-admin-2.js"></script>
+   }
+   else if(selectedValue ==="upload")
+   {
+       var div2 = document.getElementById('uploadFile');
+        div2.style.visibility="visible";
+        
+        var div = document.getElementById('enterQuestion');
+        div.style.visibility = 'hidden';
+   }
+}
+</script>
     </body>
 </html>
-
