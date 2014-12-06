@@ -1,7 +1,6 @@
-<%@page import="OGS.beans.Course"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="OGS.beans.Assignment"%>
-<%@page import=" OGS.beans.Person, OGS.beans.Classes, OGS.tables.ClassManager, java.util.*"%>
+<%@page import=" OGS.beans.Person, OGS.beans.Class, OGS.tables.ClassManager, java.util.*"%>
 <%
     Person person = (Person) session.getAttribute("currentSessionUser");
     if (person == null) {
@@ -10,8 +9,7 @@
     }
    
     ClassManager CManager = new ClassManager();
-   List <Classes> _classes = CManager.getClassByProfessor(person.getID());
-   //List <Course> _courses = CManager.getCourseByProfessor(person.getID());
+   List <Class> _classes = CManager.getClassByProfessor(person.getID());
     
  %>
 <!DOCTYPE html>
@@ -40,8 +38,7 @@
                         <!-- /.panel-heading -->
                         <div class="panel-body" > 
                             <div class="row">
-                                <form role="form" method="post" name="frm" action ="CreateAssignmentServelet" enctype="multipart/form-data" >
-                                    
+                                <form role="form" method="get" action ="CreateAssignmentServelet" >
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label>Assignment Number</label>
@@ -51,7 +48,7 @@
                                         <div class="form-group">
                                              <label>Due Date</label>
                                                 <div class='input-group date' id='datetimepicker1' name="dDate">
-                                                    <input type='text' class="form-control" name="dDate" />
+                                                    <input type='text' class="form-control" />
                                                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
                                                     </span>
                                                     <script type="text/javascript">
@@ -65,8 +62,8 @@
                                         </div>   
                                         <div class="form-group">
                                             <label>Time</label>
-                                                    <div class='input-group date' id='ttime' >
-                                                        <input type='text' class="form-control" name="ttime"/>
+                                                    <div class='input-group date' id='datetimepicker4' name="ttime">
+                                                        <input type='text' class="form-control" />
                                                         <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span>
                                                         </span>
                                                         <script type="text/javascript">
@@ -82,8 +79,8 @@
                                             <label>Course</label>
                                              <select name="Classes" class="form-control">
                                                  <%
-                                                        for (Classes _class : _classes) {
-                                                            String Name = _class.getClassID()+ " - " + _class.getClassID()+" : "+ _class.getSection();
+                                                        for (Class _class : _classes) {
+                                                            String Name = _class.getClassID()+ " - " + course.getIdentifier()+" : "+ course.getName();
                                                 %>
                                                     <option><%=Name%></option>   
                                                 <%                                                 
@@ -98,7 +95,7 @@
 
                                         <div class="form-group">
                                             <label>Upload File:</label>
-                                            <input type="file" name="file">
+                                            <input type="file">
                                         </div>                                         
                                           <input class="btn btn-default" type="submit" value="Submit"/>
                                     </div>

@@ -1,42 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-<%@page import="OGS.tables.AssignmentManager"%>
-<%@page import="OGS.beans.Assignment"%>
-<%@page import="java.util.List"%>
-<%@page import="OGS.beans.Person"%>
 
+<head>
     <jsp:include page="DefaultLayout.jsp" flush="true"/>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<%@page language="java" contentType="text/html;charset=UTF-8"
-	pageEncoding="UTF-8"%>
-
-<%
-	Person person = (Person) session.getAttribute("currentSessionUser");
-	if (person == null) {
-%>
-<script type="text/javascript">
-	alert("Please Login first...");
-	location.href = "Login.jsp";
-</script>
-<%
-            return;
-        }
-            List<Assignment> assignment = AssignmentManager.getAssigmentsForPerson(person.getAccessLevel(), person.getID());
-             //AssignmentManager.deleteAssignmentForPerson(1);  
-		
-	
-	//List<Assignment> courses = AssignmentManager.getAssignmentForPerson(person);
-	//List<Course> courses = new ArrayList<>();
-%>
-    
-            <body>
-         <form  role="form" method="get" action ="SearchAssignmentServelet" >
+</head>
+    <body>
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                   
-                    <h1 class="page-header">Assignments</h1>
+                    <h1 class="page-header">Courses</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -45,7 +18,7 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Search For Assignment
+                            Search For Courses
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -53,65 +26,86 @@
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example" >
                                     <thead>
                                         <tr>
-                                            <th>Select</th>
                                             <th>Name</th>
                                             <th>DueDate</th>
-                                            <th>DueTime</th>
-                                            <th>PointPossible</th>
                                                                                     
                                         </tr>
                                     </thead>
                                     <tbody>
-                                      
-									<%
-										for (Assignment assign : assignment)
-                                                                                {
-									%>
-									<tr class="gradeA">
-										<td class="something">
-                                                                                   												
-                                                                                <label> <input  type="checkbox" value=""></label>
-                                                                                <input type="hidden" name="CourseID" value="<%=assign.getID()%>" />
-										</td>
-                                                                                
-										<td><%=assign.getName()%></td>
-                                                                                <td><%=assign.getDueDate()%></td>
-                                                                                <td><%=assign.getTimeDue()%></td>
-										<td><%=assign.getPointsPossible()%></td>
-									</tr>
-									<%
-										}
-									%>
-								</tbody>
+                                        <tr class="gradeA" >
+                                            
+                                            <td>Assignment 1</td>
+                                            <td>11/12/14</td>
+                                            
+                                        </tr>
+                                        <tr class="gradeA">
+                                            
+                                            <td>Assignment 2</td>
+                                            <td>11/12/14</td>                                        
+                                        </tr>
+                                        <tr class="gradeA">
+                                            
+                                           <td>Assignment 3</td>
+                                            <td>11/12/14</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            
+                                           <td>Assignment 4</td>
+                                            <td>11/12/14</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            
+                                            <td>Assignment 5</td>
+                                            <td>11/12/14</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            <td>Assignment 6</td>
+                                            <td>11/12/14</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            <td>Assignment 7</td>
+                                            <td>11/12/14</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            
+                                            <td>Assignment 8</td>
+                                            <td>11/12/14</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                           
+                                            <td>Assignment 9</td>
+                                            <td>11/12/14</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                            
+                                            <td>Assignment 10</td>
+                                            <td>11/12/14</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                           
+                                           <td>Assignment 11</td>
+                                            <td>11/12/14</td>
+                                        </tr>
+                                        <tr class="gradeA">
+                                           
+                                           <td>Assignment 12</td>
+                                            <td>11/12/14</td>
+                                        </tr>
+                                        
+                                                                             
+                                    </tbody>
                                 </table>
                             </div>
-                            
-                                
                             <p>
-                                <% 
-                                    int acesslevel = person.getAccessLevel();
-                                    
-                                    if (acesslevel == 1){ // student
-                                      
-                                %> 
-                                <button id="ViewAssignmentButton" type="button" class="btn btn-outline btn-default" >View Assignment</button>
-                                 <%    }else if (acesslevel == 2) { // TA %> 
-                                 <button id="ViewAssignmentButton" type="button" class="btn btn-outline btn-default" >View Assignment</button>
-                                 <%    }else if (acesslevel == 3) { // Professor %> 
-                                 <button id="ViewAssignmentButton" type="button" class="btn btn-outline btn-default" >View Assignment</button>
-                                <button id="EditAssignment" type="button" class="btn btn-outline btn-default">Edit</button>
-                                <button id="deleteAssignment" type="button" class="btn btn-outline btn-default" >Delete</button>
-                                
-                                 <%    }else if (acesslevel == 4) { // Manager %>
-                                 <button id="ViewAssignmentButton" type="button" class="btn btn-outline btn-default" >View Assignment</button>
-                                
-                                <% }%>
+                                <a href="ViewClass.jsp"><button type="button" class="btn btn-outline btn-default" >View Class</button></a>
+                                <button type="button" class="btn btn-outline btn-default">Edit</button>
+                                <button type="button" class="btn btn-outline btn-default">Grade Center</button>
+                                <button type="button" class="btn btn-outline btn-default" onclick="checktest()">Delete</button>
                                 
                             </p>
                         </div>
                         <!-- /.panel-body -->
                     </div>
-                              
                     <!-- /.panel -->
                 </div>
                 <!-- /.col-lg-12 -->
@@ -119,87 +113,38 @@
             
                 <!-- /.col-lg-6 -->
             </div>
-                     </form>             
-      
+        <script src="js/jquery-1.11.0.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>    
+
+    <!-- DataTables JavaScript -->
+    <script src="js/plugins/dataTables/jquery.dataTables.js"></script>
+    <script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="js/sb-admin-2.js"></script>
+    
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
-     
-    <script type="text/javascript">
-		$(function() {
-			$("#ViewAssignmentButton")
-					.click(
-                        function() {
-                                var checked = $("#dataTables-example").find(
-                                                "td.something").find(":checked");
-                                if (checked.size() != 1) {
-                                        alert("One and ONLY one course should be checked...");
-                                } else {
-                                        var classID = checked.parents(
-                                                        "td.something").find(
-                                                        "input[type='hidden']").val();
-                                        location.href = "ViewAssignment.jsp?classID="
-                                                        + classID;
-                                }
-                        });
-		});
-	</script>
-        
-        <script type="text/javascript">
-		$(function() {
-			$("#deleteAssignment")
-					.click(
-                        function() {
-                                var checked = $("#dataTables-example").find(
-                                                "td.something").find(":checked");
-                                if (checked.size() != 1) {
-                                        alert("One and ONLY one course should be checked...");
-                                } else {
-                                        var classID = checked.parents(
-                                                        "td.something").find(
-                                                        "input[type='hidden']").val();
-                                        location.href = "DeleteAssignment.jsp?classID="
-                                                        + classID;
-                                }
-                        });
-		});
-	</script>
-        
-        <script type="text/javascript">
-		$(function() {
-			$("#EditAssignment")
-					.click(
-                        function() {
-                                var checked = $("#dataTables-example").find(
-                                                "td.something").find(":checked");
-                                if (checked.size() != 1) {
-                                        alert("One and ONLY one course should be checked...");
-                                } else {
-                                        var classID = checked.parents(
-                                                        "td.something").find(
-                                                        "input[type='hidden']").val();
-                                        location.href = "EditAssignment.jsp?classID="
-                                                        + classID;
-                                }
-                        });
-		});
-	</script>
-        
     <script>
-        function checktest()
-        {
+    $(document).ready(function() {
+        $('#dataTables-example').dataTable();
+    });
+    </script>   
+    
+    <script>
+        function checktest(){
             var checkboxes = document.getElementsByTagName("input");
             var i = 0;
-            for (i = 0; i < checkboxes.length; i++) 
-            {               
-                if (checkboxes[i].checked )
-                {
+            for (i = 0; i < checkboxes.length; i++) {               
+                if (checkboxes[i].checked ){
                     document.getElementById("dataTables-example").deleteRow(i);
-                      AssignmentManager.deleteAssignmentForPerson(assignment.get(i).getID());
                 }
-               
             }
-          
+            
         }
     </script>   
+
 </body>
 
 </html>

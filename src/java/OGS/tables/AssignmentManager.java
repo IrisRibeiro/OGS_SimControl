@@ -11,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import OGS.beans.Assignment;
-import OGS.beans.Person;
 import OGS.dbaccess.DBType;
 import OGS.dbaccess.DBUtil;
 import java.io.File;
@@ -169,7 +168,7 @@ public class AssignmentManager {
         LOGGER.info("Method insert()");
         String sql = "INSERT into assignment"
                 + " (name, specification, dueDate, instructions, path, "
-                + "classID, pointsPossible, ID, number, TimeDue, Flag, Questions,File, Filename) "
+                + "classID, pointsPossible, ID, number, TimeDue, Flag, Questions) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?)";
         ResultSet keys = null;
         LOGGER.warning("Creating the connection to the database");
@@ -187,11 +186,8 @@ public class AssignmentManager {
             stmt.setString(8, assignmentBean.getID());
             stmt.setInt(9,assignmentBean.getNumber());
             stmt.setString(10, assignmentBean.getTimeDue());
-            //stmt.setString(11, assignmentBean.getFlag());
-            stmt.setString(11, "1");
+            stmt.setString(11, assignmentBean.getFlag());
             stmt.setString(12, assignmentBean.getQuestions());
-            stmt.setBlob(11, assignmentBean.getFile());
-            stmt.setString(12, assignmentBean.getFileName());
             int affected = stmt.executeUpdate();           
             
             LOGGER.warning("Finish executing query");
@@ -479,113 +475,7 @@ public class AssignmentManager {
         return assign;
     }
     
-public static List<Assignment> getAssignmentForPerson(Person person) throws SQLException, ClassNotFoundException, IOException {
-        File f = new File("c:/SimControl/Logging/");
-        if(!f.exists()){
-            f.mkdirs();
-            
-        }
-        FileHandler fh;
-        fh = new FileHandler(f.getPath() + "\\Course_Log.log");
-        LOGGER.addHandler(fh);
-        SimpleFormatter formatter = new SimpleFormatter();  
-        fh.setFormatter(formatter);
-        
-        LOGGER.info("Logger Name: " + LOGGER.getName());
-        LOGGER.info("Method getAssignmentForPerson()");
-        List<Assignment> assignment = new ArrayList<Assignment>();
-        String sql;
-        int check=0;
-        switch (person.getAccessLevel()) {
-            /*When a Student is loged in*/
-            case 1:
-                sql = "SELECT ASSIGNMENT.* FROM ASSIGNMENT, STUDENTENROLLMENT WHERE ASSIGNMENT.COURSEID = STUDENTENROLLMENT.COURSEID AND STUDENTENROLLMENT.STUDENTID = ?";
-                check=1;
-    
-                break;
-            case 2:
-                /* when a TA is loged in*/
-                sql = "SELECT ASSIGNMENT.* FROM ASSIGNMENT, TACOURSE WHERE ASSIGNMENT.COURSEID = TACOURSE.COURSEID AND TACOURSE.TAID = ?";
-                check=2;
-                break;
-                
-            case 3:
-                /* when a Professor is loged in */
-                sql = "SELECT ASSIGNMENT.* FROM ASSIGNMENT, COURSE WHERE ASSIGNMENT.COURSEID = COURSE.ID AND COURSE.INSTRUCTORID = ?";
-                check=3;
-                break;
-                
-            case 4:
-                /* when the manager is loged in*/
-                sql="SELECT * FROM ASSIGNMENT;";
-                check=4;
-                break;
-            default:
-                return assignment;
-        }
-        ResultSet rs = null;
-        LOGGER.warning("Creating the connection to the database");
-        try (Connection conn = DBUtil.getConnection(DBType.MYSQL);
-                PreparedStatement stmt = conn.prepareStatement(sql);) {
-            if(check<4)
-            {
-            stmt.setString(1, person.getID()); // set Person ID
-            }
-            rs = stmt.executeQuery();
-            while (rs.next()) {
-                Assignment assignBean = new Assignment();
-                //assignBean.setIdentifier(rs.getString("Identifier"));
-                assignBean.setID(rs.getString("ID"));
-                assignBean.setName(rs.getString("Name"));
-                //assignBean.setCourseID(rs.getString("CourseID"));
-                assignBean.setSpecification(rs.getString("Specification"));
-                assignBean.setDueDate(rs.getString("DueDate"));
-                assignBean.setPointsPossible(rs.getInt("PointsPossible"));
-                assignBean.setInstructions(rs.getString("Instructions"));
-                assignBean.setPath(rs.getString("Path"));
-                //assignBean.setCourseID(rs.getString("CourseID"));
-                assignBean.setNumber(rs.getInt("number"));
-                assignBean.setTimeDue(rs.getString("TimeDue"));
-                
-                //assignBean.setInstructorID(rs.getString("InstructorID"));
-                //assignBean.setWebsite(rs.getString("webpage"));
-                assignment.add(assignBean);
-                LOGGER.config("List of courses is euqal to :" + assignment);
-            }
-        } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Exception occur", e);
-            System.err.println(e);
 
-        }
-        return assignment;
-    }
-     public static void deleteAssignmentForPerson(String assignmentID) throws SQLException, ClassNotFoundException, IOException
-    {
-         File f = new File("c:/SimControl/Logging/");
-        if(!f.exists()){
-            f.mkdirs();
-            
-        }
-        FileHandler fh;
-        fh = new FileHandler(f.getPath() + "\\Course_Log.log");
-        LOGGER.addHandler(fh);
-        SimpleFormatter formatter = new SimpleFormatter();  
-        fh.setFormatter(formatter);
-        
-        LOGGER.info("Logger Name: " + LOGGER.getName());
-        LOGGER.info("Method deleteAssignmentForPerson()");
-        String sql="DELETE FROM ASSIGNMENT WHERE  ASSIGNMENT.ID ="+assignmentID;
-         ResultSet rs = null;
-        try (Connection conn = DBUtil.getConnection(DBType.MYSQL);
-                PreparedStatement stmt = conn.prepareStatement(sql);) {
-             stmt.executeUpdate(sql);
-           
-        }
-        catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Exception occur", e);
-            System.err.println(e);
-        }
-    }
     /**
      * Sent Mail Method
      */
