@@ -6,7 +6,7 @@
 
 <%@page language="java" contentType="text/html;charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@page import="OGS.tables.*,OGS.beans.Person, OGS.beans.Course, OGS.beans.Class, java.util.*"%>
+<%@page import="OGS.tables.*,OGS.beans.Person, OGS.beans.Course, OGS.beans.Classes, java.util.*"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,7 +23,7 @@
 	return;
 	}
 	String classID = request.getParameter("classID");
-        Class _class = ClassManager.getRowbyID(classID);
+        Classes _class = ClassManager.getRowbyID(classID);
         Course _course = CourseManager.getRow(_class.getCourseID());
         Person Professor = PersonManager.getRowfromID(_class.getInstructorID());
 	if (( _class == null) || ( _course == null) || ( Professor == null) ) {		

@@ -25,7 +25,7 @@
 	}
 	List<Submission> submission = SubmissionManager.getStudentsSubmissions(person.getID());    
         List<Assignment> assign = AssignmentManager.getAllAssignments();    
-	Class classBean = new Class();
+	Classes classBean = new Classes();
         Assignment assignmentBean = new Assignment();
         Course courseBean = new Course();
 %>

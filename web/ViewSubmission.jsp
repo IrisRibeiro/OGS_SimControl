@@ -7,7 +7,7 @@
 <%@page import="OGS.beans.Submission"%>
 <%@page language="java" contentType="text/html;charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@page import="OGS.tables.*,OGS.beans.Person, OGS.beans.Course, OGS.beans.Class, java.util.*"%>
+<%@page import="OGS.tables.*,OGS.beans.Person, OGS.beans.Course, OGS.beans.Classes, java.util.*"%>
 <!DOCTYPE html>
 <html lang="en">
 
