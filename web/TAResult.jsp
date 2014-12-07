@@ -19,6 +19,7 @@
         <%
 	Person person = (Person) session.getAttribute("currentSessionUser");
         int AccesLevel = person.getAccessLevel();
+       
 	if (person == null) {
 %>
 <script type="text/javascript">
@@ -31,16 +32,34 @@
 
 %>
     </head>
+     <jsp:include page="DefaultLayout.jsp" flush="true"/>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <body>
-         <jsp:include page="AppointTA.jsp" flush="true"/>
-         <% String name =  request.getParameter("Name");
-            List <Person> TA = PersonManager.getPersonByName(name);
-            List <Classes> Class = ClassManager.getClassByProfessor(person.getID());
-         %>
-          <div id="page-wrapper">
-         <form role="form" method="get" action="AppointTAServlet">
-            <div class="form-group">
-               <% if (TA != null){  %>
+         <div id="page-wrapper">
+             <%              
+                String name =  request.getParameter("Name");
+                List <Person> TA = PersonManager.getPersonByName(name);
+                List <Classes> Class = ClassManager.getClassByProfessor(person.getID());
+             %>
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Appoint TA</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+		<div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                        <div class="panel-heading">
+                                Associate TA
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body" >
+                                <div class="row">
+                                <form role="form" method="get" action="AppointTAServlet">
+                                        <div class="col-lg-6">							
+                                            <% if (!TA.isEmpty()){  %>
                    <label>Select The Student</label>
                     <select name="StudentID" class="form-control">
                    <%
@@ -61,7 +80,7 @@
                             <%
                                for (Classes _class : Class) {
                                  Course Courses = CourseManager.getRow(_class.getCourseID());
-                                 String classinfo = Courses.getIdentifier() + "-" + Courses.getName();
+                                 String classinfo = Courses.getCourseID() +"-"+ Courses.getIdentifier() + "-" + Courses.getName();
                             %>
                                 <option><%=classinfo%></option>   
                             <%                                                 
@@ -78,9 +97,33 @@
               <% } else { %>
                    <h1 class="page-header">We could not find any student that match your criteria</h1>                   
               <% }%>
-                                                          
-           </div>          
-        </form>
-          </div>
+
+                                        </div>
+                                        							
+                                </form>
+                                </div>								
+                        </div>
+                </div>
+			</div>
+		</div>
+		</div>
+    <script src="js/jquery-1.11.0.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>    
+
+    <!-- DataTables JavaScript -->
+    <script src="js/plugins/dataTables/jquery.dataTables.js"></script>
+    <script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="js/sb-admin-2.js"></script>
+    
+    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+    <script>
+    $(document).ready(function() {
+        $('#dataTables-example').dataTable();
+    });
+    </script>   
     </body>
 </html>
