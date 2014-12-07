@@ -45,8 +45,8 @@ public class ClassManager {
         LOGGER.info("Logger Name: " + LOGGER.getName());
         LOGGER.info("Method UpdateClass()");
         String sql
-                = "UPDATE Class SET Days = ? , Time= ?, Building = ?, Room = ?, Section = ?, NumberOfAssignments = ?"
-                + "Where ID = ? AND InstructorID = ?";
+                = "UPDATE Class SET Days = ? , Time= ?, Building = ?, Room = ?, Section = ?, NumberOfAssignments = ? "
+                + " Where Class.ID = ? AND Class.InstructorID = ?";
         LOGGER.warning("Creating the connection to the database");
         try (
                 Connection conn = DBUtil.getConnection(DBType.MYSQL);
@@ -54,11 +54,12 @@ public class ClassManager {
             
             stmt.setString(1, _class.getDays());
             stmt.setString(2,_class.getTime());
-            stmt.setString(3, _class.getRoom());
-            stmt.setString(4, _class.getSection());
-            stmt.setInt(5, _class.getNumberOfAssignments());
-            stmt.setString(6, _class.getClassID());
-            stmt.setString(7, _class.getInstructorID());
+            stmt.setString(3,_class.getBuilding());
+            stmt.setString(4, _class.getRoom() );
+            stmt.setString(5, _class.getSection());
+            stmt.setInt(6, _class.getNumberOfAssignments());
+            stmt.setString(7, _class.getClassID());
+            stmt.setString(8, _class.getInstructorID());
             LOGGER.config("Object _class equals to :" + _class);
             int affected = stmt.executeUpdate();
             

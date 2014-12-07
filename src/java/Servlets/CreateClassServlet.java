@@ -109,6 +109,7 @@ public class CreateClassServlet extends HttpServlet {
         PersonManager PManager = new PersonManager();
         Person studentTMP = new Person();
         StudentEnrollment StudentEn = new StudentEnrollment();
+        StudentEnrollment StudentEnTMP = new StudentEnrollment();
         StudentEnrollmentManager SEManager = new StudentEnrollmentManager();
         String message = "";
         boolean flag = false;
@@ -178,7 +179,10 @@ public class CreateClassServlet extends HttpServlet {
                                StudentEn.setClassID(Course);
                                StudentEn.setFlag("E");
                                StudentEn.setStudentID(studentTMP.getID());
-                               insert = SEManager.insert(StudentEn);
+                               StudentEnTMP = SEManager.getRowID(studentTMP.getID(), Course);
+                               if (StudentEnTMP == null){
+                                   insert = SEManager.insert(StudentEn);
+                               }                               
                            }else{
                               newStudentID = Integer.parseInt(PManager.getLastPersonID());
                               newStudentID = newStudentID + 1;

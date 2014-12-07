@@ -113,7 +113,9 @@ public class ModifyClassServlet extends HttpServlet {
         Person studentTMP = new Person();
         StudentEnrollment StudentEn = new StudentEnrollment();
         StudentEnrollmentManager SEManager = new StudentEnrollmentManager();
-        
+        StudentEnrollment StudentEnTMP = new StudentEnrollment();
+        String message = "";
+        boolean flag = false;
             BufferedReader bufferedReader = null;  
             String line="";           
             int newStudentID = 0;
@@ -148,6 +150,7 @@ public class ModifyClassServlet extends HttpServlet {
             if (insert==true){
                 if (bufferedReader != null){
                     while( (line = bufferedReader.readLine()) != null ){
+                        flag = true;
                         String[] info = line.split(",");                
                         student.setName(info[0]);
                         student.setUserName(info[1].trim());
@@ -162,7 +165,11 @@ public class ModifyClassServlet extends HttpServlet {
                                StudentEn.setClassID(Course);
                                StudentEn.setFlag("E");
                                StudentEn.setStudentID(studentTMP.getID());
-                               insert = SEManager.insert(StudentEn);
+                               StudentEnTMP = SEManager.getRowID(studentTMP.getID(), Course);
+                               if (StudentEnTMP == null){
+                                   insert = SEManager.insert(StudentEn);
+                               }   
+                              
                            }else{
                               newStudentID = Integer.parseInt(PManager.getLastPersonID());
                               newStudentID = newStudentID + 1;
@@ -187,7 +194,15 @@ public class ModifyClassServlet extends HttpServlet {
                     
                 }
                 
-                response.sendRedirect("faces/Dashboard.jsp");
+                if (flag == false){
+                  message = "Class was modified but we coudn't import students";
+                }else{
+                  message = "Class was modified and students were imported";                
+                }
+                
+                request.setAttribute("message", message);
+                request.getRequestDispatcher("/Response.jsp").forward(request, response);
+                response.sendRedirect("faces/Response.jsp");
                 
             }else{
                  response.sendRedirect("faces/ErrorPage.jsp");
