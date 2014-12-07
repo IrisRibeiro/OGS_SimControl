@@ -7,8 +7,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <jsp:include page="DefaultLayout.jsp" flush="true"/>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<jsp:include page="DefaultLayout.jsp" flush="true"/>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <%@page language="java" contentType="text/html;charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import=" OGS.tables.PersonManager , OGS.tables.ClassManager,  OGS.beans.Person,  OGS.beans.Classes , OGS.tables.CourseManager , OGS.beans.Course , java.util.*"%>
@@ -31,10 +31,6 @@
 <link href="css/bootstrap.min.css" rel="stylesheet">
   <!-- DataTables CSS -->
 <link href="css/plugins/dataTables.bootstrap.css" rel="stylesheet">
- <!-- MetisMenu CSS -->
-<link href="css/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-<link href="css/sb-admin-2.css" rel="stylesheet">
      <!-- Custom Fonts -->
 <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 </head>
@@ -47,7 +43,7 @@
 	<div id="page-wrapper">
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Courses</h1>
+				<h1 class="page-header">Classes</h1>
 			</div>
 			<!-- /.col-lg-12 -->
 		</div>
@@ -126,10 +122,7 @@
 		<!-- /.col-lg-6 -->
 	</div>
 	
-    <script src="js/bootstrap.min.js"></script>
-
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="js/plugins/metisMenu/metisMenu.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>    
 
     <!-- DataTables JavaScript -->
     <script src="js/plugins/dataTables/jquery.dataTables.js"></script>
@@ -137,6 +130,7 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="js/sb-admin-2.js"></script>
+
     <script type="text/javascript">
         $(function() {
                 $("#viewClassButton")

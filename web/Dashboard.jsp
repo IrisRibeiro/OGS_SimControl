@@ -39,6 +39,7 @@
             <!-- /.row -->
             <div class="row">
                 <div class="col-lg-8">
+                     <% if (AccesLevel != 4 ) { %>
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <i class="fa fa-bolt fa-fw"></i> Courses Website							
@@ -60,7 +61,8 @@
                             </div>								
                         </div>
                         <!-- /.panel-body -->
-                    </div>			
+                    </div>
+                    <% } %>
                     <!-- /.panel -->
                     <div class="panel panel-default">
                         <div class="panel-heading">
