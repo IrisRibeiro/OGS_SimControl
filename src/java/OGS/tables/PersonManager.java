@@ -282,6 +282,60 @@ public class PersonManager {
         }
         return Professor;
     }
+    
+    
+    public static List<Person> getPersonByName(String Name) throws SQLException, ClassNotFoundException, IOException {
+        File f = new File("c:/SimControl/Logging/");
+        if(!f.exists()){
+            f.mkdirs();
+            
+        }
+        FileHandler fh;
+        fh = new FileHandler(f.getPath() + "\\Person_Log.log");
+        LOGGER.addHandler(fh);
+        SimpleFormatter formatter = new SimpleFormatter();  
+        fh.setFormatter(formatter);
+        
+        LOGGER.info("Logger Name: " + LOGGER.getName());
+        LOGGER.info("Method getRow()");
+        
+        List<Person> _person = new ArrayList<Person>();
+        String sql = "Select * from Person where Person.name like  ?  AND  Person.AcessLevel = 1 ";
+        ResultSet rs = null;
+        LOGGER.warning("Creating the connection to the database");
+        try (Connection conn = DBUtil.getConnection(DBType.MYSQL);
+                PreparedStatement stmt = conn.prepareStatement(sql);) {
+            Name = "%" + Name + "%";
+            stmt.setString(1, Name);
+            
+            rs = stmt.executeQuery();
+            LOGGER.warning("Finish executing query");
+            while (rs.next()) {
+                Person PersonBean = new Person();                
+                PersonBean.setName(rs.getString("Name"));
+                PersonBean.setID(rs.getString("ID"));
+                PersonBean.setUserName(rs.getString("UserName"));
+                PersonBean.setPassword(rs.getString("Password"));
+                PersonBean.setEmailAddress(rs.getString("EmailAddress"));
+                PersonBean.setAccessLevel(rs.getInt("AcessLevel"));
+                PersonBean.setType(rs.getString("Type"));
+                _person.add(PersonBean);
+                LOGGER.config("Object _person is equal to :" + _person);
+               
+            } 
+
+        } catch (SQLException e) {
+            System.err.println(e);
+            LOGGER.log(Level.SEVERE, "Exception occur", e);
+            return null;
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+        }
+        return _person;
+    }
+    
     public static String getLastPersonID() throws SQLException, ClassNotFoundException, IOException {
         File f = new File("c:/SimControl/Logging/");
         if(!f.exists()){
