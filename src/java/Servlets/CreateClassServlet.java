@@ -110,7 +110,8 @@ public class CreateClassServlet extends HttpServlet {
         Person studentTMP = new Person();
         StudentEnrollment StudentEn = new StudentEnrollment();
         StudentEnrollmentManager SEManager = new StudentEnrollmentManager();
-        
+        String message = "";
+        boolean flag = false;
             BufferedReader bufferedReader = null;  
             String newID = "";
             String LastID = "";
@@ -162,6 +163,7 @@ public class CreateClassServlet extends HttpServlet {
             if (insert==true){
                 if (bufferedReader != null){
                     while( (line = bufferedReader.readLine()) != null ){
+                        flag = true;
                         String[] info = line.split(",");                
                         student.setName(info[0]);
                         student.setUserName(info[1].trim());
@@ -178,14 +180,15 @@ public class CreateClassServlet extends HttpServlet {
                                StudentEn.setStudentID(studentTMP.getID());
                                insert = SEManager.insert(StudentEn);
                            }else{
-                              newStudentID = Integer.parseInt(SEManager.getLastPersonID());
+                              newStudentID = Integer.parseInt(PManager.getLastPersonID());
                               newStudentID = newStudentID + 1;
+                              student.setID(Integer.toString(newStudentID));
                               insert = PManager.insert(student);
                               if (insert == true){
                                   StudentEn.setClassID(Course);
                                   StudentEn.setFlag("E");
                                   StudentEn.setStudentID(Integer.toString(newStudentID));
-                                  response.sendRedirect("faces/Dashboard.jsp");
+                                  insert = SEManager.insert(StudentEn);
                               }
 
                            }
@@ -197,11 +200,16 @@ public class CreateClassServlet extends HttpServlet {
 
                     }
                     
-                    
+                }
+                if (flag == false){
+                  message = "Class was created but we coudn't import students";
+                }else{
+                  message = "Class was created and students were imported";                
                 }
                 
-                response.sendRedirect("faces/Dashboard.jsp");
-                
+                request.setAttribute("message", message);
+                request.getRequestDispatcher("/Response.jsp").forward(request, response);
+                response.sendRedirect("faces/Response.jsp");
             }else{
                  response.sendRedirect("faces/ErrorPage.jsp");
             }

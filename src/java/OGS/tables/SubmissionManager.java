@@ -180,7 +180,7 @@ public class SubmissionManager {
         
         LOGGER.info("Logger Name: " + LOGGER.getName());
         LOGGER.info("Method getAssignmentNumber()");
-        String sql = "SELECT MAX(ID) AS ID FROM submissions ";
+        String sql = "SELECT MAX(CAST(SUBSTRING(ID, 1, length(ID)) AS UNSIGNED)) AS ID FROM submissions ";
         ResultSet rs = null;
         String returnId = "";
         LOGGER.warning("Creating the connection to the database");

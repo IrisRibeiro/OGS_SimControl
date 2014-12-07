@@ -27,44 +27,6 @@ import java.util.logging.SimpleFormatter;
 public class StudentEnrollmentManager {
     private static final Logger LOGGER = Logger.getLogger(CourseManager.class.getName());
     
-    public static String getLastPersonID() throws SQLException, ClassNotFoundException, IOException {
-        File f = new File("c:/SimControl/Logging/");
-        if(!f.exists()){
-            f.mkdirs();
-            
-        }
-        FileHandler fh;
-        fh = new FileHandler(f.getPath() + "\\StudentEnrollment_Log.log");
-        LOGGER.addHandler(fh);
-        SimpleFormatter formatter = new SimpleFormatter();  
-        fh.setFormatter(formatter);
-        
-        LOGGER.info("Logger Name: " + LOGGER.getName());
-        LOGGER.info("Method getAssignmentNumber()");
-        String sql = "SELECT MAX(ID) AS ID FROM Person";
-        ResultSet rs = null;
-        String returnId = "";
-        LOGGER.warning("Creating the connection to the database");
-        try (
-                Connection conn = DBUtil.getConnection(DBType.MYSQL);
-                PreparedStatement stmt = conn.prepareStatement(sql);) {
-                rs = stmt.executeQuery();
-            if (rs.next()) {
-                returnId = rs.getString("ID");   
-            }
-            LOGGER.config("Object rs is :" + rs);
-
-        } catch (SQLException e) {
-            System.err.println(e);
-            return null;
-        } finally {
-            if (rs != null) {
-                rs.close();
-            }
-        }
-
-        return returnId ;
-    }
 
     public static StudentEnrollment getRowwithID(String ID) throws SQLException, ClassNotFoundException {
 

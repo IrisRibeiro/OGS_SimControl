@@ -67,7 +67,8 @@ public class CreateCourseServlet extends HttpServlet {
         CourseManager CManager = new CourseManager();
         String newID = "";
         String LastID = "";
-        int tempID = 0;       
+        int tempID = 0;   
+        String message = "";
         
         try {
             LastID = CManager.getLastCourseID();
@@ -94,7 +95,10 @@ public class CreateCourseServlet extends HttpServlet {
         try {
             boolean insert = CManager.insert(_course);
             if (insert==true){
-                response.sendRedirect("faces/Dashboard.jsp");
+                message = "Course was successful created";
+                request.setAttribute("message", message);
+                request.getRequestDispatcher("/Response.jsp").forward(request, response);  
+                response.sendRedirect("faces/Response.jsp");
             }else{
                  response.sendRedirect("faces/ErrorPage.jsp");
             }

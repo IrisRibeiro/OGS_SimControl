@@ -409,7 +409,7 @@ public class ClassManager {
         
         LOGGER.info("Logger Name: " + LOGGER.getName());
         LOGGER.info("Method getLastClassID()");
-        String sql = "SELECT MAX(ID) AS ID FROM Class";
+        String sql = "SELECT MAX(CAST(SUBSTRING(ID, 1, length(ID)) AS UNSIGNED)) AS ID FROM Class";
         ResultSet rs = null;
         String returnId = "";
         LOGGER.warning("Creating the connection to the database");

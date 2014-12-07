@@ -240,7 +240,7 @@ public class PersonManager {
             
         }
         FileHandler fh;
-        fh = new FileHandler(f.getPath() + "\\Course_Log.log");
+        fh = new FileHandler(f.getPath() + "\\Person_Log.log");
         LOGGER.addHandler(fh);
         SimpleFormatter formatter = new SimpleFormatter();  
         fh.setFormatter(formatter);
@@ -282,5 +282,42 @@ public class PersonManager {
         }
         return Professor;
     }
-  
+    public static String getLastPersonID() throws SQLException, ClassNotFoundException, IOException {
+        File f = new File("c:/SimControl/Logging/");
+        if(!f.exists()){
+            f.mkdirs();
+            
+        }
+        FileHandler fh;
+        fh = new FileHandler(f.getPath() + "\\Person_Log.log");
+        LOGGER.addHandler(fh);
+        SimpleFormatter formatter = new SimpleFormatter();  
+        fh.setFormatter(formatter);
+        
+        LOGGER.info("Logger Name: " + LOGGER.getName());
+        LOGGER.info("Method getLastPersonID()");
+        String sql = "SELECT MAX(CAST(SUBSTRING(ID, 1, length(ID)) AS UNSIGNED)) AS ID FROM Person";
+        ResultSet rs = null;
+        String returnId = "";
+        LOGGER.warning("Creating the connection to the database");
+        try (
+                Connection conn = DBUtil.getConnection(DBType.MYSQL);
+                PreparedStatement stmt = conn.prepareStatement(sql);) {
+                rs = stmt.executeQuery();
+            if (rs.next()) {
+                returnId = rs.getString("ID");   
+            }
+            LOGGER.config("Object rs is :" + rs);
+
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+        }
+
+        return returnId ;
+    }
 }

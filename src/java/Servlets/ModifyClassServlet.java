@@ -164,14 +164,15 @@ public class ModifyClassServlet extends HttpServlet {
                                StudentEn.setStudentID(studentTMP.getID());
                                insert = SEManager.insert(StudentEn);
                            }else{
-                              newStudentID = Integer.parseInt(SEManager.getLastPersonID());
+                              newStudentID = Integer.parseInt(PManager.getLastPersonID());
                               newStudentID = newStudentID + 1;
+                              student.setID(Integer.toString(newStudentID));
                               insert = PManager.insert(student);
                               if (insert == true){
                                   StudentEn.setClassID(Course);
                                   StudentEn.setFlag("E");
                                   StudentEn.setStudentID(Integer.toString(newStudentID));
-                                  response.sendRedirect("faces/Dashboard.jsp");
+                                   insert = SEManager.insert(StudentEn);
                               }
 
                            }
