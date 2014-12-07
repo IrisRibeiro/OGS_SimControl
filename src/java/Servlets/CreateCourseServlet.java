@@ -95,7 +95,7 @@ public class CreateCourseServlet extends HttpServlet {
         try {
             boolean insert = CManager.insert(_course);
             if (insert==true){
-                message = "Course was successful created";
+                message = "Course was successfully created";
                 request.setAttribute("message", message);
                 request.getRequestDispatcher("/Response.jsp").forward(request, response);  
                 response.sendRedirect("faces/Response.jsp");

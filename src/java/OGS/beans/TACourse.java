@@ -14,24 +14,24 @@ import java.io.Serializable;
  */
 public class TACourse implements Serializable {
 
-    private int TAID;
-    private int ClassID;
+    private String TAID;
+    private String ClassID;
 
-    public int getTAID() {
+    public String getTAID() {
         return TAID;
     }
 
 
-    public void setTAID(int TAID) {
+    public void setTAID(String TAID) {
         this.TAID = TAID;
     }
     
-    public int getClassID(){
+    public String getClassID(){
         return ClassID;
     }
     
-    public void setClassID(){
-        this.ClassID = ClassID;
+    public void setClassID(String classID){
+        this.ClassID = classID;
     }
     
 }

@@ -5,8 +5,12 @@
  */
 package Servlets;
 
+import OGS.beans.TACourse;
+import OGS.tables.TACourseManager;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -58,7 +62,41 @@ public class AppointTAServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        TACourseManager TAManager = new TACourseManager();
+        
+        TACourse TA = new TACourse();
+        TACourse TAtmp = new TACourse();
+        
+        String taID = request.getParameter("StudentID");
+        String[] ta = taID.split("-");
+        taID =   ta[0];
+        String ClassID = request.getParameter("ClassID");
+        String[] Class = ClassID.split("-");
+        ClassID = Class[0];
+        boolean insert = false;
+        String message = "";
+        
+        TA.setClassID(ClassID);
+        TA.setTAID(taID);
+        
+        try {
+            TAtmp = TAManager.getRowwithID(taID,ClassID);
+            if (TAtmp == null){
+                insert = TAManager.insert(TA);
+                if (insert == true){
+                    message = "TA successfully appointed";
+                }
+            }else{
+                message = "TA was already associated with that class";
+                
+            }
+            request.setAttribute("message", message);
+            request.getRequestDispatcher("/Response.jsp").forward(request, response);  
+            response.sendRedirect("faces/Response.jsp");
+        } catch (Exception ex) {
+            Logger.getLogger(AppointTAServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     /**
