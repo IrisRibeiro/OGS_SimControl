@@ -1,67 +1,59 @@
 <%-- 
     Document   : AppointTA
-    Created on : Dec 2, 2014, 2:10:38 PM
-    Author     : Yi
+    Created on : Dec 6, 2014, 10:55:38 PM
+    Author     : Iris
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import=" OGS.beans.Person, java.util.*"%>
+
 <!DOCTYPE html>
 <html>
 
     <head>
     <jsp:include page="DefaultLayout.jsp" flush="true"/>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <%
+        Person person = (Person) session.getAttribute("currentSessionUser");
+        if (person == null) {
+                response.sendRedirect("faces/Login.jsp");
+                return;
+        }
+    %>
+   
     </head>
     <body>
-        <div id="page-wrapper">
+        <jsp:include page="PageInfo.jsp" flush="true"/>
+        <div class="caption">
+            <p><a href="#AppointTA" data-toggle="modal" class="btn btn-primary pull-right" role="button"><span class="glyphicon glyphicon-hand-up" aria-hidden="true"></span></a></p>
+        </div>
+       <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">AppointTA</h1>
+                    <h1 class="page-header">Appoint TA</h1>
                 </div>
-                <!-- /.col-lg-12 -->
-            </div>
-            <!-- /.row -->
-            <div class="row">
-                <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Search For TA
+                                Enter Information
                         </div>
-                        <!-- /.panel-heading -->    
-                        <div class="panel-body">
-                            <div class="table-responsive">
-                                <table class="table table-striped table-bordered table-hover" id="dataTables-example" >
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            
-                                                                                    
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        
-                                        
-                                                                             
-                                    </tbody>
-                                </table>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body" >
+                            <div class="row">
+                                <form role="form" method="POST" action="TAResult.jsp" >
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>Name : </label>
+                                                <input class="form-control" name="Name" type="text">
+                                            </div> 
+                                            <input class="btn btn-default" type="submit" value="Search">
+                                        </div>
+                                </form>
                             </div>
-                            <p>
-                                
-                                <button type="button" class="btn btn-outline btn-default">Edit</button>
-                                
-                                <button type="button" class="btn btn-outline btn-default" onclick="checktest()">Delete</button>
-                                
-                            </p>
                         </div>
-                        <!-- /.panel-body -->
                     </div>
-                    <!-- /.panel -->
-                </div>
-                <!-- /.col-lg-12 -->
+              
             </div>
-            
-                <!-- /.col-lg-6 -->
-            </div>
+       </div>
         <script src="js/jquery-1.11.0.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
