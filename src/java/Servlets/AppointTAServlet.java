@@ -5,7 +5,9 @@
  */
 package Servlets;
 
+import OGS.beans.Person;
 import OGS.beans.TACourse;
+import OGS.tables.PersonManager;
 import OGS.tables.TACourseManager;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -63,9 +65,11 @@ public class AppointTAServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         TACourseManager TAManager = new TACourseManager();
-        
+        Person Persontmp = new Person();
+        Person Newta = new Person();
         TACourse TA = new TACourse();
         TACourse TAtmp = new TACourse();
+        String lastPersonID = "";
         
         String taID = request.getParameter("StudentID");
         String[] ta = taID.split("-");
@@ -75,21 +79,53 @@ public class AppointTAServlet extends HttpServlet {
         ClassID = Class[0];
         boolean insert = false;
         String message = "";
+        int tmpID = 0;
         
         TA.setClassID(ClassID);
         TA.setTAID(taID);
         
         try {
-            TAtmp = TAManager.getRowwithID(taID,ClassID);
-            if (TAtmp == null){
-                insert = TAManager.insert(TA);
-                if (insert == true){
-                    message = "TA successfully appointed";
-                }
-            }else{
-                message = "TA was already associated with that class";
+            Persontmp = PersonManager.getRowfromID(taID);
+            if (Persontmp.getAccessLevel() == 2){
+                TAtmp = TAManager.getRowwithID(taID,ClassID);
+                if (TAtmp == null){
+                    insert = TAManager.insert(TA);
+                    if (insert == true){
+                        message = "TA successfully appointed";
+                    }
+                }else{
+                 message = "TA was already associated with that class";
                 
+                }
+            }else if (Persontmp.getAccessLevel() == 1){
+                lastPersonID = PersonManager.getLastPersonID();
+                tmpID = Integer.parseInt(lastPersonID) + 1;
+                lastPersonID = Integer.toString(tmpID);                
+                
+                Newta.setID(lastPersonID);
+                Newta.setName(Persontmp.getName());
+                Newta.setEmailAddress(Persontmp.getEmailAddress());
+                Newta.setPassword(Persontmp.getPassword());
+                Newta.setUserName(Persontmp.getUserName()+"TA");
+                Newta.setAccessLevel(2);
+                Newta.setType("T");
+                insert = PersonManager.insert(Newta);
+                if (insert == true){
+                    TAtmp = TAManager.getRowwithID(taID,ClassID);
+                    if (TAtmp == null){
+                        insert = false;
+                        insert = TAManager.insert(TA);
+                        if (insert == true){
+                            message = "TA successfully appointed";
+                        }
+                    }else{
+                        message = "TA was already associated with that class";
+                
+                    }
+                }
             }
+            
+            
             request.setAttribute("message", message);
             request.getRequestDispatcher("/Response.jsp").forward(request, response);  
             response.sendRedirect("faces/Response.jsp");
