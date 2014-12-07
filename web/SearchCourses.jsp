@@ -3,6 +3,7 @@
     Created on : Oct 29, 2014, 5:18:29 PM
     Author     : Iris
 --%>
+<%@page import="OGS.tables.AssignmentManager"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
