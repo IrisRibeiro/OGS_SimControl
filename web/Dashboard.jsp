@@ -87,9 +87,9 @@
                         <div class="panel-heading">
                            <% if (AccesLevel == 1) { %>
                             <i class="fa fa-bolt fa-fw"></i>Classes I'm Taking
-                            <% } else if (AccesLevel == 2) { %>
+                            <% } else if (AccesLevel == 3) { %>
                                 <i class="fa fa-bolt fa-fw"></i> Classes I'm teaching
-                            <%  } else if (AccesLevel == 3) { %>
+                            <%  } else if (AccesLevel == 2) { %>
                                 <i class="fa fa-bolt fa-fw"></i> Classes I'm TA
                             <% } %>
                         </div>
