@@ -288,7 +288,11 @@ public class SubmissionManager {
                 SubmissionBean.setSubmissionTime(rs.getString("SubmissionTime"));
                 SubmissionBean.setSubmissionID(rs.getString("ID"));  
                 SubmissionBean.setAnswers(rs.getString("Answers"));  
-                SubmissionBean.setFile(rs.getAsciiStream("File"));  
+                Blob tempfile = rs.getBlob("File");
+                if(tempfile != null){
+                    InputStream inputStream = tempfile.getBinaryStream();
+                     SubmissionBean.setFile(inputStream);
+                }
                 SubmissionBean.setFileName(rs.getString("Filename"));  
                 
                 Submission.add(SubmissionBean);
@@ -325,7 +329,7 @@ public class SubmissionManager {
         LOGGER.info("Method getStudentsSubmissions()");
         
         List<Submission> Submission = new ArrayList<>();
-        String sql = "SELECT * FROM Submissions where AssignmentID = ?";
+        String sql = "SELECT * FROM submissions where AssignmentID = ?";
         ResultSet rs = null;
         LOGGER.warning("Creating the connection to the database");
         try (Connection conn = DBUtil.getConnection(DBType.MYSQL);
@@ -346,10 +350,12 @@ public class SubmissionManager {
                 SubmissionBean.setDateFlag(rs.getString("DateFlag"));
                 SubmissionBean.setSubmissionTime(rs.getString("SubmissionTime"));
                 SubmissionBean.setSubmissionID(rs.getString("ID"));  
-                SubmissionBean.setAnswers(rs.getString("Answers"));  
-                SubmissionBean.setFile(rs.getAsciiStream("File"));  
-                SubmissionBean.setFileName(rs.getString("Filename"));  
-                
+                SubmissionBean.setAnswers(rs.getString("Answers"));                
+                Blob tempfile = rs.getBlob("File");
+                if(tempfile != null){
+                    InputStream inputStream = tempfile.getBinaryStream();
+                     SubmissionBean.setFile(inputStream);
+                }
                 Submission.add(SubmissionBean);
                 LOGGER.config("Object SubmissionBean is equal to :" + SubmissionBean);
                 
@@ -406,7 +412,11 @@ public class SubmissionManager {
                 SubmissionBean.setSubmissionTime(rs.getString("SubmissionTime"));
                 SubmissionBean.setSubmissionID(rs.getString("ID"));  
                 SubmissionBean.setAnswers(rs.getString("Answers"));  
-                SubmissionBean.setFile(rs.getAsciiStream("File"));  
+                Blob tempfile = rs.getBlob("File");
+                if(tempfile != null){
+                    InputStream inputStream = tempfile.getBinaryStream();
+                     SubmissionBean.setFile(inputStream);
+                } 
                 SubmissionBean.setFileName(rs.getString("Filename"));  
                 
                 Submission.add(SubmissionBean);
@@ -463,7 +473,11 @@ public class SubmissionManager {
                 SubmissionBean.setSubmissionTime(rs.getString("SubmissionTime"));
                 SubmissionBean.setSubmissionID(rs.getString("ID"));  
                 SubmissionBean.setAnswers(rs.getString("Answers"));  
-                SubmissionBean.setFile(rs.getAsciiStream("File"));  
+                Blob tempfile = rs.getBlob("File");
+                if(tempfile != null){
+                    InputStream inputStream = tempfile.getBinaryStream();
+                     SubmissionBean.setFile(inputStream);
+                } 
                 SubmissionBean.setFileName(rs.getString("Filename"));  
                 
                 Submission.add(SubmissionBean);
@@ -566,7 +580,11 @@ public class SubmissionManager {
                 SubmissionBean.setSubmissionTime(rs.getString("SubmissionTime"));
                 SubmissionBean.setSubmissionID(rs.getString("ID"));  
                 SubmissionBean.setAnswers(rs.getString("Answers"));  
-                SubmissionBean.setFile(rs.getAsciiStream("File"));  
+                Blob tempfile = rs.getBlob("File");
+                if(tempfile != null){
+                    InputStream inputStream = tempfile.getBinaryStream();
+                     SubmissionBean.setFile(inputStream);
+                } 
                 SubmissionBean.setFileName(rs.getString("Filename"));  
                 
                 Submission.add(SubmissionBean);
@@ -619,13 +637,19 @@ public class SubmissionManager {
                 submissionBean.setStudentID(rs.getString("studentID"));
                 submissionBean.setAssignmentID(rs.getString("assignmentID"));
                 submissionBean.setGraderID(rs.getString("graderID"));
-                submissionBean.setSubmissionID(rs.getString("submissionID"));
+                submissionBean.setSubmissionID(rs.getString("ID"));
                 submissionBean.setGrade(rs.getDouble("grade"));
                 submissionBean.setComments(rs.getString("comments"));
                 submissionBean.setPath(rs.getString("path"));
                 submissionBean.setDateFlag(rs.getString("dateFlag"));
-                submissionBean.setSubmissionTime(rs.getString("submissionTime"));
-               
+                submissionBean.setSubmissionTime(rs.getString("submissionTime"));                 
+                submissionBean.setAnswers(rs.getString("Answers"));  
+                Blob tempfile = rs.getBlob("File");
+                if(tempfile != null){
+                    InputStream inputStream = tempfile.getBinaryStream();
+                     submissionBean.setFile(inputStream);
+                } 
+                submissionBean.setFileName(rs.getString("Filename")); 
                 submissions.add(submissionBean);
                 LOGGER.config("Object Assigments is equal to :" + submissions);
                
