@@ -93,11 +93,12 @@ public class ViewSubmissionServlet extends HttpServlet {
         Person professor = new Person();
         Person Student = new Person(); 
         Person TA = new Person();
-        
+        String message = "";
         
         String Comments = request.getParameter("comments");
         double grade = Double.parseDouble(request.getParameter("grade"));
-        int accessLevel = Integer.parseInt(request.getParameter("accessLevel"));        
+        String access = request.getParameter("accessLevel");
+        int accessLevel = Integer.parseInt(access);        
         submission.setStudentID(request.getParameter("StudentID"));
         submission.setAssignmentID(request.getParameter("AssignmentID"));
         submission.setGrade(grade);
@@ -107,7 +108,7 @@ public class ViewSubmissionServlet extends HttpServlet {
         submission.setDateFlag(request.getParameter("DateFlag"));
         submission.setSubmissionID(request.getParameter("SubmissionID"));
         submission.setSubmissionTime(request.getParameter("submissionTime"));
-        submission.setAnswers(request.getParameter("Typed"));
+        submission.setAnswers(request.getParameter("answers"));
         
         try {
             assignment = AssignmentManager.getRow(submission.getAssignmentID());
@@ -131,8 +132,11 @@ public class ViewSubmissionServlet extends HttpServlet {
             if (insert == true){
                 if (accessLevel == 3){
                     sendEmail(professor.getEmailAddress(),Subject,body,null, null);
+                     message = "Submission was succefully updated";
                 }
-                 response.sendRedirect("faces/Dashboard.jsp");
+                request.setAttribute("message", message);
+                request.getRequestDispatcher("/Response.jsp").forward(request, response);
+                response.sendRedirect("faces/Response.jsp");
             }else{
                  response.sendRedirect("faces/ErrorPage.jsp");
             }
