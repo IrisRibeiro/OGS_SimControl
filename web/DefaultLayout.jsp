@@ -121,7 +121,7 @@
                                         <a href="GradeSystem.jsp">Grade system</a> <!-- /.Modify to link to the page -->
                                     </li>
                                     <li>
-                                        <a href="SubmitAssignment.jsp">Submit Assignment</a> <!-- /.Modify to link to the page -->
+                                        <a href="SearchAssignment.jsp">Search Assignment</a> <!-- /.Modify to link to the page -->
                                     </li>
                                     
                                 <%    }else if (acesslevel == 2) { // TA %> 

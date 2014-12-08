@@ -107,11 +107,13 @@
                                  <button id="SubmitAssignmentButton" type="button" class="btn btn-outline btn-default" >Submit Assignment</button>
                                  <%    }else if (acesslevel == 2) { // TA %> 
                                  <button id="ViewAssignmentButton" type="button" class="btn btn-outline btn-default" >View Assignment</button>
+                                  <button id="GradeAssignmentButton" type="button" class="btn btn-outline btn-default" >View Submissions</button>
                                 
                                  <%    }else if (acesslevel == 3) { // Professor %> 
                                 <button id="ViewAssignmentButton" type="button" class="btn btn-outline btn-default" >View Assignment</button>
                                 <button id="EditAssignment" type="button" class="btn btn-outline btn-default">Edit</button>
                                 <button id="deleteAssignment" type="button" class="btn btn-outline btn-default" >Delete</button>
+                                <button id="GradeAssignmentButton" type="button" class="btn btn-outline btn-default" >View Submissions</button>
                                 
                                  <%    }else if (acesslevel == 4) { // Manager %>
                                  <button id="ViewAssignmentButton" type="button" class="btn btn-outline btn-default" >View Assignment</button>
@@ -188,6 +190,26 @@
                                                         "td.something").find(
                                                         "input[type='hidden']").val();
                                         location.href = "DeleteAssignment.jsp?AssignmentID="
+                                                        + AssignmentID;
+                                }
+                        });
+		});
+	</script>
+        
+        <script type="text/javascript">
+		$(function() {
+			$("#GradeAssignmentButton")
+					.click(
+                        function() {
+                                var checked = $("#dataTables-example").find(
+                                                "td.something").find(":checked");
+                                if (checked.size() != 1) {
+                                        alert("One and ONLY one course should be checked...");
+                                } else {
+                                        var AssignmentID = checked.parents(
+                                                        "td.something").find(
+                                                        "input[type='hidden']").val();
+                                        location.href = "GradeAssignment.jsp?AssignmentID="
                                                         + AssignmentID;
                                 }
                         });

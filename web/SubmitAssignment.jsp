@@ -47,13 +47,14 @@
 <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+    <jsp:include page="DefaultLayout.jsp" flush="true"/>
     <jsp:include page="PageInfo.jsp" flush="true"/>
         <div class="caption">
             <p><a href="#SubmitAssignment" data-toggle="modal" class="btn btn-primary pull-right" role="button"><span class="glyphicon glyphicon-hand-up" aria-hidden="true"></span></a></p>
         </div>
         <% 
             Submission submission = SubmissionManager.getRow( person.getID() , AssignmentID);
-            if (submission.getSubmissionID() != null){ %>
+            if (submission != null){ %>
                 <div id="page-wrapper">
                     <div class="row">
                         <div class="col-lg-12">
@@ -84,21 +85,24 @@
                                 <form role="form" method="post" name="frm" action="SubmitAssignmentServlet"  enctype="multipart/form-data">
                                         <div class="col-lg-6">								
                                             <div class="form-group">
-                                                <label>Available Assignment</label>                                                
+                                                <label>Selected Assignment</label>                                                
                                                    <%                                                            
                                                     String AssigmentSpeci = assignments.getID() + " - " + assignments.getName();
                                                    %>
-                                                <label name="AssigmentID"><%=AssigmentSpeci%></label>                                                  
-                                               
+                                                <label><%=AssigmentSpeci%></label>                                                  
+                                                <input type="hidden" name="AssignmentID" value="<%=assignments.getID()%>"/>
                                             </div>
                                             <div class="form-group">
-                                                    <label>Specifications</label>
-                                                    <textarea class="form-control" rows="5" name="specs" id="specs" type="text" value="<%=assignments.getSpecification()%>" disabled></textarea>
-                                            </div>                                            
+                                                    <label>Specifications</label>                       
+                                            </div>
                                             <div class="form-group">
-                                                <label>Instructions</label>
-                                                <textarea class="form-control" rows="5" name="instructions" id="instructions" type="text" value="<%=assignments.getInstructions()%>" disabled></textarea>
-                                                                                                
+                                                <label name="specs"><%=assignments.getSpecification()%></label>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Instructions</label>                     
+                                            </div>
+                                            <div class="form-group">
+                                                <label name="instructions"><%=assignments.getInstructions()%></label>
                                             </div>
                                              <% 
                                                 if (assignments.getFlag() == "Y"){                                                    
@@ -118,7 +122,9 @@
                                                 <label>Type Answers</label>
                                                 <textarea class="form-control" rows="5" name="typedanswers" id="typedanswers" type="text"></textarea>                                                                                                
                                             </div> 
-                                                
+                                            <div class="form-group">
+                                                <input class="btn btn-default" type="submit" value="Submit"/>
+                                            </div>
                                              <div class="form-group">
                                                 <input type="hidden" name="StudentID" value="<%=person.getID()%>"/>
                                                 <input type="hidden" name="StudentName" value="<%=person.getName()%>"/>
