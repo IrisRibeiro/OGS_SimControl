@@ -25,7 +25,7 @@
 	}
         String assignmentID = request.getParameter("AssignmentID");
 	List<Submission> submission = SubmissionManager.getGradedSubmissionsByAssignmentID(assignmentID);       
-	Class classBean = new Class();
+	Classes classBean = new Classes();
         Assignment assignmentBean = new Assignment();
         Course courseBean = new Course();
 %>
@@ -104,23 +104,18 @@
 									</tr>
 								</thead>
 								<tbody>
-									<%
-                                                                            assignmentBean = AssignmentManager.getRow(assignmentID);
-                                                                            classBean = ClassManager.getRowbyID(assignmentBean.getClassID());
-                                                                            courseBean = CourseManager.getRow(classBean.getCourseID());
-									%>
 									<tr class="gradeA">
-                                                                                <td><%=SubmissionManager.getNumGradedSubmissionsByAssignmentID(assignmentID)%></td>
-                                                                                <td><%=assignmentBean.getPointsPossible()%></td>
-                                                                                <td><%=GradeSystem.calcMax(submission)%></td>
-                                                                                <td><%=GradeSystem.calcMin(submission)%></td>
-                                                                                <td><%=GradeSystem.calcAvg(submission)%></td>
-                                                                                <td><%=GradeSystem.calcMid(submission)%></td>
-                                                                                <td><%=GradeSystem.calcMid(submission)%></td>
-                                                                                <td><%=GradeSystem.calcMid(submission)%></td>
-                                                                                <td><%=GradeSystem.calcMid(submission)%></td>
-                                                                                <td><%=GradeSystem.calcMid(submission)%></td>
-                                                                                <td><%=GradeSystem.calcMid(submission)%></td>
+                                                                                <td><%=GradeSystem.calcGradeDist(submission, 0)%></td>
+                                                                                <td><%=GradeSystem.calcGradeDist(submission, 1)%></td>
+                                                                                <td><%=GradeSystem.calcGradeDist(submission, 2)%></td>
+                                                                                <td><%=GradeSystem.calcGradeDist(submission, 3)%></td>
+                                                                                <td><%=GradeSystem.calcGradeDist(submission, 4)%></td>
+                                                                                <td><%=GradeSystem.calcGradeDist(submission, 5)%></td>
+                                                                                <td><%=GradeSystem.calcGradeDist(submission, 6)%></td>
+                                                                                <td><%=GradeSystem.calcGradeDist(submission, 7)%></td>
+                                                                                <td><%=GradeSystem.calcGradeDist(submission, 8)%></td>
+                                                                                <td><%=GradeSystem.calcGradeDist(submission, 9)%></td>
+                                                                                <td><%=GradeSystem.calcGradeDist(submission, 10)%></td>
 									</tr>
 								</tbody>
 							</table>
