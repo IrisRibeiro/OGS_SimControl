@@ -91,87 +91,91 @@ public class CreateAssignmentServelet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Assignment assign = new Assignment();
-        AssignmentManager man = new AssignmentManager();
-        ClassManager CManager = new ClassManager();
-        String newId = "";
-        int idValue = 0;
-        String time = ""; 
-        int numberofassignments = 0;
+       Assignment assignment = new Assignment();
+       String AssignmentID = "";
+       int AssignmentIDtmp = 0;
+       
+       BufferedReader bufferedReader = null;      
+       String Name = getValue(request.getPart("assignName"));
+       String Specification = getValue(request.getPart("specs"));
+       String DueDate = getValue(request.getPart("dDate"));
+       String PointsPossible = getValue(request.getPart("points"));
+       String Instructions = getValue(request.getPart("instrucstions"));
+       String Path = "default";
+       String ClassID = getValue(request.getPart("ClassID"));
+       String number = getValue(request.getPart("assignNum"));
+       String TimeDue = getValue(request.getPart("ttime"));
+       String Flag = "N";
+       String Questions = getValue(request.getPart("Questions"));
+       boolean insert = false;
+       String message = "";
+       int NumberofAssignments = 0;       
+       
+       String[] classid = ClassID.split("-");
+       ClassID = classid[0].trim();
         try {
-            newId = man.getAssignmentNumber();
-        } catch (SQLException | ClassNotFoundException ex) {
+            AssignmentID = AssignmentManager.getAssignmentNumber();
+            if (AssignmentID == null){
+                AssignmentID = "0";
+            }
+            AssignmentIDtmp = Integer.parseInt(AssignmentID) + 1;
+            AssignmentID = Integer.toString(AssignmentIDtmp);
+        } catch (SQLException ex) {
+            Logger.getLogger(CreateAssignmentServelet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
             Logger.getLogger(CreateAssignmentServelet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if (newId != null) {
-            idValue = Integer.parseInt(newId)+1;
-            
-        }else{
-            idValue = 1;
-        }
-        time=getValue(request.getPart("ttime"));
-        //time = request.getParameter("ttime");
-        newId = Integer.toString(idValue);
-        String name = request.getParameter("assignName");        
-        String dueDate = request.getParameter("dDate");
-        String specs = request.getParameter("specs");        
-        String instructions = request.getParameter("instrucstions"); 
-        String ClassID = request.getParameter("Classes");        
-        String[] Course = ClassID.split("-");
-        ClassID = Course[0].trim();
-        int assignmentnum = Integer.parseInt(request.getParameter("assignNum"));
-        int points = Integer.parseInt(request.getParameter("points"));
        
-        InputStream inputStream = null;
-        
-        Part filePart = request.getPart("file"); // Retrieves <input type="file" name="file">
-       String filename = "";
-       String filecontentype = "";
-       if (filePart != null) {
-           filename = getFilename(filePart);
-           filecontentype = filePart.getContentType();           
-           inputStream = filePart.getInputStream();
-       }
-        
-        assign.setID("11");
-        assign.setName(name);
-        assign.setDueDate(dueDate);
-        assign.setSpecification(specs);
-        assign.setInstructions(instructions);
-        assign.setPointsPossible(points);
-        assign.setClassID(ClassID);
-        assign.setNumber(assignmentnum);
-        assign.setTimeDue(time);
-        assign.setPath("default");
-        assign.setQuestions("default");
-       assign.setFile(inputStream);
-       assign.setFileName(filename);
-        
-        
-        boolean check = false;
+       assignment.setID(AssignmentID);  
+       assignment.setName(Name);
+       assignment.setSpecification(Specification);
+       assignment.setDueDate(DueDate);
+       assignment.setPointsPossible(Integer.parseInt(PointsPossible));
+       assignment.setInstructions(Instructions);
+       assignment.setPath(Path);
+       assignment.setClassID(ClassID);
+       assignment.setNumber(Integer.parseInt(number));
+       assignment.setTimeDue(TimeDue);
+       assignment.setQuestions(Questions);
+       
+       Part filePart = request.getPart("file"); // Retrieves <input type="file" name="file">
+       
+        String filename = "";       
+        InputStream filecontent = null;
+        if (filePart != null) {
+           Flag = "Y";
+           filename = getFilename(filePart);                      
+           filecontent = filePart.getInputStream();
+        }
+       
+       assignment.setFile(filecontent);
+       assignment.setFileName(filename);
+       assignment.setFlag(Flag);
+       
         try {
-            check = man.insert(assign);
+            insert = AssignmentManager.insert(assignment);
+            if (insert == true){
+               insert = false;
+               NumberofAssignments = ClassManager.getNumberofAssignments(ClassID);
+               NumberofAssignments = NumberofAssignments + 1;
+               insert = ClassManager.UpdateNumofAssignments(ClassID, NumberofAssignments);
+               if (insert==true){
+                   message = "Assignment was succefully created";
+               }else{
+                   message = "Assignment was succefully created, but we had an inter error";
+               }
+            }else{
+                message = "We coudn't create this assignment. Sorry!";
+                
+            }
+            
+            request.setAttribute("message", message);
+            request.getRequestDispatcher("/Response.jsp").forward(request, response);
+            response.sendRedirect("faces/Response.jsp");
         } catch (Exception ex) {
             Logger.getLogger(CreateAssignmentServelet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if (check == true) {
-            try {
-                numberofassignments = CManager.getNumberofAssignments(ClassID);
-                if (numberofassignments ==-1){
-                    response.sendRedirect("faces/ErrorPage.jsp");
-                }else{
-                    check = CManager.UpdateNumofAssignments(ClassID,numberofassignments);
-                }
-                
-            } catch (Exception ex) {
-                Logger.getLogger(CreateAssignmentServelet.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            response.sendRedirect("faces/Dashboard.jsp");
-
-        } else {
-            response.sendRedirect("faces/ErrorPage.jsp");
-        }
-        //processRequest(request, response);
+      
     }
 
     /**

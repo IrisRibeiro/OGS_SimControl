@@ -150,8 +150,7 @@ public class SubmitAssignmentServlet extends HttpServlet {
             tmpID = 1;
         }
       
-       SubmissionID = Integer.toString(tmpID);
-       
+       SubmissionID = Integer.toString(tmpID);       
       
        Part filePart = request.getPart("file"); // Retrieves <input type="file" name="file">
        String filename = "";

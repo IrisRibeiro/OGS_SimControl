@@ -19,9 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -187,8 +185,7 @@ public class AssignmentManager {
             stmt.setString(8, assignmentBean.getID());
             stmt.setInt(9,assignmentBean.getNumber());
             stmt.setString(10, assignmentBean.getTimeDue());
-            //stmt.setString(11, assignmentBean.getFlag());
-            stmt.setString(11, "1");
+            stmt.setString(11, assignmentBean.getFlag());            
             stmt.setString(12, assignmentBean.getQuestions());
             stmt.setBlob(13, assignmentBean.getFile());
             stmt.setString(14, assignmentBean.getFileName());
@@ -360,6 +357,12 @@ public class AssignmentManager {
         List<Assignment> Assigments = new ArrayList<Assignment>();
         String sql = null;
         switch (accessLevel) {
+            case 1:
+                sql = "SELECT ASSIGNMENT.* \n" +
+                      "FROM ASSIGNMENT, STUDENTENROLLMENT\n" +
+                      "WHERE ASSIGNMENT.CLASSID = STUDENTENROLLMENT.CLASSID\n" +
+                      "AND STUDENTENROLLMENT.STUDENTID = ?";
+                break;
             case 2:
                 sql = "SELECT ASSIGNMENT.* \n" +
                       "FROM ASSIGNMENT, TACOURSE\n" +
@@ -372,19 +375,22 @@ public class AssignmentManager {
                 "WHERE ASSIGNMENT.CLASSID = CLASS.ID\n" +
                 "AND CLASS.INSTRUCTORID = ?";
                 break;
+            case 4:
+                sql = "SELECT * FROM ASSIGNMENT";
                  
         }
     	ResultSet rs = null;
         LOGGER.warning("Creating the connection to the database");
         try (Connection conn = DBUtil.getConnection(DBType.MYSQL);
                 PreparedStatement stmt = conn.prepareStatement(sql);) {
-                
-                stmt.setString(1, PersonID);
+               if  (accessLevel != 4){
+                   stmt.setString(1, PersonID);
+               }             
                                 
                 rs = stmt.executeQuery();
             while (rs.next()) {
             
-				Assignment assignmentBean = new Assignment();
+                Assignment assignmentBean = new Assignment();
                 assignmentBean.setName(rs.getString("Name"));
                 assignmentBean.setSpecification(rs.getString("Specification"));
                 assignmentBean.setDueDate(rs.getString("DueDate"));
@@ -480,152 +486,43 @@ public class AssignmentManager {
         return assign;
     }
     
-public static List<Assignment> getAssignmentForPerson(Person person) throws SQLException, ClassNotFoundException, IOException {
+    public static boolean DeleteAssignments( String AsssignmentID) throws SQLException, ClassNotFoundException, IOException {
         File f = new File("c:/SimControl/Logging/");
         if(!f.exists()){
             f.mkdirs();
             
         }
         FileHandler fh;
-        fh = new FileHandler(f.getPath() + "\\Course_Log.log");
+        fh = new FileHandler(f.getPath() + "\\Assignment_Log.log");
         LOGGER.addHandler(fh);
         SimpleFormatter formatter = new SimpleFormatter();  
         fh.setFormatter(formatter);
         
         LOGGER.info("Logger Name: " + LOGGER.getName());
-        LOGGER.info("Method getAssignmentForPerson()");
-        List<Assignment> assignment = new ArrayList<Assignment>();
-        String sql;
-        int check=0;
-        switch (person.getAccessLevel()) {
-            /*When a Student is loged in*/
-            case 1:
-                sql = "SELECT ASSIGNMENT.* FROM ASSIGNMENT, STUDENTENROLLMENT WHERE ASSIGNMENT.COURSEID = STUDENTENROLLMENT.COURSEID AND STUDENTENROLLMENT.STUDENTID = ?";
-                check=1;
-    
-                break;
-            case 2:
-                /* when a TA is loged in*/
-                sql = "SELECT ASSIGNMENT.* FROM ASSIGNMENT, TACOURSE WHERE ASSIGNMENT.COURSEID = TACOURSE.COURSEID AND TACOURSE.TAID = ?";
-                check=2;
-                break;
-                
-            case 3:
-                /* when a Professor is loged in */
-                sql = "SELECT ASSIGNMENT.* FROM ASSIGNMENT, COURSE WHERE ASSIGNMENT.COURSEID = COURSE.ID AND COURSE.INSTRUCTORID = ?";
-                check=3;
-                break;
-                
-            case 4:
-                /* when the manager is loged in*/
-                sql="SELECT * FROM ASSIGNMENT;";
-                check=4;
-                break;
-            default:
-                return assignment;
-        }
-        ResultSet rs = null;
+        LOGGER.info("Method DeleteAssignments()");
+        String sql = "DELETE FROM ASSIGNMENT WHERE ID = ?";
+        ResultSet rs = null;       
         LOGGER.warning("Creating the connection to the database");
-        try (Connection conn = DBUtil.getConnection(DBType.MYSQL);
+        try (
+                Connection conn = DBUtil.getConnection(DBType.MYSQL);
                 PreparedStatement stmt = conn.prepareStatement(sql);) {
-            if(check<4)
-            {
-            stmt.setString(1, person.getID()); // set Person ID
-            }
-            rs = stmt.executeQuery();
-            while (rs.next()) {
-                Assignment assignBean = new Assignment();
-                //assignBean.setIdentifier(rs.getString("Identifier"));
-                assignBean.setID(rs.getString("ID"));
-                assignBean.setName(rs.getString("Name"));
-                //assignBean.setCourseID(rs.getString("CourseID"));
-                assignBean.setSpecification(rs.getString("Specification"));
-                assignBean.setDueDate(rs.getString("DueDate"));
-                assignBean.setPointsPossible(rs.getInt("PointsPossible"));
-                assignBean.setInstructions(rs.getString("Instructions"));
-                assignBean.setPath(rs.getString("Path"));
-                //assignBean.setCourseID(rs.getString("CourseID"));
-                assignBean.setNumber(rs.getInt("number"));
-                assignBean.setTimeDue(rs.getString("TimeDue"));
+                stmt.setString(1, AsssignmentID);
                 
-                //assignBean.setInstructorID(rs.getString("InstructorID"));
-                //assignBean.setWebsite(rs.getString("webpage"));
-                assignment.add(assignBean);
-                LOGGER.config("List of courses is euqal to :" + assignment);
+            int affected = stmt.executeUpdate();
+            if (affected == 1) {
+                return true;
+            } else {
+                return false;
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Exception occur", e);
             System.err.println(e);
-
+            return false;
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
         }
-        return assignment;
-    }
-     public static void deleteAssignmentForPerson(String assignmentID) throws SQLException, ClassNotFoundException, IOException
-    {
-         File f = new File("c:/SimControl/Logging/");
-        if(!f.exists()){
-            f.mkdirs();
-            
-        }
-        FileHandler fh;
-        fh = new FileHandler(f.getPath() + "\\Course_Log.log");
-        LOGGER.addHandler(fh);
-        SimpleFormatter formatter = new SimpleFormatter();  
-        fh.setFormatter(formatter);
-        
-        LOGGER.info("Logger Name: " + LOGGER.getName());
-        LOGGER.info("Method deleteAssignmentForPerson()");
-        String sql="DELETE FROM ASSIGNMENT WHERE  ASSIGNMENT.ID ="+assignmentID;
-        String sql2="DELETE FROM SUBMISSIONS WHERE  ASSIGNMENT.ID ="+assignmentID;
-         ResultSet rs = null;
-        try (Connection conn = DBUtil.getConnection(DBType.MYSQL);
-                PreparedStatement stmt = conn.prepareStatement(sql);) {
-             PreparedStatement stmt2 = conn.prepareStatement(sql2);
-             stmt2.executeUpdate(sql2);
-             stmt.executeUpdate(sql);
-             
-           
-        }
-        catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Exception occur", e);
-            System.err.println(e);
-        }
-    }
-    /**
-     * Sent Mail Method
-     */
-    public void sentMail() {
-
-    }
-
-    /**
-     * Mark Assignment method
-     */
-    public void markAssignment() {
-
-    }
-
-    /**
-     * Grade Assignment method
-     */
-    public void gradeAssignment() {
-
-    }
-
-    /**
-     * Create Assignment method
-     */
-    public void createAssignment() {
-
-    }
-
-    //From Course Assignments
-    /**
-     * Get Points Possible Method
-     */
-    public void getPointsPossible() {
-
-        
+       
     }
     
 
