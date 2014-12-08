@@ -66,16 +66,11 @@
 
                                                                             <div class="form-group">
                                                                                     <label>Student ID</label> <input class="form-control"
-                                                                                            name="StudentID" value="<%=submission.getStudentID()%>">
-                                                                                    <input type="hidden" name="GraderID" value="<%=person.getID()%>"/>
-                                                                                    <input type="hidden" name="accessLevel" value="<%=person.getAccessLevel()%>"/>
-                                                                                    <input type="hidden" name="DateFlag" value="<%=submission.getDateFlag()%>"/>
-                                                                                    <input type="hidden" name="SubmissionID" value="<%=submission.getSubmissionID()%>"/>
-                                                                                    <input type="hidden" name="submissionTime" value="<%=submission.getSubmissionTime()%>"/>
+                                                                                            name="Student" value="<%=submission.getStudentID()%>">                                                                                   
                                                                             </div>
                                                                             <div class="form-group">
                                                                                     <label>Assignment Number</label> <input class="form-control"
-                                                                                            name="AssignmentID" type="text" value="<%=submission.getAssignmentID()%>">
+                                                                                            name="Assignment" type="text" value="<%=submission.getAssignmentID()%>">
                                                                             </div>
                                                                             <div class="form-group">
                                                                                     <label>Typed Answers</label>                                                                                   
@@ -105,6 +100,15 @@
                                                                          <div class="form-group">
                                                                          <label>Grade</label>
                                                                             <input class="form-control" name="grade" id="instrucstions" type="number" value="<%=submission.getGrade()%>">
+                                                                             <input type="hidden" name="GraderID" value="<%=person.getID()%>"/>
+                                                                                    <input type="hidden" name="accessLevel" value="<%=person.getAccessLevel()%>"/>
+                                                                                    <input type="hidden" name="DateFlag" value="<%=submission.getDateFlag()%>"/>
+                                                                                    <input type="hidden" name="SubmissionID" value="<%=submission.getSubmissionID()%>"/>
+                                                                                    <input type="hidden" name="submissionTime" value="<%=submission.getSubmissionTime()%>"/>
+                                                                                    <input type="hidden" name="StudentID" value="<%=submission.getStudentID()%>"/>
+                                                                                    <input type="hidden" name="AssignmentID" value="<%=submission.getAssignmentID()%>"/>
+                                                                                    <input type="hidden" name="answers" value="<%=submission.getAnswers()%>"/>
+                                                                            
                                                                          </div>
                                                                          <input class="btn btn-default" type="submit" value="Submit">
                                                                      </div>

@@ -80,7 +80,7 @@
                             <%
                                for (Classes _class : Class) {
                                  Course Courses = CourseManager.getRow(_class.getCourseID());
-                                 String classinfo = Courses.getCourseID() +"-"+ Courses.getIdentifier() + "-" + Courses.getName();
+                                 String classinfo = _class.getClassID() +"-"+ Courses.getIdentifier() + "-" + Courses.getName();
                             %>
                                 <option><%=classinfo%></option>   
                             <%                                                 

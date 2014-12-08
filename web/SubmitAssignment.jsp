@@ -109,7 +109,7 @@
                                              %>
                                              <div class="form-group">
                                                 <label>Download Assignment File</label>
-                                                <a href="DownloadServlet">Download Link</a>           
+                                                <a href="DownloadServlet?AssignmentID=<%=assignments.getID()%>">Download Link</a>           
                                             </div>
                                              <%   } %>
                                              

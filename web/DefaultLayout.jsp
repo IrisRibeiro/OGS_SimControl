@@ -137,9 +137,7 @@
                                     <li>
                                         <a href="GradeSystem.jsp">Grade system</a> <!-- /.Modify to link to the page -->
                                     </li>
-                                    <li>
-                                        <a href="GradeAssignment.jsp">Grade Assignment</a> <!-- /.Modify to link to the page -->
-                                    </li>
+                                   
                                 
                                 <% }else if(acesslevel == 3) {// Professor %>
                                      <li>
@@ -153,10 +151,7 @@
                                     </li>
                                     <li>
                                         <a href="SearchCourses.jsp">All Courses</a> <!-- /.Modify to link to the page -->
-                                    </li>
-                                    <li>
-                                        <a href="GradeAssignment.jsp">Grade Assignment</a> <!-- /.Modify to link to the page -->
-                                    </li>
+                                    </li>                                    
                                     <li>
                                         <a href="GradeSystem.jsp">Grade system</a> <!-- /.Modify to link to the page -->
                                     </li>
