@@ -127,10 +127,7 @@
                                 <%    }else if (acesslevel == 2) { // TA %> 
                                     <li>
                                         <a href="SearchClass.jsp">Classes I'm TA</a> <!-- /.Modify to link to the page -->
-                                    </li>
-                                    <li>
-                                        <a href="CreateAssignment.jsp">Create Assignment</a>  <!-- /.Modify to link to the page -->
-                                    </li>
+                                    </li>                                    
                                     <li>
                                         <a href="SearchAssignment.jsp">Search Assignment</a> <!-- /.Modify to link to the page -->
                                     </li>

@@ -33,15 +33,6 @@
         List<Assignment> assignments = AssignmentManager.getAssigmentsForPerson(AccesLevel, personID);
 	String AssignmentID = request.getParameter("AssignmentID");
 %>
-<link href="css/bootstrap.min.css" rel="stylesheet">
-  <!-- DataTables CSS -->
-<link href="css/plugins/dataTables.bootstrap.css" rel="stylesheet">
- <!-- MetisMenu CSS -->
-<link href="css/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-<link href="css/sb-admin-2.css" rel="stylesheet">
-     <!-- Custom Fonts -->
-<link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
@@ -101,14 +92,12 @@
                                                                 <tr class="gradeA">
                                                                     <td Class="something">                                                                                   												
                                                                         <label> <input  type="checkbox" value=""></label>
-                                                                        <input type="hidden" name="CourseID" value="<%=_submission.getSubmissionID()%>"/>
+                                                                        <input type="hidden" name="CourseID" value="<%=_submission.getSubmissionID()+"-"+ _submission.getStudentID()%>"/>
                                                                     </td>
                                                                     
                                                                     <td><%=_submission.getStudentID()%></td>										                                                                               
                                                                     <td> <%=submittedontime%></td>    
-                                                                    <td Class="something2" style=visibility:hidden>
-                                                                        <input type="hidden" name="studentID" value="<%=_submission.getStudentID()%>"/>
-                                                                    </td>
+                                                                    
                                                                 </tr>
                                                                 <%
                                                                         }
@@ -117,9 +106,8 @@
 							</table>
 						</div>
 						<p>
-                                                <button type="button" id="viewSubmissionButton"
-								class="btn btn-outline btn-default">View Submission</button>
-                                                         
+                                                
+                                                  <button type="button" class="btn btn-outline btn-default" id="viewSubmissionButton">View Submission</button>       
 						</p>
 					</div>
 					<!-- /.panel-body -->
@@ -132,51 +120,24 @@
 		<!-- /.col-lg-6 -->
 	</div> 
           <% }%>
-        
-    
-                                                 
-    <script src="js/jquery-1.11.0.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
-
-    <!-- DataTables JavaScript -->
-    <script src="js/plugins/dataTables/jquery.dataTables.js"></script>
-    <script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
-
-    <!-- Custom Theme JavaScript -->
-    <script src="js/sb-admin-2.js"></script>
-<script>
-function validate()
-{
- var ddl = document.getElementById("Classes");
- var selectedValue = ddl.options[ddl.selectedIndex].value;
- document.getElementById("hiddenID").value = selectedValue; 
- var div = document.getElementById('grid');
- div.style.visibility = 'visible';
-}
-</script>
 
 <script type="text/javascript">
-        $(function() {			
-            $("#viewSubmissionButton")
-                            .click(
-            function() {
-                    var checked = $("#dataTables-classes").find(
-                                    "td.something").find(":checked");
-                    if (checked.size() != 1) {
-                            alert("One and ONLY one submission should be checked...");
-                    } else {
-                            var SubmissionID = checked.parents(
-                                            "td.something").find(
-                                            "input[type='hidden']").val();
-                            var StudentID = checked.parents(
-                                            "td.something2").find(
-                                            "input[type='hidden']").val();
-                            location.href = "ViewSubmission.jsp?SubmissionID="
-                                            + SubmissionID+"StudentID="+StudentID;
-                    }
-            });
+        $(function() {
+                $("#viewSubmissionButton")
+                                .click(
+                function() {
+                        var checked = $("#dataTables-classes").find(
+                                        "td.something").find(":checked");
+                        if (checked.size() != 1) {
+                                alert("One and ONLY one Class should be checked...");
+                        } else {
+                                var concat = checked.parents(
+                                                "td.something").find(
+                                                "input[type='hidden']").val();                                
+                                location.href = "ViewSubmission.jsp?Info="
+                                                + concat;
+                        }
+                });
         });
         
     </script>

@@ -23,8 +23,10 @@
 <%
 	return;
 	}
-	String SubmissionID = request.getParameter("SubmissionID");
-        String StudentID = request.getParameter("StudentID");
+        String info = request.getParameter("Info");
+        String[] INFO = info.split("-");
+	String SubmissionID = INFO[0].trim();
+        String StudentID = INFO[1].trim();
         
         Submission submission = SubmissionManager.getRow(StudentID,SubmissionID);
         
@@ -72,25 +74,29 @@
                                                                                     <input type="hidden" name="submissionTime" value="<%=submission.getSubmissionTime()%>"/>
                                                                             </div>
                                                                             <div class="form-group">
-                                                                                    <label>Assignment ID</label> <input class="form-control"
+                                                                                    <label>Assignment Number</label> <input class="form-control"
                                                                                             name="AssignmentID" type="text" value="<%=submission.getAssignmentID()%>">
                                                                             </div>
                                                                             <div class="form-group">
-                                                                                    <label>Typed Answers</label> <input class="form-control"
-                                                                                            name="Typed" type="text" value="<%=submission.getAnswers()%>">
+                                                                                    <label>Typed Answers</label>                                                                                   
+                                                                            </div>
+                                                                            <div class="form-group">                                                                                    
+                                                                                    <label><%=submission.getAnswers()%></label>
                                                                             </div>
                                                                         </div>	
 								</fieldset>
-                                                                     <div class="col-lg-6">
-                                                                         <div class="form-group">
+                                                                     <div class="col-lg-6">                                                                         
+                                                                         <div class="form-group">                                                                            
                                                                              <% 
-                                                                                if (submission.getFileName() != null){                                                    
+                                                                                if (submission.getFileName() != null){ 
+                                                                                    String send = submission.getSubmissionID() ;
                                                                              %>
                                                                              <div class="form-group">
                                                                                 <label>Download Submission File</label>
-                                                                                <a href="DownloadSubmissionServlet">Download Link</a>           
-                                                                            </div>
+                                                                                <a href="DownloadSubmissionServlet?info=<%=send%>">Download Link</a>           
+                                                                                </div>
                                                                              <%   } %>
+                                                                             
                                                                          </div>
                                                                          <div class="form-group">
                                                                          <label>Comments</label>

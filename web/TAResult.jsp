@@ -73,7 +73,7 @@
                    %>
                     </select>
                 
-                    <% if (Class != null){  %>
+                   <% if (!Class.isEmpty()){  %>
                         <div class="form-group">
                             <label>Select The Class</label>
                             <select name="ClassID" class="form-control">
@@ -90,6 +90,7 @@
                         </div>
                     <% }  %>
                 <div class="form-group">
+                <input type="hidden" name="ProfessorID" value="<%=person.getID()%>"/>
                 <input class="btn btn-default" type="submit" value="Submit">
                 </div>
                
