@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -21,13 +22,20 @@ import java.util.Date;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import javax.mail.util.ByteArrayDataSource;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -102,9 +110,7 @@ public class SubmitAssignmentServlet extends HttpServlet {
        
        InputStream inputStream = null;
        String StudentID = getValue(request.getPart("StudentID"));
-       String AssigmentID = getValue(request.getPart("AssigmentID"));
-       String[] assigmentID = AssigmentID.split("-");
-       AssigmentID =  assigmentID[0].trim();
+       String AssigmentID = getValue(request.getPart("AssignmentID"));      
        double grade = 0;
        String graderId = "Non graded";
        String comments = "Non graded yet";
@@ -117,8 +123,7 @@ public class SubmitAssignmentServlet extends HttpServlet {
        String typedanswers = getValue(request.getPart("typedanswers"));
        String StudentName = getValue(request.getPart("StudentName"));
        String Assignmentname = getValue(request.getPart("AssignmentName"));
-       String courseIdentifier = getValue(request.getPart("CourseIdentifier"));
-       String OGSEmail = "OGSSimcontrol@outlook.com";
+       String courseIdentifier = getValue(request.getPart("CourseIdentifier"));       
        DateFormat formatter = new SimpleDateFormat("dd/MM/yy");       
        DateFormat formatterTime = new SimpleDateFormat("HH:mm:ss");
        
@@ -127,12 +132,9 @@ public class SubmitAssignmentServlet extends HttpServlet {
        
        String mailTo = getValue(request.getPart( "Instructoremail"));
        String mailsubject = "Late Assignment Submission " + courseIdentifier;               
-       String host = "localhost";
-       boolean insert = false;
-       Properties properties = System.getProperties();  
-       properties.setProperty("mail.smtp.host", host);  
-       Session session = Session.getDefaultInstance(properties);
        
+       boolean insert = false;
+              
        String SubmissionID = "";
       
       int tmpID = 0;
@@ -202,13 +204,9 @@ public class SubmitAssignmentServlet extends HttpServlet {
                 + "Assignment Name : " + Assignmentname + "\n"
                 + "That was due : " +AssigmentDueDate+ AssigmentDueTime + "\n"
                 + "Was submited :"+  submissionDate + submissionTime + "\n";
-                MimeMessage message = new MimeMessage(session);
+                
                 try { 
-                    message.setFrom(new InternetAddress(OGSEmail));
-                    message.addRecipient(Message.RecipientType.TO,new InternetAddress(mailTo));  
-                    message.setSubject(mailsubject);  
-                    message.setText(messagebody);
-                    Transport.send(message);  
+                    sendEmail(mailTo,mailsubject,messagebody,null, null); 
                 } catch (AddressException ex) {
                     Logger.getLogger(SubmitAssignmentServlet.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (MessagingException ex) {
@@ -223,6 +221,57 @@ public class SubmitAssignmentServlet extends HttpServlet {
         }     
         
 }
+
+    public static void sendEmail(String toEmail, String subject, String text, byte[] file, String name) throws MessagingException, UnsupportedEncodingException{
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "smtp.gmail.com ");
+        props.put("mail.smtp.socketFactory.port", "465");
+        props.put("mail.smtp.socketFactory.class",
+                        "javax.net.ssl.SSLSocketFactory");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.port", "465");
+        
+        Session session = Session.getDefaultInstance(props,new Authenticator() {
+                protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication("simcontrologs@gmail.com", "support1234");
+                }
+        });
+ 
+        Message message = new MimeMessage(session);
+        message.setFrom(new InternetAddress("simcontrologs@stonybrook.edu", "GradeSmart"));
+        message.setRecipients(Message.RecipientType.TO,
+                        InternetAddress.parse(toEmail));
+        message.setSubject(subject);
+
+        MimeMultipart mpRoot = new MimeMultipart("mixed");  
+        MimeMultipart mpContent = new MimeMultipart("alternative");  
+        MimeBodyPart contentPartRoot = new MimeBodyPart();  
+        contentPartRoot.setContent(mpContent);  
+        mpRoot.addBodyPart(contentPartRoot);  
+
+        //enviando texto  
+        MimeBodyPart mbp1 = new MimeBodyPart();  
+        mbp1.setText(text);  
+        mpContent.addBodyPart(mbp1);  
+
+        if(file != null){
+                //enviando anexo  
+            MimeBodyPart mbp3 = new MimeBodyPart();  
+            DataSource fds = new ByteArrayDataSource(file, "text/csv");
+            mbp3.setDisposition(javax.mail.Part.ATTACHMENT);  
+            mbp3.setDataHandler(new DataHandler(fds));  
+            mbp3.setFileName(name);  
+
+            mpRoot.addBodyPart(mbp3); 
+        }
+
+        message.setContent(mpRoot);  
+        message.saveChanges();  
+        Transport.send(message);  
+
+        System.out.println("Done");
+    		
+    }
     
     private static String getValue(Part part) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(part.getInputStream(), "UTF-8"));

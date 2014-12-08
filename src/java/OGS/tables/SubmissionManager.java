@@ -53,12 +53,19 @@ public class SubmissionManager {
                 submissionBean.setStudentID(studentID);
                 submissionBean.setAssignmentID(assignmentID);
                 submissionBean.setGraderID(rs.getString("graderID"));
-                submissionBean.setSubmissionID(rs.getString("submissionID"));
+                submissionBean.setSubmissionID(rs.getString("ID"));
                 submissionBean.setGrade(rs.getDouble("grade"));
                 submissionBean.setComments(rs.getString("comments"));
                 submissionBean.setPath(rs.getString("path"));
                 submissionBean.setDateFlag(rs.getString("dateFlag"));
                 submissionBean.setSubmissionTime(rs.getString("submissionTime"));
+                submissionBean.setAnswers(rs.getString("Answers"));
+                submissionBean.setFileName(rs.getString("FileName"));
+                Blob tempfile = rs.getBlob("File");
+                if(tempfile != null){
+                    InputStream inputStream = tempfile.getBinaryStream();
+                    submissionBean.setFile(inputStream);
+                }
                 return submissionBean;
             } else {
                 return null;
@@ -84,9 +91,9 @@ public class SubmissionManager {
      */
     public static boolean insert(Submission submissionBean) throws Exception {
 
-        String sql = "INSERT into Submission"
+        String sql = "INSERT into Submissions"
                 + " (studentID, assignmentID, graderID"
-                + ", grade, comments, path, dateFlag, submissionTime, ID, asnwers, File, Filename) "
+                + ", grade, comments, path, dateFlag, submissionTime, ID, answers, File, Filename) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?)";
         ResultSet keys = null;
         try (

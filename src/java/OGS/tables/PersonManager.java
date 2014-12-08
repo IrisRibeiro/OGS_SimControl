@@ -157,7 +157,7 @@ public class PersonManager {
         String sql = "SELECT PERSON.EMAILADDRESS AS EMAIL FROM \n" +
                     "PERSON, CLASS \n" +
                     "WHERE PERSON.ID = CLASS.INSTRUCTORID\n" +
-                    "AND CLASS.CLASSID = ?";
+                    "AND CLASS.ID = ?";
         ResultSet rs = null;
         String email = "";
         LOGGER.warning("Creating the connection to the database");
