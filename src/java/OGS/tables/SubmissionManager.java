@@ -81,6 +81,52 @@ public class SubmissionManager {
         }
 
     }
+    public static Submission getSubmissionbyIDRow(String SubmissionID) throws SQLException, ClassNotFoundException {
+
+        String sql = "SELECT * FROM Submissions WHERE ID = ? ";
+        ResultSet rs = null;
+
+        try (
+                Connection conn = DBUtil.getConnection(DBType.MYSQL);
+                PreparedStatement stmt = conn.prepareStatement(sql);) {
+            
+            stmt.setString(1, SubmissionID);
+            
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                Submission submissionBean = new Submission();
+                submissionBean.setStudentID(rs.getString("StudentID"));
+                submissionBean.setAssignmentID(rs.getString("AssignmentID"));
+                submissionBean.setGraderID(rs.getString("graderID"));
+                submissionBean.setSubmissionID(rs.getString("ID"));
+                submissionBean.setGrade(rs.getDouble("grade"));
+                submissionBean.setComments(rs.getString("comments"));
+                submissionBean.setPath(rs.getString("path"));
+                submissionBean.setDateFlag(rs.getString("dateFlag"));
+                submissionBean.setSubmissionTime(rs.getString("submissionTime"));
+                submissionBean.setAnswers(rs.getString("Answers"));
+                submissionBean.setFileName(rs.getString("FileName"));
+                Blob tempfile = rs.getBlob("File");
+                if(tempfile != null){
+                    InputStream inputStream = tempfile.getBinaryStream();
+                    submissionBean.setFile(inputStream);
+                }
+                return submissionBean;
+            } else {
+                return null;
+            }
+
+        } catch (SQLException e) {
+            System.err.println(e);
+            return null;
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+        }
+
+    }
     /**
      * 
      * @param submissiontBean which will be inserted into the database table

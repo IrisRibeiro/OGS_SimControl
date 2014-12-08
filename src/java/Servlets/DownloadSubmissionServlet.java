@@ -15,6 +15,7 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -68,16 +69,17 @@ private String filePath;
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-      
+            throws ServletException, IOException {     
+        
         Submission submission = new Submission();
         SubmissionManager SManager = new SubmissionManager();
+        String Info = request.getParameter("info");
         
-        String submisionNumber = request.getParameter("SubmissionID");
-        String StudentID = request.getParameter("StudentID");
+        String submisionNumber =Info;
+        //String StudentID = info[1].trim();
         
         try {
-            submission = SManager.getRow(StudentID, submisionNumber);
+            submission = SManager.getSubmissionbyIDRow(submisionNumber);
             int fileLength = submission.getFile().available();
              String Filename = submission.getFileName();
             ServletContext context = getServletContext();
