@@ -49,7 +49,21 @@
         <div class="caption">
             <p><a href="#GradeAssignment" data-toggle="modal" class="btn btn-primary pull-right" role="button"><span class="glyphicon glyphicon-hand-up" aria-hidden="true"></span></a></p>
         </div>
-    <div id="page-wrapper">
+        <% 
+          Submission  submission = new Submission();
+          SubmissionManager SManager = new SubmissionManager();
+          List<Submission> submissions = SManager.getSubmissionsByAssignment(AssignmentID);  
+          if (submissions.isEmpty()){%>
+            <div id="page-wrapper">
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">We could not find any submissions for this assignment</h1>
+			</div>
+			<!-- /.col-lg-12 -->
+		</div>
+            </div>
+          <%} else {%>
+            <div id="page-wrapper">
 		<div class="row">
 			<div class="col-lg-12">
 				<h1 class="page-header">Submissions</h1>
@@ -74,11 +88,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									<%
-                                                                    Submission  submission = new Submission();
-                                                                    SubmissionManager SManager = new SubmissionManager();
-                                                                    
-                                                                    List<Submission> submissions = SManager.getSubmissionsByAssignment(AssignmentID);
+                                                                <%
                                                                     for (Submission _submission : submissions) {                                                       
                                                                     String submittedontime = "";
                                                                     String flag = _submission.getDateFlag();
@@ -121,6 +131,9 @@
 
 		<!-- /.col-lg-6 -->
 	</div> 
+          <% }%>
+        
+    
                                                  
     <script src="js/jquery-1.11.0.js"></script>
 
