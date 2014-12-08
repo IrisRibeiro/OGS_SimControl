@@ -23,20 +23,17 @@
         
     }
    
-    
-   
-   
-    String classID = request.getParameter("classID");
-    List<Classes> _courses = ClassManager.getClassByProfessor(person.getID());
-    DateFormat formatter = new SimpleDateFormat("dd/MM/yy");       
-       DateFormat formatterTime = new SimpleDateFormat("HH:mm");
+    String AssignmentID = request.getParameter("AssignmentID");
+    DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");       
+    DateFormat formatterTime = new SimpleDateFormat("hh:mm:ss");
        
-       Calendar cal = Calendar.getInstance();
-       Date currentdatetime = cal.getTime();
-	Assignment assign = AssignmentManager.getRow(classID);
-        String submissionDate = "";
-       String submissionTime = "";
-       String dateflag = "";
+    Calendar cal = Calendar.getInstance();
+    Date currentdatetime = cal.getTime();
+    Assignment assign = AssignmentManager.getRow(AssignmentID);
+    String submissionDate = "";
+    String submissionTime = "";
+ 
+    
     try {
             Date Assignmentdate  = formatter.parse(assign.getDueDate());
             Date AssignmentTime = formatterTime.parse(assign.getTimeDue());
@@ -47,21 +44,16 @@
             Date SubmissonTime = formatterTime.parse(submissionTime);
             boolean check=SubmssionDate.before(Assignmentdate);
             
-            if ((SubmssionDate.before(Assignmentdate)) ){
-                dateflag = "A";
-                
-            }else{
-                dateflag = "B";
+            if (!check){
+                response.sendRedirect("PastDueDate.jsp");
             }
+           
     }catch (ParseException ex) {
              Logger.getLogger(SubmitAssignmentServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
              Logger.getLogger(SubmitAssignmentServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-    if(dateflag.equals("B"))
-    {
-        response.sendRedirect("PastDueDate.jsp");
-    }
+   
  %>
 <!DOCTYPE html>
 <html lang="en">
@@ -93,7 +85,9 @@
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label>Assignment Number</label>
-                                                <input class="form-control" name="assignNum" type="number"/>
+                                            <label name="AssignmentNumber"><%=assign.getNumber()%></label> 
+                                            <input type="hidden" name="AssignmentID" value="<%=assign.getID()%>" />
+                                            <input type="hidden" name="ClassID" value="<%=assign.getClassID()%>" />
                                         </div>
                                         
                                         <div class="form-group">
@@ -113,48 +107,35 @@
                                         </div>   
                                         <div class="form-group">
                                             <label>Time</label>
-                                                    <div class='input-group date' id='datetimepicker4'>
-                                                        <input type='text' class="form-control" name="timedue" value="<%=assign.getTimeDue()%>" />
-                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span>
-                                                        </span>
-                                                        <script type="text/javascript">
-                                                            $(function () {
-                                                                $('#datetimepicker4').datetimepicker({
-                                                                    pickDate: false
-                                                                });
-                                                            });
-                                                        </script>
-                                                    </div>
+                                            <div class='input-group date' id='datetimepicker4'>
+                                                <input type='text' class="form-control" name="timedue" value="<%=assign.getTimeDue()%>" />
+                                                <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span>
+                                                </span>
+                                                <script type="text/javascript">
+                                                    $(function () {
+                                                        $('#datetimepicker4').datetimepicker({
+                                                            pickDate: false
+                                                        });
+                                                    });
+                                                </script>
                                             </div>
-                                        <div class="form-group">
-                                            <label>Course</label>
-                                             <select name="Classes" class="form-control">
-                                                 <%
-                                                        for (Classes course :_courses) {
-                                                            String Name = course.getCourseID()+ " - " + course.getClassID()+" : "+ course.getSection();
-                                                %>
-                                                    <option><%=Name%></option>   
-                                                <%                                                 
-                                                    }
-                                                %>
-                                            </select>                                            
-                                        </div>
+                                        </div>                                        
                                         <div class="form-group">
                                             <label>Point Possible</label>
                                             <input class="form-control" name="points" type="number" value="<%=assign.getPointsPossible()%>">
                                         </div>                                      
-                                          <div class="form-group">
+                                        <div class="form-group">
                                             <label>Upload File or Enter Questions</label>
                                              <select id="option" class="form-control">
                                                  
                                                  <option ></option>
                                                     <option value="upload">Upload File</option>   
                                                     <option value="enter">Enter Questions</option>
-                                            </select>  
-                                            <div class="form-group">
+                                            </select>                                             
+                                        </div>
+                                        <div class="form-group">
                                             <button type="button" class="btn btn-outline btn-default"
 								onclick=" validate()">Select</button>
-                                            </div>
                                         </div>
                                         <div class="form-group" id="uploadFile" style=visibility:hidden>
                                             <label hidden>Upload File:</label>
@@ -163,15 +144,15 @@
                                         </div> 
                                             <div class="form-group" id="enterQuestion" style=visibility:hidden>
                                             <label  >Enter Questions</label>
-                                            <textarea class="form-control" rows="5" name="specs" id="specs" type="text"></textarea>
+                                            <textarea class="form-control" rows="5" name="Questions"  type="text"></textarea>
                                             
                                         </div>
-                                          <input class="btn btn-default" type="submit" value="Submit"/>
+                                          <input class="btn btn-default" type="submit" value="Update"/>
                                     </div>
                                      <div class="col-lg-6">
                                          <div class="form-group">
                                             <label>Assignment Name</label>
-                                            <input class="form-control" name="assignName" type="text" value="<%=assign.getName()%>">
+                                            <label name="AssignmentName"><%=assign.getName()%></label>                                           
                                         </div>
                                          <div class="form-group">
                                             <label >Specifications</label>

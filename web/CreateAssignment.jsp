@@ -1,5 +1,7 @@
-<%@page import="OGS.beans.Course"%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="OGS.tables.CourseManager"%>
+<%@page import="OGS.beans.Course"%>
 <%@page import="OGS.beans.Assignment"%>
 <%@page import=" OGS.beans.Person, OGS.beans.Classes, OGS.tables.ClassManager, java.util.*"%>
 <%
@@ -11,7 +13,6 @@
    
     ClassManager CManager = new ClassManager();
    List <Classes> _classes = CManager.getClassByProfessor(person.getID());
-   //List <Course> _courses = CManager.getCourseByProfessor(person.getID());
     
  %>
 <!DOCTYPE html>
@@ -80,10 +81,11 @@
                                             </div>
                                         <div class="form-group">
                                             <label>Course</label>
-                                             <select name="Classes" class="form-control">
+                                             <select name="ClassID" class="form-control">
                                                  <%
-                                                        for (Classes _class : _classes) {
-                                                            String Name = _class.getClassID()+ " - " + _class.getClassID()+" : "+ _class.getSection();
+                                                    for (Classes _class : _classes) {
+                                                    Course _course = CourseManager.getRow(_class.getCourseID());
+                                                    String Name = _class.getClassID() +"-"+ _course.getIdentifier() + "-" + _course.getName();
                                                 %>
                                                     <option><%=Name%></option>   
                                                 <%                                                 
@@ -94,13 +96,34 @@
                                         <div class="form-group">
                                             <label>Point Possible</label>
                                             <input class="form-control" name="points" type="number">
-                                        </div>                                      
-
+                                        </div> 
                                         <div class="form-group">
-                                            <label>Upload File:</label>
-                                            <input type="file" name="file">
-                                        </div>                                         
+                                            <label>Upload File or Enter Questions</label>
+                                             <select id="option" class="form-control">
+                                                 
+                                                 <option ></option>
+                                                    <option value="upload">Upload File</option>   
+                                                    <option value="enter">Enter Questions</option>
+                                            </select>                                             
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="button" class="btn btn-outline btn-default"
+								onclick=" validate()">Select</button>
+                                        </div>
+
+                                       <div class="form-group" id="uploadFile" style=visibility:hidden>
+                                            <label hidden>Upload File:</label>
+                                            <input  type="file" name="file">
+                                            
+                                        </div> 
+                                        <div class="form-group" id="enterQuestion" style=visibility:hidden>
+                                            <label  >Enter Questions</label>
+                                            <textarea class="form-control" rows="5" name="Questions"  type="text"></textarea>
+                                            
+                                        </div> 
+                                        <div class="form-group">
                                           <input class="btn btn-default" type="submit" value="Submit"/>
+                                        </div>
                                     </div>
                                      <div class="col-lg-6">
                                          <div class="form-group">
@@ -111,7 +134,7 @@
                                             <label >Specifications</label>
                                             <textarea class="form-control" rows="5" name="specs" id="specs" type="text"></textarea>
                                         </div>
-                                         <div class="form-group">
+                                        <div class="form-group">
                                             <label>Instructions</label>
                                              <textarea class="form-control" rows="5" name="instrucstions" id="instrucstions" type="text"></textarea>                                            
                                         </div>
@@ -136,6 +159,32 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="js/sb-admin-2.js"></script>
+    
+<script>
+function validate()
+{
+ var ddl = document.getElementById("option");
+ var selectedValue = ddl.options[ddl.selectedIndex].value;
+    if (selectedValue ==="enter")
+   {
+    var div = document.getElementById('enterQuestion');
+
+div.style.visibility = 'visible';
+// OR
+ var div2 = document.getElementById('uploadFile');
+div2.style.visibility="hidden";
+
+   }
+   else if(selectedValue ==="upload")
+   {
+       var div2 = document.getElementById('uploadFile');
+        div2.style.visibility="visible";
+        
+        var div = document.getElementById('enterQuestion');
+        div.style.visibility = 'hidden';
+   }
+}
+</script>
     </body>
 </html>
 

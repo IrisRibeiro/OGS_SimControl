@@ -4,6 +4,8 @@
     Author     : zainul101
 --%>
 
+<%@page import="OGS.tables.SubmissionManager"%>
+<%@page import="OGS.beans.Submission"%>
 <%@page import="OGS.beans.Classes"%>
 <%@page import="OGS.tables.ClassManager"%>
 <%@page import="OGS.tables.AssignmentManager"%>
@@ -18,20 +20,10 @@
        
         
     }
-   
-    String classID = request.getParameter("classID");	
-	Assignment assign = AssignmentManager.getRow(classID);
-        Classes c = ClassManager.getRowbyID(assign.getClassID());
-        Course cla =CourseManager.getCourseByClass(c.getClassID());
-        
-         AssignmentManager.deleteAssignmentForPerson(assign.getID());
-	if (assign == null) {
-		assign = new Assignment();
-    
+    boolean delete = false;
+    String AssignmentID = request.getParameter("AssignmentID");    
+    Assignment assignment = AssignmentManager.getRow(AssignmentID);
  %>
- <%
-	}
-%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -44,75 +36,30 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Delete Assignment</h1>
+                    <% 
+                        List <Submission> submission = SubmissionManager.getSubmissionsByAssignmentID(AssignmentID);
+                        if(submission.isEmpty()){
+                            delete = SubmissionManager.DeleteSubmissionsByAssignmentID(AssignmentID);
+                            if (delete == true){
+                                delete = false;
+                                delete = AssignmentManager.DeleteAssignments(AssignmentID);
+                                if (delete == true){
+                                   delete = false;
+                                    int NumberofAssignments = ClassManager.getNumberofAssignments(assignment.getClassID());
+                                    NumberofAssignments = NumberofAssignments - 1;
+                                    delete = ClassManager.UpdateNumofAssignments(assignment.getClassID(), NumberofAssignments);
+                                    if (delete == true){ %>
+                                        <h1 class="page-header">Assignment was deleted</h1> 
+                                   <% }
+                                }
+                            }
+                        }
+                    %>
+                   
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
-            <!-- /.row -->
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            This Assignment was Deleted
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body" > 
-                            <div class="row">
-                                
-                                    <div class="col-lg-6">
-                                        
-                                        
-                                        <div class="form-group">
-                                             <label>Due Date</label>
-                                                    <input type='text' class="form-control" name="dDate" value="<%=assign.getDueDate()%>" disabled />
-                                                     
-                                                </div>
-                                        <div class="form-group">
-                                            <label>Time</label>
-                                                    
-                                                        <input type='text' class="form-control" name="timedue" value="<%=assign.getTimeDue()%>" disabled/>
-                                                        
-                                                        
-                                                    
-                                            </div>
-                                        <div class="form-group">
-                                            <label>Course</label>
-                                             <input type='text' class="form-control" name="timedue" value="<%=cla.getName()%>" disabled/>
-                                                 
-                                                                           
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Point Possible</label>
-                                            <input class="form-control" name="points" type="number" value="<%=assign.getPointsPossible()%>" disabled/>
-                                        </div>                                      
-
-                                    </div>
-                                     <div class="col-lg-6">
-                                         <div class="form-group">
-                                            <label>Assignment Name</label>
-                                            <input class="form-control" name="assignName" type="text" value="<%=assign.getName()%>" disabled/>
-                                        </div>
-                                         <div class="form-group">
-                                            <label >Specifications</label>
-                                            <textarea class="form-control" rows="5" name="specs" id="specs"   disabled><%=assign.getSpecification()%></textarea>
-                                        </div>
-                                         <div class="form-group">
-                                            <label>Instructions</label>
-                                             <textarea class="form-control" rows="5" name="instrucstions" id="instrucstions"   disabled><%=assign.getInstructions()%></textarea>                                            
-                                        </div>
-                                         
-                                        
-                                     </div> 
-                            <div>
-                            <input class="form-control" name="points" type="number" placeholder="ARE YOUR SURE YOU WANT TO DELETE THIS ASSIGNMENT?" disabled/>
-                            <button id="yes" type="button" class="btn btn-outline btn-default">YES</button>
-                                <button id="no" type="button" class="btn btn-outline btn-default" >NO</button>
-                            </div>                                        
-                            </div>
-                        </div>								
-                    </div>
-                </div>
-            </div> 
+        </div>
                                             
         <script type="text/javascript" src="assets/twitterbootstrap/js/bootstrap.js"></script>
         

@@ -12,20 +12,16 @@
 <%
     Person person = (Person) session.getAttribute("currentSessionUser");
     if (person == null) {
-        response.sendRedirect("faces/Login.jsp");
-       
+        response.sendRedirect("faces/Login.jsp");      
         
     }
    
-    String classID = request.getParameter("classID");	
-	Assignment assign = AssignmentManager.getRow(classID);
-        Course cla = CourseManager.getCourseByClass(assign.getClassID());
-	if (assign == null) {
-		assign = new Assignment();
-    
- %>
- <%
-	}
+    String AssignmentID = request.getParameter("AssignmentID");	
+    Assignment assign = AssignmentManager.getRow(AssignmentID);
+    Course cla = CourseManager.getCourseByClass(assign.getClassID());
+    if (assign == null) {
+       response.sendRedirect("faces/ErrorPage.jsp");
+    }
 %>
 <!DOCTYPE html>
 <html lang="en">
