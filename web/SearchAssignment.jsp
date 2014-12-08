@@ -100,10 +100,10 @@
                                 <% 
                                     int acesslevel = person.getAccessLevel();
                                     
-                                    if (acesslevel == 1){ // student
+                                 if (acesslevel == 1){ // student
                                       
                                 %> 
-                                <button id="ViewAssignmentButton" type="button" class="btn btn-outline btn-default" >View Assignment</button>
+                                 <button id="ViewAssignmentButton" type="button" class="btn btn-outline btn-default" >View Assignment</button>
                                  <button id="SubmitAssignmentButton" type="button" class="btn btn-outline btn-default" >Submit Assignment</button>
                                  <%    }else if (acesslevel == 2) { // TA %> 
                                  <button id="ViewAssignmentButton" type="button" class="btn btn-outline btn-default" >View Assignment</button>

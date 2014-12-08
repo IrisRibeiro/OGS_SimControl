@@ -66,7 +66,7 @@
                         </div>
                         <!-- /.panel-heading -->
                         <div class="form-group">
-                            <label>Instructor</label>
+                            <label>Assignment</label>
                              <select name="Classes" id="Classes" type="text" class="form-control">
                                 <%
                                         for ( Assignment _assignments : assignments ) {

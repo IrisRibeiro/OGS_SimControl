@@ -5,18 +5,19 @@
 --%>
 
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <script>       
-    
-    <%@page import="OGS.tables.AssignmentManager"%>
+<%@page import="OGS.beans.Submission"%>
+<%@page import="OGS.tables.SubmissionManager"%>
+<%@page import="OGS.tables.AssignmentManager"%>
 <%@page import="OGS.beans.Assignment"%>
-    <jsp:include page="DefaultLayout.jsp" flush="true"/>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <%@page language="java" contentType="text/html;charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import=" OGS.tables.PersonManager , OGS.tables.ClassManager,  OGS.beans.Person,  OGS.beans.Classes , OGS.tables.CourseManager , OGS.beans.Course , java.util.*"%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+
 <%
 	Person person = (Person) session.getAttribute("currentSessionUser");
         int AccesLevel = person.getAccessLevel();
@@ -34,8 +35,6 @@
         String InstructorEmail = PersonManager.getInstructorEmail(assignments.getClassID());
         Course _course = CourseManager.getCourseByClass(assignments.getClassID());
         String courseIdentifier = _course.getIdentifier();
-       
-	//List<Course> courses = new ArrayList<>();
 %>
 <link href="css/bootstrap.min.css" rel="stylesheet">
   <!-- DataTables CSS -->
@@ -52,7 +51,19 @@
         <div class="caption">
             <p><a href="#SubmitAssignment" data-toggle="modal" class="btn btn-primary pull-right" role="button"><span class="glyphicon glyphicon-hand-up" aria-hidden="true"></span></a></p>
         </div>
-    <!-- Page Content -->
+        <% 
+            Submission submission = SubmissionManager.getRow( person.getID() , AssignmentID);
+            if (submission.getSubmissionID() != null){ %>
+                <div id="page-wrapper">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h1 class="page-header">You already submitted this assignment.</h1>
+                        </div>
+                <!-- /.col-lg-12 -->
+                    </div>
+                </div>
+            <%}else{ %>
+                 <!-- Page Content -->
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
@@ -126,6 +137,9 @@
 			</div>
 		</div>
 		</div>
+            <% } %>
+        
+   
          <!-- jQuery Version 1.11.0 -->
     <script src="js/jquery-1.11.0.js"></script>
 

@@ -38,7 +38,7 @@
                 <div class="col-lg-12">
                     <% 
                         List <Submission> submission = SubmissionManager.getSubmissionsByAssignmentID(AssignmentID);
-                        if(submission.isEmpty()){
+                        if(!submission.isEmpty()){
                             delete = SubmissionManager.DeleteSubmissionsByAssignmentID(AssignmentID);
                             if (delete == true){
                                 delete = false;
@@ -52,6 +52,17 @@
                                         <h1 class="page-header">Assignment was deleted</h1> 
                                    <% }
                                 }
+                            }
+                        }else{
+                            delete = AssignmentManager.DeleteAssignments(AssignmentID);
+                            if (delete == true){
+                                delete = false;
+                                int NumberofAssignments = ClassManager.getNumberofAssignments(assignment.getClassID());
+                                NumberofAssignments = NumberofAssignments - 1;
+                                delete = ClassManager.UpdateNumofAssignments(assignment.getClassID(), NumberofAssignments);
+                                if (delete == true){ %>
+                                    <h1 class="page-header">Assignment was deleted</h1> 
+                               <% }
                             }
                         }
                     %>
