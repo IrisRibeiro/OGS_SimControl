@@ -235,7 +235,7 @@ public class AssignmentManager {
                 = "UPDATE Assignment SET " + "name = ?, specification = ?, "
                 + "dueDate = ?, instructions = ?, " + "path = ?, "
                 + "classID = ?, TimeDue = ?, pointsPossible = ?, number=?,"
-                + "Flag =?,Questions =?,File=?, FileName=?, WHERE ID =?";
+                + "Flag =?,Questions =?,File=?, FileName=? WHERE ID =?";
         LOGGER.warning("Creating the connection to the database");
         try (
                 Connection conn = DBUtil.getConnection(DBType.MYSQL);
