@@ -105,7 +105,7 @@
                                                 <label name="instructions"><%=assignments.getInstructions()%></label>
                                             </div>
                                              <% 
-                                                if (assignments.getFlag() == "Y"){                                                    
+                                                if (assignments.getFlag() != "N"){                                                    
                                              %>
                                              <div class="form-group">
                                                 <label>Download Assignment File</label>

@@ -29,15 +29,6 @@
         Assignment assignmentBean = new Assignment();
         Course courseBean = new Course();
 %>
-<link href="css/bootstrap.min.css" rel="stylesheet">
-  <!-- DataTables CSS -->
-<link href="css/plugins/dataTables.bootstrap.css" rel="stylesheet">
- <!-- MetisMenu CSS -->
-<link href="css/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-<link href="css/sb-admin-2.css" rel="stylesheet">
-     <!-- Custom Fonts -->
-<link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <jsp:include page="PageInfo.jsp" flush="true"/>
@@ -144,22 +135,7 @@
 
 		<!-- /.col-lg-6 -->
 	</div>
-     <!-- jQuery Version 1.11.0 -->
-    <script src="js/jquery-1.11.0.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
-
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="js/plugins/metisMenu/metisMenu.min.js"></script>
-
-    <!-- DataTables JavaScript -->
-    <script src="js/plugins/dataTables/jquery.dataTables.js"></script>
-    <script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
-
-    <!-- Custom Theme JavaScript -->
-    <script src="js/sb-admin-2.js"></script>
-    
+   
 	<script type="text/javascript">
 		$(function() {
 			$("#viewGradeReportButton")

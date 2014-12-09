@@ -28,11 +28,7 @@
         
 	//List<Course> courses = new ArrayList<>();
 %>
-<link href="css/bootstrap.min.css" rel="stylesheet">
-  <!-- DataTables CSS -->
-<link href="css/plugins/dataTables.bootstrap.css" rel="stylesheet">
-     <!-- Custom Fonts -->
-<link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
 </head>
 <body>
     <jsp:include page="PageInfo.jsp" flush="true"/>
@@ -122,14 +118,6 @@
 		<!-- /.col-lg-6 -->
 	</div>
 	
-    <script src="js/bootstrap.min.js"></script>    
-
-    <!-- DataTables JavaScript -->
-    <script src="js/plugins/dataTables/jquery.dataTables.js"></script>
-    <script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
-
-    <!-- Custom Theme JavaScript -->
-    <script src="js/sb-admin-2.js"></script>
 
     <script type="text/javascript">
         $(function() {
