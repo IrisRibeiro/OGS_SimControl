@@ -88,6 +88,7 @@
                                             <label name="AssignmentNumber"><%=assign.getNumber()%></label> 
                                             <input type="hidden" name="AssignmentID" value="<%=assign.getID()%>" />
                                             <input type="hidden" name="ClassID" value="<%=assign.getClassID()%>" />
+                                            <input type="hidden" name="AssignmentNumber" value="<%=assign.getNumber()%>" />
                                         </div>
                                         
                                         <div class="form-group">
@@ -152,7 +153,8 @@
                                      <div class="col-lg-6">
                                          <div class="form-group">
                                             <label>Assignment Name</label>
-                                            <label name="AssignmentName"><%=assign.getName()%></label>                                           
+                                            <label name="AssignmentName"><%=assign.getName()%></label>  
+                                            <input type="hidden" name="AssignmentName" value="<%=assign.getName()%>" />
                                         </div>
                                          <div class="form-group">
                                             <label >Specifications</label>
