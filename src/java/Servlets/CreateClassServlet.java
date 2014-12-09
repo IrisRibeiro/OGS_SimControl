@@ -176,10 +176,10 @@ public class CreateClassServlet extends HttpServlet {
                            studentTMP = PManager.getRowfromUserName(student.getUserName());
 
                            if (studentTMP != null){
-                               StudentEn.setClassID(Course);
+                               StudentEn.setClassID(_class.getClassID());
                                StudentEn.setFlag("E");
                                StudentEn.setStudentID(studentTMP.getID());
-                               StudentEnTMP = SEManager.getRowID(studentTMP.getID(), Course);
+                               StudentEnTMP = SEManager.getRowID(studentTMP.getID(), _class.getClassID());
                                if (StudentEnTMP == null){
                                    insert = SEManager.insert(StudentEn);
                                }                               
@@ -189,7 +189,7 @@ public class CreateClassServlet extends HttpServlet {
                               student.setID(Integer.toString(newStudentID));
                               insert = PManager.insert(student);
                               if (insert == true){
-                                  StudentEn.setClassID(Course);
+                                  StudentEn.setClassID(_class.getClassID());
                                   StudentEn.setFlag("E");
                                   StudentEn.setStudentID(Integer.toString(newStudentID));
                                   insert = SEManager.insert(StudentEn);
