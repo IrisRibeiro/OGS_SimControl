@@ -123,6 +123,9 @@
                                     <li>
                                         <a href="SearchAssignment.jsp">Search Assignment</a> <!-- /.Modify to link to the page -->
                                     </li>
+                                    <li>
+                                        <a href="ViewSubmission.jsp">View Submissions</a> <!-- /.Modify to link to the page -->
+                                    </li>
                                     
                                 <%    }else if (acesslevel == 2) { // TA %> 
                                     <li>
