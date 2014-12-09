@@ -132,9 +132,6 @@
                                                         if ((AccesLevel == 3) || (AccesLevel == 2)) { %>
                                                         <button type="button" id="viewGradeReportButton"
 								class="btn btn-outline btn-default">View Grade Report </button>
-                                                     <% } if (AccesLevel == 1) { %>
-                                                        <button type="button" id="viewCommentsButton"
-								class="btn btn-outline btn-default">View Comments </button>
                                                      <% } %>
 						</p>
 					</div>
